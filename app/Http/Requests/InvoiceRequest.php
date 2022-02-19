@@ -27,7 +27,6 @@ class InvoiceRequest extends FormRequest
             'customer_name' =>'required|string',
             'booker_id' => 'required|string',
             'salesman_name' => 'required |string',
-            'area_name'=> 'required|string',
             'product_id' => 'required|not_in:0',
         ];
         return $rule;
@@ -39,7 +38,6 @@ class InvoiceRequest extends FormRequest
             'customer_name.required' => 'Customer name is required',
             'booker_name.required' => 'Booker name is required',
             'salesman_name.required' => 'Salesman name is required',
-            'area_name.required' => 'Area name is required',
             'product_id.required' => 'Please select a product',
         ];
     }
