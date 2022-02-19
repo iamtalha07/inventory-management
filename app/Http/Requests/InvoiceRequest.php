@@ -27,6 +27,7 @@ class InvoiceRequest extends FormRequest
             'customer_name' =>'required|string',
             'booker_id' => 'required|string',
             'salesman_name' => 'required |string',
+            
             'product_id' => 'required|not_in:0',
         ];
         return $rule;
