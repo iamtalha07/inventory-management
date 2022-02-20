@@ -99,7 +99,7 @@ class InvoiceController extends Controller
         $invoice->saveProduct()->saveMany($productData);
 
         Session::flash('status','Invoice created successfully');
-        return redirect('invoice');
+        return view('invoices.invoice_detail',['invoice'=>$invoice]);
     }
 
     public function delete(Invoice $invoice)
@@ -131,7 +131,6 @@ class InvoiceController extends Controller
 
     public function summaryList()
     {
-        // $data = Invoice::all();
         $data = Invoice::whereDate('created_at', date('Y-m-d'))->get();
         $bookers = Booker::all();
         return view('invoices.invoice_summary',['data'=>$data,'bookers'=>$bookers]);
