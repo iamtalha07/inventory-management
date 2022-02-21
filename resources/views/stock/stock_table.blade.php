@@ -21,9 +21,7 @@
       <td>{{$item->sale_qty}}</td>
       <td id="inStock-{{$item->id}}">{{$item->in_stock}}</td>
       <td>
-        <a title ="Add quantity" href="javascript:void(0)" id="{{$item->id}}" class="addQtyClass"><i class="fas fa-plus"></i></a>&nbsp &nbsp
-        {{-- <a title ="Add quantity" href="javascript:void(0)" id="{{$item->id}}" class="addQtyClass" data-toggle="modal" data-target="#modal-qty"><i class="fas fa-plus"></i></a>&nbsp &nbsp --}}
-      
+        <a title ="Manage quantity" href="javascript:void(0)" id="{{$item->id}}" class="addQtyClass"><i class="fas fa-plus"></i></a>&nbsp &nbsp
     </td>
     </tr>
     @endforeach
@@ -50,10 +48,27 @@
             <input type="hidden" name="stock_id" id="stock_id">
             <input type="hidden" name="product_id" id="product_id">
             <div class="form-group">
-                <label for="qty">Add Quantity:</label>
+                <label for="qty">Manage Quantity:</label>
                 <input type="number" class="form-control" name="qty"  id="qty">
                 <span class="text-danger error-text qty_err_edit"></span>
             </div>
+
+            <div class="form-group">
+              <textarea name="remarks" class="form-control" rows="3" placeholder="Enter Remarks..."></textarea>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <!-- radio -->
+          <div class="form-group">
+            <div class="custom-control custom-radio">
+              <input class="custom-control-input" type="radio" id="qtyRadio1" name="qtyOption" value="returned-quantity" checked>
+              <label for="qtyRadio1" class="custom-control-label">Returned Quantity</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input class="custom-control-input" type="radio" id="qtyRadio2" name="qtyOption" value="add-quantity">
+              <label for="qtyRadio2" class="custom-control-label">Add Quantity</label>
+            </div>
+        </div>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>

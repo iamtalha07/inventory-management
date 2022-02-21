@@ -41,10 +41,15 @@ class StockController extends Controller
         $product = Products::find($request->product_id);
 
         if ($validator->passes()) {
-            $qtyLogMessage = $request->qty > 0 ? $request->qty.' Product(s) has been added to the stock' : abs($request->qty).' Product(s) has been removed from the stock';
+            $qtyLogMessage = $request->remarks;
+            
             $id = $stock->id;
             $stock->in_stock += $request->qty;
-            $product->purchase_qty = $product->purchase_qty+$request->qty;
+
+            if($request->qtyOption == 'add-quantity')
+            {
+                $product->purchase_qty = $product->purchase_qty+$request->qty;
+            }
 
             //Creating Log
             $product->ProductLog()->create([

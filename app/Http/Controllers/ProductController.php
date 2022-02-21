@@ -39,7 +39,7 @@ class ProductController extends Controller
         //Creating Log
         $productLog = new ProductLog;
         $productLog->product_id = $product->id;
-        $productLog->date = $request->date;
+        // $productLog->date = $request->date;
         $productLog->remarks = 'Product added successfully. Quantity: '.$product->purchase_qty;
         $productLog->save();
 
@@ -64,7 +64,7 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request,Product $product){
         $product->update($request->all());
-        Session::flash('status','Product deleted successfully!');
+        Session::flash('status','Product updated successfully!');
         return redirect('products');
     }
 

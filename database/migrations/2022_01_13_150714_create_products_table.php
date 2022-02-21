@@ -19,7 +19,6 @@ class CreateProductsTable extends Migration
             $table->integer('purchase_qty');
             $table->double('purchase_rate', 8, 2);
             $table->double('sale_rate', 8, 2);
-            $table->string('date')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });

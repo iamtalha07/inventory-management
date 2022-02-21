@@ -37,18 +37,6 @@
 
             <div class="card-body">
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="roles">Date:</label>
-                        <div class="input-group">
-                            <input type="text" name="date" value="{{$product->date}}" class="form-control">
-                        </div>
-                        {{-- @error('date')
-                        <p style="color:red">{{$message}}</p>
-                        @enderror --}}
-                      </div>
-                </div>
-
 
                 <div class="col-md-6">
                   <div class="form-group">
@@ -60,7 +48,7 @@
                       <p style="color:red">{{$message}}</p>
                       @enderror
                     </div>
-              </div>
+                </div>
     
                 <!-- /.col -->
                 <div class="col-md-6">
@@ -74,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label for="roles">Purchase Rate:</label>
                         <div class="input-group">

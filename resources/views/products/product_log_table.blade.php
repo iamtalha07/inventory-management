@@ -13,7 +13,7 @@
       <tr>
         <td><b>{{$item->id}}</b></td>
         <td>{{$item->product->name}}</td>
-        <td>{{$item->product->date}}</td>
+        <td>{{$item->created_at->format('d/m/Y')}}</td>
         <td>{{$item->remarks}}</td>
       </tr>
       @endforeach
