@@ -20,6 +20,13 @@ class UserTableSeeder extends Seeder
                 'password' => Hash::make('12345'),
                 'role_as' => 'admin',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ], 
+            [
+                'name' => 'Abdul Wahab',
+                'email' => 'ahsantraders.aw@gmail.com',
+                'password' => Hash::make('12345'),
+                'role_as' => 'admin',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]
         ]);
     }
