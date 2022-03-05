@@ -69,7 +69,9 @@ class ProductController extends Controller
     }
 
     public function delete(Product $product){
+        $product_id = $product->id;
         $product->delete();
+        Stock::find($product_id)->delete();
         Session::flash('status','Invoice deleted successfully');
         return redirect()->back();
     }
@@ -79,6 +81,7 @@ class ProductController extends Controller
         $ids = $request->ids;
         $product = Product::whereIn('id',$ids)->get();
         Product::whereIn('id',$ids)->delete();
+        Stock::whereIn('product_id',$ids)->delete();
         return response()->json($product);
     }
 

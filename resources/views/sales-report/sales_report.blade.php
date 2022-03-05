@@ -79,7 +79,7 @@
             <div id="table_data">
                  @if($data->count() > 0)
                 <div class="card-body" id="report-print">
-                  <h2>Ahsan Traders (DRS)</h2>
+                  <h2>Ahsan Traders (DSR)</h2>
                     <table id="example2" class="table table-bordered table-hover">
                       <thead>
                         <tr>
