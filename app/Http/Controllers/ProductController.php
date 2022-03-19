@@ -70,7 +70,7 @@ class ProductController extends Controller
 
     public function delete(Product $product){
         $product->delete();
-        Session::flash('status','Invoice deleted successfully');
+        Session::flash('status','Product deleted successfully');
         return redirect()->back();
     }
 
