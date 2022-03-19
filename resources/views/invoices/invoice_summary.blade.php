@@ -173,6 +173,7 @@
                                 @method('DELETE')
                               <a title ="Detail" href="{{route('invoice/detail',$item->id)}}"><i class="fa fa-eye"></i></a>&nbsp &nbsp
                               <a title ="Change status" id="{{$item->id}}" class="changeStatus" href="javascript:void(0)"><i class="fas fa-exchange-alt"></i></a>&nbsp &nbsp
+                              <a title ="Payment history" href="{{route('invoice/payment-history',$item->id)}}" id="paymentHistory" class="paymentHistory" ><i class="fas fa-list"></i></a>&nbsp &nbsp
                               <button title="Delete" type="submit" class="delBtn"  style="color: #007bff;" onclick="return confirm('Are you sure?')"> <i class="fa fa-trash"></i></button>
                               </form>
                             </td>

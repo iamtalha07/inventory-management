@@ -61,6 +61,8 @@ Route::get('invoice/invoice-search','InvoiceController@searchInvoice')->name('in
 Route::get('invoice-print/{id}','InvoiceController@InvoicePrint')->name('invoice-print');
 Route::delete('invoice-delete/{invoice}', 'InvoiceController@delete')->name('invoice-delete');
 Route::delete('/selected-invoice-delete','InvoiceController@deleteSelected')->name('invoice.deleteSelectedInvoice');
+Route::get('invoice/payment-history/{invoice}','InvoiceController@paymentHistory')->name('invoice/payment-history');
+
 
 //Booker Routes
 Route::post('/add-booker','BookerController@store');

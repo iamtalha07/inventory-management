@@ -10,6 +10,7 @@ use App\Invoice;
 use App\Product;
 use App\ProductLog;
 use App\InvoiceProduct;
+use App\PaymentHistory;
 use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
 
@@ -191,5 +192,14 @@ class InvoiceController extends Controller
             $invoice->update(['status'=>'Credit']);
         }
         return response()->json($invoice);
+    }
+
+    public function paymentHistory(Invoice $invoice)
+    {
+        $paymentHistory = PaymentHistory::all();
+        return view('invoices.invoice_payment_history',[
+            'invoice'=>$invoice,
+            'paymentHistory'=>$paymentHistory
+        ]);
     }
 }
