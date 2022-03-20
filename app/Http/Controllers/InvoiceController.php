@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Session;
+use Validator;
 use App\Stock;
 use App\Booker;
 use App\Invoice;
@@ -201,5 +202,49 @@ class InvoiceController extends Controller
             'invoice'=>$invoice,
             'paymentHistory'=>$paymentHistory
         ]);
+    }
+
+    public function addPaymentHistory(Request $request)
+    {
+        $rules = array(
+            'date' => 'required|string',
+            'paid_amount' => 'required|numeric'
+        );
+        $customMessages = [
+            'required' => 'This field can not be empty',
+            'numeric' => 'Please enter numeric value'
+        ];
+
+        $validator = Validator::make($request->all(),$rules,$customMessages);
+
+        if ($validator->passes()) {
+
+            $invoice_id = $request->input('invoice_id');
+           
+            $paid_amount = $request->input('paid_amount');
+            $isExist = PaymentHistory::where('invoice_id', '=', $invoice_id)->exists();
+
+            if ($isExist) {
+                $prev_payment_history = PaymentHistory::where('invoice_id',19)->orderBy('id', 'desc')->first();
+                $prevRemainingAmount = $prev_payment_history->remaining_amount;
+                $remaining_amount = $prevRemainingAmount - $paid_amount;
+            }
+            else{
+                $invoice = Invoice::find($invoice_id);
+                $invoice_total = $invoice->discount_total ? $invoice->discount_total : $invoice->total;
+                $remaining_amount = $invoice_total - $paid_amount;
+            }
+            $paymentHistory = new PaymentHistory;
+            $paymentHistory->invoice_id = $request->input('invoice_id');
+            $paymentHistory->date = $request->input('date');
+            $paymentHistory->paid_amount = $request->input('paid_amount');
+            $paymentHistory->remaining_amount = $remaining_amount;
+            $paymentHistory->remarks = $request->input('remarks');
+
+            $paymentHistory->save();
+            // return response()->json($paymentHistory);
+			return $paymentHistory;
+        }
+        return response()->json(['error'=>$validator->errors()]);
     }
 }

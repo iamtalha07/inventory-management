@@ -72,7 +72,7 @@
                       </li>
                       <li class="list-group-item">
                         <b>Total:</b>
-                        <a class="float-right">Rs.{{$invoice->discount_total?$invoice->discount_total:$invoice->total}}</a>
+                        <a class="float-right" id="total">Rs.{{$invoice->discount_total?$invoice->discount_total:$invoice->total}}</a>
                       </li>
                     </ul>
                   </div>
@@ -94,12 +94,17 @@
                     <div class="card-tools">
                       <div class="row">
                         <div class="input-group input-group-sm" style="width: 50px;">
-                          <a href="javascript:void(0)" title="Add payment history" class="btn btn-block btn-success"  data-toggle="modal" data-target="#historyModal"><i class="fas fa-plus"></i></a>
+                          <a href="javascript:void(0)" title="Add payment history" class="btn btn-block btn-success"
+                            data-toggle="modal"
+                            data-target="#historyModal"
+                            data-id="{{ $invoice->id }}">
+                            <i class="fas fa-plus"></i>
+                          </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                @if($paymentHistory->count() > 0)
+                {{-- @if($paymentHistory->count() > 0) --}}
                 <div id="table_data">
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-hover">
@@ -112,26 +117,29 @@
                             <th>Remarks</th>
                           </tr>
                           </thead>
-                          <tbody tbody id="leadsTable">
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                          <tbody id="historyTable">
+                          @foreach($paymentHistory as $data)
+                          <tr id="history-{{$data->id}}">
+                            <td>{{ $data->date }}</td>
+                            <td>Rs.{{ $data->paid_amount }}</td>
+                            <td>Rs.{{ $data->remaining_amount }}</td>
+                            <td>Rs.{{ $invoice->discount_total ? $invoice->discount_total : $invoice->total }}</td>
+                            <td>{{ $data->remarks }}</td>
                           </tr>
+                          @endforeach
                           </tbody>
                         </table>
                         <div class="float-right">
                           </div>
                       </div>
                 </div>
-                @else
+                {{-- @else
                 <div class="card-body">
                     <div class="alert alert-info">
                       No records found.
                     </div>
                   </div>
-                @endif
+                @endif --}}
               </div>
             </div>
           </div>
@@ -147,18 +155,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
-                <form id="addBookerForm" autocomplete="off">
+                <form id="addPaymentHistory" autocomplete="off">
                 @csrf
                 <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="roles">Date:</label>
-                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group date" id="date" data-target-input="nearest">
+                                <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                                 <input required type="text" name="date" id="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                                <input type="text" name="invoice_id" id="invoiceId">
                             </div>
                           </div>
                     </div>
@@ -169,14 +178,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rs.</span>
                                 </div>
-                                <input type="text" name="amount_paid"  class="form-control">
+                                <input type="text" name="paid_amount" id="paid_amount" class="form-control">
+                                <span class="text-danger error-text paid_amount_err"></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="roles">Remarks:</label>
-                            <textarea class="form-control" name="description" rows="4" cols="50"></textarea>
+                            <textarea class="form-control" name="remarks" id="remarks" rows="4" cols="50"></textarea>
                         </div>
                     </div>
                 </div>
@@ -197,14 +207,76 @@
 <script>
     $(function () {
       //Date time picker
-      $('#reservationdate').datetimepicker({
+      $('#date').datetimepicker({
         format: 'L',
         formatDate:'m/d/Y',
         maxDate: moment(),
-        // minDate:'-1970/01/02',//yesterday is minimum date(for today use 0 or -1970/01/01)
-        // maxDate:'+1870/01/02'//tomorrow is maximum date calendar
       });
+
+      function printErrorMsg (msg) {
+                $.each( msg, function( key, value ) {
+
+                  $('.'+key+'_err').text(value);
+            });
+        }
+
+      $('#addPaymentHistory').on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/add-payment-history",
+            data: $('#addPaymentHistory').serialize(),
+            success: function (response) {
+                console.log(response);
+                console.log(response.paid_amount);
+              
+
+                var total = $('#total').text();
+                console.log(total);
+                if($.isEmptyObject(response.error))
+                {
+                  console.log('yes')
+                var tableRow =  "<tr id='history-"+response.id+"'>"+
+                                "<td>"+response.date+"</td>"+
+                                "<td>Rs."+response.paid_amount+"</td>"+
+                                "<td>Rs."+response.remaining_amount+"</td>"+
+                                "<td>"+ total +"</td>"+
+                                "<td>"+response.remarks+"</td>"+
+                                "</tr>";
+                console.log(tableRow);
+                $("#historyTable").append(tableRow);
+                $('#historyModal').modal('hide');
+                $(".paid_amount_err").text('');
+                $('#paid_amount').val('');
+                $('#remarks').val('');
+                // $("#addPaymentHistory")[0].reset();
+                // $("#date").val(moment());
+
+                
+                toastr.success("Payment history added");
+                }
+                else
+                {   
+                  console.log('no')
+
+                    toastr.remove();
+                    printErrorMsg(response.error);
+                }
+            },
+            error: function(error){
+              alert('Error');
+            }
+        });
+     });
+
+
+      $('#historyModal').on('show.bs.modal', function(e){
+        var button = $(e.relatedTarget);
+        var modal = $(this);
+        var invoiceId = button.data('id');
+        modal.find('.modal-body #invoiceId').val(invoiceId);
       });
+  });
   </script>
 
 @endsection
