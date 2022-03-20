@@ -68,3 +68,6 @@ Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name(
 
 //Sales Report Route
 Route::get('sales-report','SalesReportController@index')->name('sales-report');
+
+//Customer Routes
+Route::get('customer','CustomerController@index')->name('customer');

@@ -46,6 +46,14 @@
                   <p>View Products</p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="{{ route('product/add-new-product') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Products</p>
+                </a>
+              </li>
+
             </ul>
           </li>
           <li class="nav-item">
@@ -108,6 +116,29 @@
                 <a href="{{route('sales-report')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Sales Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <p>
+                 Customer
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('customer')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Customers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('sales-report')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Customers</p>
                 </a>
               </li>
             </ul>
