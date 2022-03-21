@@ -13,5 +13,8 @@ class CustomerController extends Controller
         return view('customers.customer',["data"=>$data]);
     }
 
-
+    function  customerAddForm()
+    {
+        return view('customers.customer_add');
+    }
 }

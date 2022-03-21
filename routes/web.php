@@ -71,3 +71,4 @@ Route::get('sales-report','SalesReportController@index')->name('sales-report');
 
 //Customer Routes
 Route::get('customer','CustomerController@index')->name('customer');
+Route::get('customer/add', 'CustomerController@customerAddForm')->name('customer/add');
