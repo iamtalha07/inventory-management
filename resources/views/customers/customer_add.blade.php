@@ -21,7 +21,7 @@
 
 <section class="content">
     <div class="container-fluid">
-        <form method="POST" action="">
+        <form method="POST" action="{{route('customer-add')}}">
         @csrf
         <div class="card card-default">
             <div class="card-header">

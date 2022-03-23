@@ -136,7 +136,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('sales-report')}}" class="nav-link">
+                <a href="{{route('customer/add')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Customers</p>
                 </a>
