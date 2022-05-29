@@ -143,6 +143,29 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-user-friends"></i>
+              <p>
+                 Brands
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('brand')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Brands</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('customer/add')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add brands</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

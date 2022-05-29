@@ -9,7 +9,7 @@
       <th>Purchase Qty</th>
       <th>Sale Qty</th>
       <th>In Stock</th>
-      <th>Action</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody tbody id="leadsTable">

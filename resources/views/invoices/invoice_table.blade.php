@@ -18,7 +18,7 @@
       <th>Area Name</th>
       <th>Status</th>
       <th>Total</th>
-      <th>Action</th>
+      <th>Actions</th>
 
     </tr>
     </thead>

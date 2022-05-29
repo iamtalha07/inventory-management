@@ -73,3 +73,6 @@ Route::get('sales-report','SalesReportController@index')->name('sales-report');
 Route::get('customer','CustomerController@index')->name('customer');
 Route::get('customer/add', 'CustomerController@customerAddForm')->name('customer/add');
 Route::post('customer-add','CustomerController@addCustomer')->name('customer-add');
+
+//Brands Routes
+Route::get('/brand','BrandController@index')->name('brand');

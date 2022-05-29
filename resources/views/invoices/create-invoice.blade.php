@@ -120,7 +120,7 @@
                     <th>Unit Price</th>
                     <th>Disc%</th>
                     <th>Amount</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody id="productRow">

@@ -16,7 +16,7 @@
       <th>Purchase Qty</th>
       <th>Purchase Rate</th>
       <th>Sale Rate</th>
-      <th>Action</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody tbody id="leadsTable">

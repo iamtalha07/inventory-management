@@ -1,31 +1,23 @@
 @extends('layouts.master_layout.master_layout')
-@section('title','Customers')
+@section('title','Brands')
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<style>
-    .delBtn{
-      border: none;
-      background: none;
-      margin-left: -7px;
-  }
-</style>
 <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Customers</h1>
+          <h1 class="m-0">Brands</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-            <li class="breadcrumb-item active">Customers</li>
+            <li class="breadcrumb-item active">Brands</li>
           </ol>
         </div>
       </div>
     </div>
   </div>
-
 
   <section class="content">
     <div class="container-fluid"> 
@@ -37,7 +29,7 @@
               <div class="card-tools">
                 <div class="row">
                 <div class="input-group input-group-sm" style="width: 50px;">
-                  <a href="{{route('customer/add')}}" title="Add New Customer" class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
+                  <a href="{{route('brand')}}" title="Add New Brand" class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
                 </div>&nbsp
                 <div class="input-group input-group-sm" style="width: 50px;">
                 <button disabled type="button" value="Delete" id="deleteAllSelectedRecords" class="btn btn-danger check" style="width: 100%;"><i class="fas fa-trash-alt"></i></button>
@@ -54,8 +46,7 @@
                         <th><input type="checkbox" name="Accept" id="chkCheckAll"></th>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Phone Number</th>
-                        <th>Area Name</th>
+                        <th>Description</th>
                         <th>Actions</th>
                       </tr>
                       </thead>
@@ -64,9 +55,8 @@
                       <tr>
                         <td><input type="checkbox" name="ids" id="checkboxId" class="checkBoxClass" value=""></td>
                         <td>{{$item->id}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->phone_no}}</td>
-                        <td>{{$item->area_name}}</td>
+                        <td>{{$item->brand_title}}</td>
+                        <td>{{$item->brand_description}}</td>
                         <td>
                           <form action="" method="post" id="submit-form">
                             @csrf
@@ -94,19 +84,5 @@
       </div>
     </div>
   </section>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script>
-    @if(Session::has('status'))
-    toastr.options =
-    {
-        "closeButton" : true,
-        "progressBar" : true
-    }
-      toastr.success("{{ session('status') }}");
-    @endif
-  </script>
 
-
-@endsection
-
-
+  @endsection
