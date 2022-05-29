@@ -68,11 +68,10 @@
                         <td>{{$item->phone_no}}</td>
                         <td>{{$item->area_name}}</td>
                         <td>
-                          <form action="" method="post" id="submit-form">
+                          <form action="{{route('customer-delete', $item->id)}}" method="post" id="submit-form">
                             @csrf
                             @method('DELETE')
-                          <a title ="Edit" href=""><i class="fa fa-edit"></i></a>&nbsp &nbsp
-                          <a title ="Log" href=""><i class="fas fa-list"></i></a>&nbsp &nbsp
+                          <a title ="Edit" href="{{route('customer-edit', $item->id)}}"><i class="fa fa-edit"></i></a>&nbsp &nbsp
                           <button title="Delete" type="submit" class="delBtn"  style="color: #007bff;" onclick="return confirm('Are you sure?')"> <i class="fa fa-trash"></i></button>
                           </form>
                         </td>

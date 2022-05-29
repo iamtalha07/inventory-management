@@ -73,3 +73,7 @@ Route::get('sales-report','SalesReportController@index')->name('sales-report');
 Route::get('customer','CustomerController@index')->name('customer');
 Route::get('customer/add', 'CustomerController@customerAddForm')->name('customer/add');
 Route::post('customer-add','CustomerController@addCustomer')->name('customer-add');
+Route::delete('customer-delete/{customer}', 'CustomerController@deleteCustomer')->name('customer-delete');
+Route::get('customer-edit/{customer}','CustomerController@editCustomer')->name('customer-edit');
+Route::put('edit-customer/{customer}','CustomerController@update');
+
