@@ -111,10 +111,12 @@
               <div class="col-6">
                 <div class="table-responsive">
                   <table class="table">
+                    @if($invoice->discount)
                     <tr>
                       <th>Discount:</th>
                       <td>{{$invoice->discount?'Rs.':''}} {{$invoice->discount}}</td>
                     </tr>
+                    @endif
                     <tr>
                       <th>Total:</th>
                       <td>Rs.{{$invoice->total}}</td>
