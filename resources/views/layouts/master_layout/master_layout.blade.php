@@ -36,6 +36,7 @@
   {{-- toaster --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -71,6 +72,14 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  $(".onlyDecimal").keyup(function() {
+  var $this = $(this);
+  $this.val($this.val().replace(/[^\d.]/g, ''));        
+});
+</script>
+
 <!-- ChartJS -->
 <script src="/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->

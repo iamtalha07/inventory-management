@@ -51,7 +51,7 @@
                               <div class="input-group-append" data-target="#date" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
-                              <input required type="text" name="date" id="date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                              <input required type="text" name="date" id="date" class="form-control datetimepicker-input date-typing-restriction" data-target="#reservationdate">
                           </div>
                           @error('date')
                           <p style="color:red">{{$message}}</p>
@@ -66,8 +66,7 @@
                               <div class="input-group-prepend">
                                   <span class="input-group-text">Rs.</span>
                               </div>
-                              <input type="text" name="paid_amount" id="paid_amount" class="form-control">
-                              <span class="text-danger error-text paid_amount_err"></span>
+                              <input type="text" name="paid_amount" id="paid_amount" class="form-control onlyDecimal">
                           </div>
                           @error('paid_amount')
                           <p style="color:red">{{$message}}</p>
@@ -85,51 +84,6 @@
                     <div class="col-12">
                       <button type="submit" name="submit" class="btn btn-primary float-right">Submit</button>
                     </div>
-
-
-
-                    {{-- <div class="col-sm-6">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                          <b>Invoice Id:</b>
-                          <a class="float-right" id="product_id">{{$invoice->id}}</a>
-                        </li>
-                        <li class="list-group-item">
-                          <b>Customer Name:</b>
-                          <a class="float-right">{{$invoice->customer_name}}</a>
-                        </li>
-                        <li class="list-group-item">
-                          <b>Booker Name:</b>
-                          <a class="float-right">{{$invoice->booker->booker_name}}</a>
-                        </li>
-                        <li class="list-group-item">
-                          <b>Area Name:</b>
-                          <a class="float-right">{{$invoice->area_name}}</a>
-                        </li>
-                      </ul>
-                    </div> --}}
-
-                    {{-- <div class="col-sm-6">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                          <b>Date:</b>
-                          <a class="float-right">{{$invoice->created_at->format('m/d/Y')}}</a>
-                        </li>
-                        <li class="list-group-item">
-                          <div style="display: inline;">
-                          <b>Salesman Name:</b>
-                          <a class="float-right">{{$invoice->salesman_name}}</a>
-                        </li>
-                        <li class="list-group-item">
-                          <b>Status:</b>
-                          <a class="float-right">{{$invoice->status}}</a>
-                        </li>
-                        <li class="list-group-item">
-                          <b>Total:</b>
-                          <a class="float-right" id="total">Rs.{{$invoice->discount_total?$invoice->discount_total:$invoice->total}}</a>
-                        </li>
-                      </ul>
-                    </div> --}}
                   </div>
                 </form>
                 <br>
@@ -220,7 +174,7 @@
                                 <div class="input-group-append" data-target="#edit-date" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
-                                <input required type="text" name="date" id="new_date" class="form-control datetimepicker-input" data-target="#reservationdate">
+                                <input required type="text" name="date" id="new_date" class="form-control datetimepicker-input date-typing-restriction" data-target="#reservationdate">
                             </div>
                         </div>
                     </div>
@@ -231,8 +185,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rs.</span>
                                 </div>
-                                <input type="text" name="paid_amount" id="amount_paid" class="form-control">
-                                <span class="text-danger error-text paid_amount_err"></span>
+                                <input type="text" name="paid_amount" id="amount_paid" class="form-control onlyDecimal" required>
                             </div>
                         </div>
                     </div>
@@ -271,6 +224,9 @@
 @endif
 
     $(function () {
+      $('.date-typing-restriction').keydown(function() {
+      return false;
+    });
       //Date time picker
       $('#date').datetimepicker({
         format: 'L',
@@ -332,7 +288,6 @@
    });
   }
   </script>
-
 @endsection
 
 
