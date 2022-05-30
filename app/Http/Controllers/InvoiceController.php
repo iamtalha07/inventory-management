@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use DB;
 use Session;
-use Validator;
 use App\Stock;
+use Validator;
 use App\Booker;
 use App\Invoice;
 use App\Product;
+use Carbon\Carbon;
 use App\ProductLog;
 use App\InvoiceProduct;
 use App\PaymentHistory;
 use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
+use App\Http\Requests\PaymentRequest;
 
 class InvoiceController extends Controller
 {
@@ -197,54 +199,49 @@ class InvoiceController extends Controller
 
     public function paymentHistory(Invoice $invoice)
     {
-        $paymentHistory = PaymentHistory::all();
+        $paymentHistory = PaymentHistory::where('invoice_id',$invoice->id)->orderBy('date','ASC')->get();
         return view('invoices.invoice_payment_history',[
             'invoice'=>$invoice,
             'paymentHistory'=>$paymentHistory
         ]);
     }
 
-    public function addPaymentHistory(Request $request)
+    public function addPaymentHistory(PaymentRequest $request)
     {
-        $rules = array(
-            'date' => 'required|string',
-            'paid_amount' => 'required|numeric'
-        );
-        $customMessages = [
-            'required' => 'This field can not be empty',
-            'numeric' => 'Please enter numeric value'
-        ];
+        $paymentHistory = new PaymentHistory;
+        $paymentHistory->invoice_id =  $request->invoice_id;
+        $paymentHistory->date = Carbon::parse($request->date);
+        $paymentHistory->paid_amount = $request->paid_amount;
+        $paymentHistory->remarks = $request->remarks;
+        $paymentHistory->save();
 
-        $validator = Validator::make($request->all(),$rules,$customMessages);
-
-        if ($validator->passes()) {
-
-            $invoice_id = $request->input('invoice_id');
-           
-            $paid_amount = $request->input('paid_amount');
-            $isExist = PaymentHistory::where('invoice_id', '=', $invoice_id)->exists();
-
-            if ($isExist) {
-                $prev_payment_history = PaymentHistory::where('invoice_id',19)->orderBy('id', 'desc')->first();
-                $prevRemainingAmount = $prev_payment_history->remaining_amount;
-                $remaining_amount = $prevRemainingAmount - $paid_amount;
-            }
-            else{
-                $invoice = Invoice::find($invoice_id);
-                $invoice_total = $invoice->discount_total ? $invoice->discount_total : $invoice->total;
-                $remaining_amount = $invoice_total - $paid_amount;
-            }
-            $paymentHistory = new PaymentHistory;
-            $paymentHistory->invoice_id = $request->input('invoice_id');
-            $paymentHistory->date = $request->input('date');
-            $paymentHistory->paid_amount = $request->input('paid_amount');
-            $paymentHistory->remaining_amount = $remaining_amount;
-            $paymentHistory->remarks = $request->input('remarks');
-
-            $paymentHistory->save();
-            // return response()->json($paymentHistory);
-			return $paymentHistory;
-        }
-        return response()->json(['error'=>$validator->errors()]);
+        Session::flash('status','Record added successfully!');
+        return redirect()->back();
     }
+
+    public function deletePaymentHistory(PaymentHistory $paymentHistory)
+    {
+        $paymentHistory->delete();
+        Session::flash('status','Record deleted successfully');
+        return redirect()->back();
+    }
+
+    function editPaymentHistoryForm($id)
+    {
+        $data = PaymentHistory::find($id);
+        return response()->json($data);
+    }
+
+    function updatePaymentHistory(Request $request)
+    {
+        $paymentHistory = PaymentHistory::find($request->invoice_id);
+        $paymentHistory->date = Carbon::parse($request->date);
+        $paymentHistory->paid_amount = $request->paid_amount;
+        $paymentHistory->remarks = $request->remarks;
+        $paymentHistory->save();
+
+        Session::flash('status','Record updated successfully');
+        return redirect()->back();
+    }
+    
 }

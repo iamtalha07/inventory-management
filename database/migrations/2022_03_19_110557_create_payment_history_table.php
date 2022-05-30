@@ -16,9 +16,8 @@ class CreatePaymentHistoryTable extends Migration
         Schema::create('payment_history', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('invoice_id')->nullable();
-            $table->string('date')->nullable();
+            $table->date('date');
             $table->double('paid_amount', 8, 2);
-            $table->double('remaining_amount', 8, 2);
             $table->string('remarks')->nullable();
             $table->timestamps();
 
