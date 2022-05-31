@@ -115,7 +115,7 @@
                     </tr>
                     @endif
                     <tr>
-                      <th>Net Total:</th>
+                      <th>Total:</th>
                       <td>Rs.{{$invoice->discount_total ? $invoice->discount_total : $invoice->total}}</td>
                     </tr>
                   </table>
