@@ -121,7 +121,7 @@
                     <th>Disc by cash</th>
                     <th>Disc by %</th>
                     <th>Amount</th>
-                    <th>NET Amount</th>
+                    {{-- <th>NET Amount</th> --}}
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -141,7 +141,7 @@
                     <td><input type="number" name="dis[]" class="form-control dis" ></td>
                     <td><input type="number" name="disByPer[]" class="form-control disPer" ></td>
                     <td><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>
-                    <td><input type="text" name="netAmount[]" value="0.00" class="form-control netAmount" readonly></td>
+                    <td style="display: none;"><input type="text" name="netAmount[]" value="0.00" class="form-control netAmount" readonly></td>
                     <td><button type="button" name="add" id="add" class="btn btn-success addRow"><i class="fas fa-plus"></i></button></td>  
                 </tr>
                 </tbody>
@@ -392,7 +392,7 @@
             '<td><input type="number" name="dis[]" class="form-control dis" ></td>\n' +
             '<td><input type="number" name="disByPer[]" class="form-control disPer" ></td>\n'+
             '<td><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>\n' +
-            '<td><input type="text" name="netAmount[]" value="0.00" class="form-control netAmount" readonly></td>\n'+
+            '<td style="display: none;"><input type="text" name="netAmount[]" value="0.00" class="form-control netAmount" readonly></td>\n'+
             '<td><button type="button" class="btn btn-danger remove-tr"><i class="fas fa-minus"></i></button></td>\n' +
             '</tr>';
             $('#productRow').append(addRow);
