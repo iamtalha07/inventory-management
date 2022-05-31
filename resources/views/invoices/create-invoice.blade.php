@@ -121,7 +121,6 @@
                     <th>Disc by cash</th>
                     <th>Disc by %</th>
                     <th>Amount</th>
-                    {{-- <th>NET Amount</th> --}}
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -140,8 +139,8 @@
                     <td><input type="text" name="price[]" class="form-control price" required></td>
                     <td><input type="number" name="dis[]" class="form-control dis" ></td>
                     <td><input type="number" name="disByPer[]" class="form-control disPer" ></td>
-                    <td><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>
-                    <td style="display: none;"><input type="text" name="netAmount[]" value="0.00" class="form-control netAmount" readonly></td>
+                    <td><input type="text" name="disAmount[]" value="0.00" class="form-control disAmount" readonly></td>
+                    <td style="display: none;"><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>
                     <td><button type="button" name="add" id="add" class="btn btn-success addRow"><i class="fas fa-plus"></i></button></td>  
                 </tr>
                 </tbody>
@@ -391,8 +390,8 @@
             '<td><input type="text" name="price[]" class="form-control price"required ></td>\n' +
             '<td><input type="number" name="dis[]" class="form-control dis" ></td>\n' +
             '<td><input type="number" name="disByPer[]" class="form-control disPer" ></td>\n'+
-            '<td><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>\n' +
-            '<td style="display: none;"><input type="text" name="netAmount[]" value="0.00" class="form-control netAmount" readonly></td>\n'+
+            '<td><input type="text" name="disAmount[]" value="0.00" class="form-control disAmount" readonly></td>\n' +
+            '<td style="display: none;"><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>\n'+
             '<td><button type="button" class="btn btn-danger remove-tr"><i class="fas fa-minus"></i></button></td>\n' +
             '</tr>';
             $('#productRow').append(addRow);
@@ -461,17 +460,17 @@
           amount = qty * price;
         }
 
-        var netAmount = qty * price;
+        var amountBeforeDiscount = qty * price;
         amount = amount.toFixed(2);
-        netAmount = netAmount.toFixed(2);
+        amountBeforeDiscount = amountBeforeDiscount.toFixed(2);
 
-        tr.find('.amount').val(amount);
-        tr.find('.netAmount').val(netAmount);
+        tr.find('.disAmount').val(amount);
+        tr.find('.amount').val(amountBeforeDiscount);
         total();
     });
     function total(){
         var total = 0;
-        $('.amount').each(function (i,e) {
+        $('.disAmount').each(function (i,e) {
              var amount =$(this).val()-0;
             total += amount;
          })
