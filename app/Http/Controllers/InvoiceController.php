@@ -80,8 +80,10 @@ class InvoiceController extends Controller
             $productInvoice->invoice_id = $invoice->id;
             $productInvoice->product_id = $request->product_id[$key];
             $productInvoice->qty = $request->qty[$key];
-            $productInvoice->disc = $request->dis[$key];
+            $productInvoice->disc_by_cash = $request->dis[$key];
+            $productInvoice->disc_by_percentage = $request->disByPer[$key];
             $productInvoice->amount = $request->amount[$key];
+            $productInvoice->net_amount = $request->netAmount[$key];
             $productData[] = $productInvoice;
 
             //Updating products stock

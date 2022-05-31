@@ -71,7 +71,8 @@
                     <th>Product</th>
                     <th>Qty</th>
                     <th>Rate</th>
-                    <th>Disc%</th>
+                    <th>Disc</th>
+                    <th>Disc %</th>
                     <th>Amount</th>
 
                   </tr>
@@ -82,7 +83,8 @@
                     <td>{{$product->name}}</td>
                     <td>{{$product->pivot->qty}}</td>
                     <td>Rs.{{$product->sale_rate}}</td>
-                    <td>{{$product->pivot->disc}}</td>
+                    <td>{{$product->pivot->disc_by_cash ? 'Rs.' : '-'}}{{$product->pivot->disc_by_cash}}</td>
+                    <td>{{$product->pivot->disc_by_percentage}}{{$product->pivot->disc_by_percentage ? '%':'-'}}</td>
                     <td>Rs.{{$product->pivot->amount}}</td>
                   </tr>
                   </tbody>
@@ -96,16 +98,7 @@
             <div class="row">
               <!-- accepted payments column -->
               <div class="col-6">
-                {{-- <div>
-                  <table class="table">
-                    <tr>
-                      <th>Remarks</th>
-                    </tr>
-                    <tr>
-                      <td><textarea name="" id="" cols="2" rows="4"></textarea></td>
-                    </tr>
-                  </table>
-                </div> --}}
+
               </div>
               <!-- /.col -->
               <div class="col-6">
@@ -119,7 +112,7 @@
                     @endif
                     <tr>
                       <th>Total:</th>
-                      <td>Rs.{{$invoice->total}}</td>
+                      <td>Rs.{{$invoice->discount_total ? $invoice->discount_total : $invoice->total}}</td>
                     </tr>
                   </table>
                 </div>
