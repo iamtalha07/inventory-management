@@ -64,13 +64,16 @@ Route::get('invoice-print/{id}','InvoiceController@InvoicePrint')->name('invoice
 Route::delete('invoice-delete/{invoice}', 'InvoiceController@delete')->name('invoice-delete');
 Route::delete('/selected-invoice-delete','InvoiceController@deleteSelected')->name('invoice.deleteSelectedInvoice');
 
-
+//Payment History Routes
 Route::get('invoice/payment-history/{invoice}','InvoiceController@paymentHistory')->name('invoice/payment-history');
 Route::post('/add-payment-history','InvoiceController@addPaymentHistory')->name('add-payment-history');
 Route::delete('/payment-history-delete/{paymentHistory}','InvoiceController@deletePaymentHistory')->name('payment-history-delete');
 Route::get('/edit-payment-history-form/{id}','InvoiceController@editPaymentHistoryForm');
 Route::post('/payment-history-edit','InvoiceController@updatePaymentHistory')->name('payment-history-edit');
 
+//User Routes
+Route::get('user', 'UserController@index')->name('user');
+Route::get('user/add-new-user', 'UserController@addNewUser')->name('user.add');
 
 
 //Booker Routes
