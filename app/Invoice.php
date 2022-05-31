@@ -31,7 +31,7 @@ class Invoice extends Model
 
     public function invoiceProduct()
     {
-        return $this->belongsToMany(Product::class,'invoice_product')->withTrashed()->withPivot('qty','disc_by_cash','disc_by_percentage','amount','net_amount');
+        return $this->belongsToMany(Product::class,'invoice_product')->withTrashed()->withPivot('qty','disc_by_cash','disc_by_percentage','amount','disc_amount');
     }
 
 }

@@ -85,7 +85,7 @@
                     <td>Rs.{{$product->sale_rate}}</td>
                     <td>{{$product->pivot->disc_by_cash ? 'Rs.' : '-'}}{{$product->pivot->disc_by_cash}}</td>
                     <td>{{$product->pivot->disc_by_percentage}}{{$product->pivot->disc_by_percentage ? '%':'-'}}</td>
-                    <td>Rs.{{$product->pivot->amount}}</td>
+                    <td>Rs.{{$product->pivot->disc_amount}}</td>
                   </tr>
                   </tbody>
                   @endforeach
@@ -106,12 +106,16 @@
                   <table class="table">
                     @if($invoice->discount)
                     <tr>
+                      <th>Gross Total:</th>
+                      <td>Rs.{{$invoice->total}}</td>
+                    </tr>
+                    <tr>
                       <th>Discount:</th>
-                      <td>{{$invoice->discount?'Rs.':''}} {{$invoice->discount}}</td>
+                      <td>Rs.{{$invoice->discount}}</td>
                     </tr>
                     @endif
                     <tr>
-                      <th>Total:</th>
+                      <th>Net Total:</th>
                       <td>Rs.{{$invoice->discount_total ? $invoice->discount_total : $invoice->total}}</td>
                     </tr>
                   </table>

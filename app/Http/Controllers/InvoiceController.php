@@ -83,7 +83,7 @@ class InvoiceController extends Controller
             $productInvoice->disc_by_cash = $request->dis[$key];
             $productInvoice->disc_by_percentage = $request->disByPer[$key];
             $productInvoice->amount = $request->amount[$key];
-            $productInvoice->net_amount = $request->netAmount[$key];
+            $productInvoice->disc_amount = $request->disAmount[$key];
             $productData[] = $productInvoice;
 
             //Updating products stock
