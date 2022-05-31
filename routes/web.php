@@ -28,6 +28,8 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
+Route::middleware(['auth'])->group(function () {
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Product Routes
@@ -77,3 +79,5 @@ Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name(
 
 //Sales Report Route
 Route::get('sales-report','SalesReportController@index')->name('sales-report');
+
+});
