@@ -100,7 +100,7 @@
                         <td>{{$item->name}}</td>
                         <td>Rs.{{$item->price}}</td>
                         <td>{{$item->qty}}</td>
-                        <td>Rs.{{$item->net_amount}}</td>
+                        <td>Rs.{{$item->amount}}</td>
                       </tr>
                       @endforeach
                       </tbody>
