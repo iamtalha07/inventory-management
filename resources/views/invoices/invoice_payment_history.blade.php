@@ -108,9 +108,9 @@
                           <thead>
                           <tr>
                             <th>Date</th>
-                            <th>Amount Paid</th>
-                            <th>Remaining Amount</th>
-                            <th>Total Amount</th>
+                            <th>Amount Paid (Rs.)</th>
+                            <th>Remaining Amount (Rs.)</th>
+                            <th>Total Amount (Rs.)</th>
                             <th>Remarks</th>
                             <th>Actions</th>
                           </tr>
@@ -119,9 +119,9 @@
                           @foreach($paymentHistory as $data)
                           <tr id="history-{{$data->id}}">
                             <td>{{ $data->date }}</td>
-                            <td>Rs.{{ $data->paid_amount }}</td>
+                            <td>{{ $data->paid_amount }}</td>
                             <td></td>
-                            <td>Rs.{{ $invoice->discount_total ? $invoice->discount_total : $invoice->total }}</td>
+                            <td>{{ $invoice->discount_total ? $invoice->discount_total : $invoice->total }}</td>
                             <td>{{ $data->remarks }}</td>
                             <td>
                             <form action="{{route('payment-history-delete', $data->id)}}" method="post" id="submit-form">
@@ -267,23 +267,23 @@
         var currentRow=$(this);
         var prevRow=currentRow.prev();
 
-        var currentRemainingAmount=parseFloat(currentRow.find("td:eq(2)").text().replace(/[^0-9]/gi, ''));
-        var prevRemainingAmount=parseFloat(prevRow.find("td:eq(2)").text().replace(/[^0-9]/gi, ''));
+        var currentRemainingAmount=parseFloat(currentRow.find("td:eq(2)").text());
+        var prevRemainingAmount=parseFloat(prevRow.find("td:eq(2)").text());
 
-        var currentAmountPaid=parseFloat(currentRow.find("td:eq(1)").text().replace(/[^0-9]/gi, ''));
-        var prevAmountPaid=parseFloat(prevRow.find("td:eq(1)").text().replace(/[^0-9]/gi, ''));
+        var currentAmountPaid=parseFloat(currentRow.find("td:eq(1)").text());
+        var prevAmountPaid=parseFloat(prevRow.find("td:eq(1)").text());
 
-        var currentTotalAmount=parseFloat(currentRow.find("td:eq(3)").text().replace(/[^0-9]/gi, ''));
-        var prevTotalAmount=parseFloat(prevRow.find("td:eq(3)").text().replace(/[^0-9]/gi, ''));
+        var currentTotalAmount=parseFloat(currentRow.find("td:eq(3)").text());
+        var prevTotalAmount=parseFloat(prevRow.find("td:eq(3)").text());
 
         //IF PREV AMOUNT PAID IS EMPTY THEN MINUS CURRENT AMOUNT PAID FROM TOTAL AMOUNT, OTHERWISE MINUS CURRENT AMOUNT PAID FROM PREV REMAINING AMOUNT
         if(!prevAmountPaid) {
           var remainaingAmountForFirstRow = currentTotalAmount - currentAmountPaid;
-          currentRow.find("td:eq(2)").html('Rs.'+remainaingAmountForFirstRow);
+          currentRow.find("td:eq(2)").html(remainaingAmountForFirstRow);
         }
         else {
           var remainaingAmount = prevRemainingAmount - currentAmountPaid;
-          currentRow.find("td:eq(2)").html('Rs.'+remainaingAmount);
+          currentRow.find("td:eq(2)").html(remainaingAmount);
         }
    });
   }
