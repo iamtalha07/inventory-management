@@ -1,5 +1,5 @@
 @extends('layouts.master_layout.master_layout')
-@section('title','Add user')
+@section('title','Update User Info')
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -7,12 +7,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-        <h1>Add New User</h1>
+        <h1>Update User Information</h1>
         </div>
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-            <li class="breadcrumb-item active">Add New User</li>
+            <li class="breadcrumb-item active">Update User Information</li>
         </ol>
         </div>
      </div>
@@ -21,11 +21,12 @@
 
 <section class="content">
     <div class="container-fluid">
-        <form method="POST" action="{{route('add-user')}}">
+        <form method="POST" action="{{url('edit-user', ['id' => $user->id])}}">
         @csrf
+        @method('put')
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">Add User Form</h3>
+                <h3 class="card-title">Edit User Form</h3>
                 <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -41,7 +42,7 @@
                   <div class="form-group">
                       <label for="roles"><span style="color: red;">* </span>Name:</label>
                       <div class="input-group">
-                        <input type="text" name="name"  value="{{old('name')}}" class="form-control" required>
+                        <input type="text" name="name"  value="{{$user->name}}" class="form-control" required>
                       </div>
                       @error('name')
                       <p style="color:red">{{$message}}</p>
@@ -53,7 +54,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="roles"><span style="color: red;">* </span>E-Mail:</label>
-                        <input type="text" name="email" value="{{old('email')}}" class="form-control" required>
+                        <input type="text" name="email" value="{{$user->email}}" class="form-control" readonly>
                         @error('email')
                         <p style="color:red">{{$message}}</p>
                         @enderror
@@ -63,7 +64,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label><span style="color: red;">* </span>Password:</label>
-                        <input type="password" name="password" class="form-control" placeholder="Enter User Password" required>
+                        <input type="password" name="password" class="form-control" placeholder="Enter User Password">
                         @error('password')
                         <p style="color:red">{{$message}}</p>
                         @enderror
@@ -73,7 +74,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label><span style="color: red;">* </span>Confirm Password:</label>
-                        <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+                        <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password">
                         @error('confirm_password')
                         <p style="color:red">{{$message}}</p>
                         @enderror
@@ -83,7 +84,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Contact No:</label>
-                        <input type="number" name="contact" class="form-control" placeholder="Enter Contact Number">
+                        <input type="number" name="contact" class="form-control" value="{{$user->contact}}" placeholder="Enter Contact Number">
                         @error('contact')
                         <p style="color:red">{{$message}}</p>
                         @enderror
@@ -93,7 +94,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>CNIC No:</label>
-                        <input type="text" name="cnic" class="form-control" placeholder="Enter CNIC Number">
+                        <input type="text" name="cnic" class="form-control" value="{{$user->cnic}}" placeholder="Enter CNIC Number">
                         @error('cnic')
                         <p style="color:red">{{$message}}</p>
                         @enderror
@@ -103,7 +104,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Salary:</label>
-                        <input type="number" name="salary" class="form-control" placeholder="Enter Current Salary">
+                        <input type="number" name="salary" class="form-control" value="{{$user->salary}}" placeholder="Enter Current Salary">
                         @error('salary')
                         <p style="color:red">{{$message}}</p>
                         @enderror
@@ -114,9 +115,9 @@
                     <div class="form-group">
                         <label><span style="color: red;">* </span>User Role:</label>
                         <select name="role_as" class="form-control" id="role_as" required>
-                            <option value="" selected="true">Select Booker</option>
-                            <option value="admin">Admin</option>
-                            <option value="employee">Employee</option>
+                            <option value="">Select Booker</option>
+                            <option value="admin" {{$user->role_as == 'admin'  ? 'selected' : ''}}>Admin</option>
+                            <option value="employee" {{$user->role_as == 'employee'  ? 'selected' : ''}}>Employee</option>
                         </select>
                         @error('role_as')
                         <p style="color:red">{{$message}}</p>

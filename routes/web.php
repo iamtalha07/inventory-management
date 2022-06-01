@@ -74,6 +74,12 @@ Route::post('/payment-history-edit','InvoiceController@updatePaymentHistory')->n
 //User Routes
 Route::get('user', 'UserController@index')->name('user');
 Route::get('user/add-new-user', 'UserController@addNewUser')->name('user.add');
+Route::post('user/add-user','UserController@store')->name('add-user');
+Route::get('user/edit-user/{user}', 'UserController@edit')->name('user/edit-user');
+Route::put('edit-user/{user}','UserController@update');
+Route::delete('user-delete/{user}', 'UserController@delete')->name('user-delete');
+Route::get('change-profile', 'UserController@changeProfileForm');
+Route::put('update-profile/{user}','UserController@updateUserProfile');
 
 
 //Booker Routes
