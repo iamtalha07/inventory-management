@@ -88,7 +88,6 @@
               </li>
               <li class="nav-item">
                 <a href="{{route('invoice/invoice-search')}}" class="nav-link">
-                  {{-- invoice/summary --}}
                   <i class="far fa-circle nav-icon"></i>
                   <p>Summary</p>
                 </a>
@@ -108,6 +107,29 @@
                 <a href="{{route('sales-report')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Sales Report</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-user"></i>
+              <p>
+                Users
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('user')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Users</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('user.add')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add New User</p>
                 </a>
               </li>
             </ul>
