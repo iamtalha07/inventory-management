@@ -1,5 +1,5 @@
 @extends('layouts.master_layout.master_layout')
-@section('title','Invoice summary')
+@section('title','Invoice')
 @section('content')
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -123,7 +123,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title titleclass">Invoice Summary</h3>
+                  <h3 class="card-title titleclass">Invoice</h3>
                   <div class="card-tools">
                     <div class="row">
                       <div class="input-group input-group-sm" style="width: 50px;">
@@ -163,7 +163,7 @@
                             <td>{{$item->customer_name}}</td>
                             <td>{{$item->booker->booker_name}}</td>
                             <td>{{$item->area_name}}</td>
-                            <td>{{$item->discount}}</td>
+                            <td>{{$item->discount ? $item->discount : '-'}}</td>
                             <td>Rs.{{$item->total}}</td>
                             <td>Rs.{{$item->discount_total?$item->discount_total:$item->total}}</td>
                             <td id="status-{{$item->id}}"><span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span></td>
@@ -196,7 +196,7 @@
                                 <td colspan="5">Rs.{{$totalDiscount}}</td>
                                </tr>
                                <tr>
-                                <th colspan="6">Gross Total</th>
+                                <th colspan="6">Net Total</th>
                                 <td colspan="5">Rs.{{$GrossTotal}}</td>
                                </tr>
                             </tr>
@@ -291,7 +291,7 @@
             dataType:"json",
             success:function(data)
             {
-              console.log('helo');
+              console.log(data);
               if(data.status == 'Credit')
               {
                 var status = '<span class="badge bg-danger">'+data.status+'</span>'
@@ -356,7 +356,7 @@
         });
       $('.select2').select2({
         closeOnSelect: false
-      })
+      });
 
   });
 

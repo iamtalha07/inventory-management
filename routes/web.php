@@ -32,6 +32,14 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Brands
+Route::get('brands', 'BrandsController@index')->name('brands');
+Route::get('brands/add-new-brand', 'BrandsController@addBrand')->name('brand.add');
+Route::post('brands-add','BrandsController@store')->name('brands.add');
+Route::get('brands/edit-brand/{brand}', 'BrandsController@edit')->name('edit.brand');
+Route::put('edit-brand/{brand}','BrandsController@update');
+Route::delete('brand-delete/{brand}', 'BrandsController@delete')->name('brand-delete');
+
 //Product Routes
 Route::get('products', 'ProductController@index')->name('products');
 Route::get('pagination/fetch_data', 'ProductController@fetch_data');
