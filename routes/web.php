@@ -26,6 +26,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/forget-password', 'Auth\ForgotPasswordController@getEmail');
+
 Auth::routes(['register' => false]);
 
 Route::middleware(['auth'])->group(function () {
