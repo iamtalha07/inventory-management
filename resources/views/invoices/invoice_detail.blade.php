@@ -73,7 +73,8 @@
                     <th>Rate</th>
                     <th>Disc</th>
                     <th>Disc %</th>
-                    <th>Amount</th>
+                    <th>Gross Amount</th>
+                    <th>Net Amount</th>
 
                   </tr>
                   </thead>
@@ -85,6 +86,7 @@
                     <td>Rs.{{$product->sale_rate}}</td>
                     <td>{{$product->pivot->disc_by_cash ? 'Rs.' : '-'}}{{$product->pivot->disc_by_cash}}</td>
                     <td>{{$product->pivot->disc_by_percentage}}{{$product->pivot->disc_by_percentage ? '%':'-'}}</td>
+                    <td>Rs.{{$product->pivot->amount}}</td>
                     <td>Rs.{{$product->pivot->disc_amount}}</td>
                   </tr>
                   </tbody>
