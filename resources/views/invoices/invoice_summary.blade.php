@@ -100,8 +100,8 @@
                   <input type="text" class="form-control float-right" id="reportrange">
                 </div>
               </div>
-              <input type="text" name="start" id="date-range-start">
-              <input type="text" name="end" id="date-range-end">
+              <input type="hidden" name="start" id="date-range-start">
+              <input type="hidden" name="end" id="date-range-end">
               
               <div class="col-md-1">
                 <div class="form-group">
