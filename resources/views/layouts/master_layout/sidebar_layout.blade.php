@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="/images/admin_images/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          {{-- <img src="/images/admin_images/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> --}}
         </div>
         <div class="info">
           <a href="{{url('change-profile')}}" class="d-block">{{ucfirst(Auth::user()->name)}}</a>
@@ -30,7 +30,32 @@
                 Dashboard
               </p>
             </a>
-          </li> 
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-shopping-bag"></i>
+              <p>
+                Brands
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('brands')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Brands</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('products')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Brands</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-shopping-bag"></i>
@@ -44,6 +69,14 @@
                 <a href="{{route('products')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Products</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('product/add-new-product')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Products</p>
                 </a>
               </li>
             </ul>
@@ -74,12 +107,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{route('invoice')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Invoice</p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="{{route('invoice/create-invoice')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -89,7 +122,7 @@
               <li class="nav-item">
                 <a href="{{route('invoice/invoice-search')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Summary</p>
+                  <p>View Invoice</p>
                 </a>
               </li>
             </ul>

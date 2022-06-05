@@ -96,9 +96,6 @@
                 <div class="form-group">
                     <label>Product Description:</label>
                         <textarea class="form-control" name="description" rows="4" cols="50"></textarea>
-                        {{-- @error('description')
-                            <p style="color:red">{{$message}}</p>
-                        @enderror --}}
                 </div>
         </div>
             <div class="card-footer">
