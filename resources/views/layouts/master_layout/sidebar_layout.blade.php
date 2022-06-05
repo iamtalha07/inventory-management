@@ -33,7 +33,7 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="fas fa-shopping-bag"></i>
+              <i class="fas fa-tags"></i>
               <p>
                 Brands
                 <i class="right fas fa-angle-left"></i>
@@ -49,7 +49,7 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('products')}}" class="nav-link">
+                <a href="{{route('brand.add')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Brands</p>
                 </a>
