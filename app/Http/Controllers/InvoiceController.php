@@ -183,10 +183,12 @@ class InvoiceController extends Controller
             'totalCredit'=>$totalCredit,
             'totalDiscount'=>$totalDiscount,
             'GrossTotal'=>$GrossTotal,
+            'start'=>$start,
+            'end'=>$end,
         ]);
     } 
 
-    public function changeStatus(Invoice $invoice)
+    public function changeStatus(Invoice $invoice, Request $request)
     {
         if($invoice->status=='Credit')
         {
@@ -196,7 +198,13 @@ class InvoiceController extends Controller
         {
             $invoice->update(['status'=>'Credit']);
         }
-        return response()->json($invoice);
+        
+        $invoiceData = Invoice::whereDate('created_at','>=', $request->startDate)
+        ->whereDate('created_at','<=',$request->endDate)->get();
+        $totalDebit = $invoiceData->where('status','Debit')->sum('total');
+        $totalCredit = $invoiceData->where('status','Credit')->sum('total');
+        return response()->json(['invoice'=>$invoice, 'totalDebit'=> $totalDebit, 'totalCredit'=>$totalCredit]);
+
     }
 
     public function paymentHistory(Invoice $invoice)
