@@ -185,11 +185,11 @@
                               <th colspan="11">Report</th>
                               <tr>
                                 <th colspan="6">Total Debit</th>
-                                <td colspan="5">Rs.{{$totalDebit}}</td>
+                                <td colspan="5" id="debit">Rs.{{$totalDebit}}</td>
                                </tr>
                                <tr>
                                 <th colspan="6">Total Credit</th>
-                                <td colspan="5">Rs.{{$totalCredit}}</td>
+                                <td colspan="5" id="credit">Rs.{{$totalCredit}}</td>
                                </tr>
                                <tr>
                                 <th colspan="6">Total Discount</th>
@@ -237,8 +237,10 @@
 
   $(function() {
 
-      var start = moment();
-      var end = moment();
+      var start = {!! json_encode($start) !!};
+      var end = {!! json_encode($end) !!};
+      start = moment(start);
+      end = moment(end);
   
       function cb(start, end) {
           $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
@@ -286,20 +288,29 @@
 
     $(document).on('click','.changeStatus',function(){
         var id = $(this).attr('id');
+        var startDate = $('#date-range-start').val();
+        var endDate = $('#date-range-end').val();
+
         $.ajax({
             url:"change-status/"+id,
+            data:{
+              startDate: startDate,
+              endDate: endDate
+            },
             dataType:"json",
             success:function(data)
             {
-              console.log(data);
-              if(data.status == 'Credit')
+              if(data.invoice.status == 'Credit')
               {
-                var status = '<span class="badge bg-danger">'+data.status+'</span>'
+                var status = '<span class="badge bg-danger">'+data.invoice.status+'</span>'
               }
               else{
-                var status = '<span class="badge bg-success">'+data.status+'</span>'
+                var status = '<span class="badge bg-success">'+data.invoice.status+'</span>'
               }
               $('#status-'+id).html(status);
+              $('#debit').text('Rs.'+data.totalDebit);
+              $('#credit').text('Rs.'+data.totalCredit);
+
               toastr.remove();
               toastr.options =
                 {
