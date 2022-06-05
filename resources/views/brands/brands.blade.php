@@ -34,7 +34,7 @@
                             <div class="card-tools">
                                 <div class="row">
                                     <div class="input-group input-group-sm" style="width: 50px;">
-                                        <a href="{{ route('brand.add') }}" title="Add New User"
+                                        <a href="{{ route('brand.add') }}" title="Add New Brand"
                                             class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
                                     </div>&nbsp
                                 </div>

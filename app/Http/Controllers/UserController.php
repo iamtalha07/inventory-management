@@ -62,7 +62,6 @@ class UserController extends Controller
 
     function updateUserProfile(UserRequest $request,User $user)
     {
-        return $user;
         if (!$request->password) {
             unset($request['password']);
         }

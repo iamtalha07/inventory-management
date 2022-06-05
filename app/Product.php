@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Brand;
 use App\Stock;
 use App\Invoice;
 use App\ProductLog;
@@ -12,6 +13,7 @@ class Product extends Model
 {
     use SoftDeletes;
     protected $fillable = [
+        'brand_id',
         'name',
         'purchase_qty',
         'purchase_rate',
@@ -42,5 +44,10 @@ class Product extends Model
     public function invoice_details()
     {
         return $this->belongsToMany(Invoice::class,'invoice_product');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class,'brand_id')->withTrashed();
     }
 }
