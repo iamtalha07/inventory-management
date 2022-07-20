@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use DB;
 use Session;
 use App\Stock;
+use Validator;
 use App\Booker;
 use App\Invoice;
 use App\Product;
+use Carbon\Carbon;
 use App\ProductLog;
 use App\InvoiceProduct;
+use App\PaymentHistory;
 use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
+use App\Http\Requests\PaymentRequest;
 
 class InvoiceController extends Controller
 {
@@ -76,8 +80,10 @@ class InvoiceController extends Controller
             $productInvoice->invoice_id = $invoice->id;
             $productInvoice->product_id = $request->product_id[$key];
             $productInvoice->qty = $request->qty[$key];
-            $productInvoice->disc = $request->dis[$key];
+            $productInvoice->disc_by_cash = $request->dis[$key];
+            $productInvoice->disc_by_percentage = $request->disByPer[$key];
             $productInvoice->amount = $request->amount[$key];
+            $productInvoice->disc_amount = $request->disAmount[$key];
             $productData[] = $productInvoice;
 
             //Updating products stock
@@ -177,10 +183,12 @@ class InvoiceController extends Controller
             'totalCredit'=>$totalCredit,
             'totalDiscount'=>$totalDiscount,
             'GrossTotal'=>$GrossTotal,
+            'start'=>$start,
+            'end'=>$end,
         ]);
     } 
 
-    public function changeStatus(Invoice $invoice)
+    public function changeStatus(Invoice $invoice, Request $request)
     {
         if($invoice->status=='Credit')
         {
@@ -190,6 +198,60 @@ class InvoiceController extends Controller
         {
             $invoice->update(['status'=>'Credit']);
         }
-        return response()->json($invoice);
+        
+        $invoiceData = Invoice::whereDate('created_at','>=', $request->startDate)
+        ->whereDate('created_at','<=',$request->endDate)->get();
+        $totalDebit = $invoiceData->where('status','Debit')->sum('total');
+        $totalCredit = $invoiceData->where('status','Credit')->sum('total');
+        return response()->json(['invoice'=>$invoice, 'totalDebit'=> $totalDebit, 'totalCredit'=>$totalCredit]);
+
     }
+
+    public function paymentHistory(Invoice $invoice)
+    {
+        $paymentHistory = PaymentHistory::where('invoice_id',$invoice->id)->orderBy('date','ASC')->get();
+        return view('invoices.invoice_payment_history',[
+            'invoice'=>$invoice,
+            'paymentHistory'=>$paymentHistory
+        ]);
+    }
+
+    public function addPaymentHistory(PaymentRequest $request)
+    {
+        $paymentHistory = new PaymentHistory;
+        $paymentHistory->invoice_id =  $request->invoice_id;
+        $paymentHistory->date = Carbon::parse($request->date);
+        $paymentHistory->paid_amount = $request->paid_amount;
+        $paymentHistory->remarks = $request->remarks;
+        $paymentHistory->save();
+
+        Session::flash('status','Record added successfully!');
+        return redirect()->back();
+    }
+
+    public function deletePaymentHistory(PaymentHistory $paymentHistory)
+    {
+        $paymentHistory->delete();
+        Session::flash('status','Record deleted successfully');
+        return redirect()->back();
+    }
+
+    function editPaymentHistoryForm($id)
+    {
+        $data = PaymentHistory::find($id);
+        return response()->json($data);
+    }
+
+    function updatePaymentHistory(Request $request)
+    {
+        $paymentHistory = PaymentHistory::find($request->invoice_id);
+        $paymentHistory->date = Carbon::parse($request->date);
+        $paymentHistory->paid_amount = $request->paid_amount;
+        $paymentHistory->remarks = $request->remarks;
+        $paymentHistory->save();
+
+        Session::flash('status','Record updated successfully');
+        return redirect()->back();
+    }
+    
 }

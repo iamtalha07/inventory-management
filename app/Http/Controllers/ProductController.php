@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Brand;
 use App\Stock;
 use App\Product;
 use App\ProductLog;
@@ -29,7 +30,8 @@ class ProductController extends Controller
 
     public function addProduct()
     {
-        return view('products.product_add');
+        $brands = Brand::all();
+        return view('products.product_add',['brands'=>$brands]);
     }
 
     public function store(ProductRequest $request)
@@ -39,7 +41,6 @@ class ProductController extends Controller
         //Creating Log
         $productLog = new ProductLog;
         $productLog->product_id = $product->id;
-        // $productLog->date = $request->date;
         $productLog->remarks = 'Product added successfully. Quantity: '.$product->purchase_qty;
         $productLog->save();
 
@@ -72,7 +73,7 @@ class ProductController extends Controller
         $product_id = $product->id;
         $product->delete();
         Stock::find($product_id)->delete();
-        Session::flash('status','Invoice deleted successfully');
+        Session::flash('status','Product deleted successfully');
         return redirect()->back();
     }
 

@@ -71,8 +71,10 @@
                     <th>Product</th>
                     <th>Qty</th>
                     <th>Rate</th>
-                    <th>Disc%</th>
-                    <th>Amount</th>
+                    <th>Disc</th>
+                    <th>Disc %</th>
+                    <th>Gross Amount</th>
+                    <th>Net Amount</th>
 
                   </tr>
                   </thead>
@@ -82,8 +84,10 @@
                     <td>{{$product->name}}</td>
                     <td>{{$product->pivot->qty}}</td>
                     <td>Rs.{{$product->sale_rate}}</td>
-                    <td>{{$product->pivot->disc}}</td>
+                    <td>{{$product->pivot->disc_by_cash ? 'Rs.' : '-'}}{{$product->pivot->disc_by_cash}}</td>
+                    <td>{{$product->pivot->disc_by_percentage}}{{$product->pivot->disc_by_percentage ? '%':'-'}}</td>
                     <td>Rs.{{$product->pivot->amount}}</td>
+                    <td>Rs.{{$product->pivot->disc_amount}}</td>
                   </tr>
                   </tbody>
                   @endforeach
@@ -96,28 +100,25 @@
             <div class="row">
               <!-- accepted payments column -->
               <div class="col-6">
-                {{-- <div>
-                  <table class="table">
-                    <tr>
-                      <th>Remarks</th>
-                    </tr>
-                    <tr>
-                      <td><textarea name="" id="" cols="2" rows="4"></textarea></td>
-                    </tr>
-                  </table>
-                </div> --}}
+
               </div>
               <!-- /.col -->
               <div class="col-6">
                 <div class="table-responsive">
                   <table class="table">
+                    @if($invoice->discount)
                     <tr>
-                      <th>Discount:</th>
-                      <td>{{$invoice->discount?'Rs.':''}} {{$invoice->discount}}</td>
+                      <th>Gross Total:</th>
+                      <td>Rs.{{$invoice->total}}</td>
                     </tr>
                     <tr>
+                      <th>Discount:</th>
+                      <td>Rs.{{$invoice->discount}}</td>
+                    </tr>
+                    @endif
+                    <tr>
                       <th>Total:</th>
-                      <td>Rs.{{$invoice->total}}</td>
+                      <td>Rs.{{$invoice->discount_total ? $invoice->discount_total : $invoice->total}}</td>
                     </tr>
                   </table>
                 </div>

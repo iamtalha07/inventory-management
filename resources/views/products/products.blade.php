@@ -31,7 +31,7 @@
                   <div class="card-tools">
                     <div class="row">
                     <div class="input-group input-group-sm" style="width: 50px;">
-                      <a href="{{ route('product/add-new-product') }}" title="Add New Product" class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
+                      <a href="{{route('product/add-new-product')}}" title="Add New Product" class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
                     </div>&nbsp
                     <div class="input-group input-group-sm" style="width: 50px;">
                     <button disabled type="button" value="Delete" id="deleteAllSelectedRecords" class="btn btn-danger check" style="width: 100%;"><i class="fas fa-trash-alt"></i></button>

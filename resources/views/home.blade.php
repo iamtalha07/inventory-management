@@ -55,7 +55,7 @@
               <div class="icon">
                 <i class="fas fa-file-invoice"></i>
               </div>
-              <a href="{{route('invoice/summary')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{route('invoice/invoice-search')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -63,7 +63,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>0</h3>
+                <h3>{{$brands}}</h3>
 
                 <p>Brands</p>
               </div>

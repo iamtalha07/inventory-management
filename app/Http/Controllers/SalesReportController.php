@@ -11,9 +11,6 @@ class SalesReportController extends Controller
 {
     function index(Request $request)
     {
-        // return $request->start;
-
-
         $bookers = Booker::all();
         $start = date('Y-m-d');
         $end = date('Y-m-d');

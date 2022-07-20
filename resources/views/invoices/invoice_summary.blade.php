@@ -1,5 +1,5 @@
 @extends('layouts.master_layout.master_layout')
-@section('title','Invoice summary')
+@section('title','Invoice')
 @section('content')
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -123,7 +123,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title titleclass">Invoice Summary</h3>
+                  <h3 class="card-title titleclass">Invoice</h3>
                   <div class="card-tools">
                     <div class="row">
                       <div class="input-group input-group-sm" style="width: 50px;">
@@ -163,7 +163,7 @@
                             <td>{{$item->customer_name}}</td>
                             <td>{{$item->booker->booker_name}}</td>
                             <td>{{$item->area_name}}</td>
-                            <td>{{$item->discount}}</td>
+                            <td>{{$item->discount ? $item->discount : '-'}}</td>
                             <td>Rs.{{$item->total}}</td>
                             <td>Rs.{{$item->discount_total?$item->discount_total:$item->total}}</td>
                             <td id="status-{{$item->id}}"><span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span></td>
@@ -173,6 +173,7 @@
                                 @method('DELETE')
                               <a title ="Detail" href="{{route('invoice/detail',$item->id)}}"><i class="fa fa-eye"></i></a>&nbsp &nbsp
                               <a title ="Change status" id="{{$item->id}}" class="changeStatus" href="javascript:void(0)"><i class="fas fa-exchange-alt"></i></a>&nbsp &nbsp
+                              <a title ="Payment history" href="{{route('invoice/payment-history',$item->id)}}" id="paymentHistory" class="paymentHistory" ><i class="fas fa-list"></i></a>&nbsp &nbsp
                               <button title="Delete" type="submit" class="delBtn"  style="color: #007bff;" onclick="return confirm('Are you sure?')"> <i class="fa fa-trash"></i></button>
                               </form>
                             </td>
@@ -184,18 +185,18 @@
                               <th colspan="11">Report</th>
                               <tr>
                                 <th colspan="6">Total Debit</th>
-                                <td colspan="5">Rs.{{$totalDebit}}</td>
+                                <td colspan="5" id="debit">Rs.{{$totalDebit}}</td>
                                </tr>
                                <tr>
                                 <th colspan="6">Total Credit</th>
-                                <td colspan="5">Rs.{{$totalCredit}}</td>
+                                <td colspan="5" id="credit">Rs.{{$totalCredit}}</td>
                                </tr>
                                <tr>
                                 <th colspan="6">Total Discount</th>
                                 <td colspan="5">Rs.{{$totalDiscount}}</td>
                                </tr>
                                <tr>
-                                <th colspan="6">Gross Total</th>
+                                <th colspan="6">Net Total</th>
                                 <td colspan="5">Rs.{{$GrossTotal}}</td>
                                </tr>
                             </tr>
@@ -236,8 +237,10 @@
 
   $(function() {
 
-      var start = moment();
-      var end = moment();
+      var start = {!! json_encode($start) !!};
+      var end = {!! json_encode($end) !!};
+      start = moment(start);
+      end = moment(end);
   
       function cb(start, end) {
           $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
@@ -285,20 +288,29 @@
 
     $(document).on('click','.changeStatus',function(){
         var id = $(this).attr('id');
+        var startDate = $('#date-range-start').val();
+        var endDate = $('#date-range-end').val();
+
         $.ajax({
             url:"change-status/"+id,
+            data:{
+              startDate: startDate,
+              endDate: endDate
+            },
             dataType:"json",
             success:function(data)
             {
-              console.log('helo');
-              if(data.status == 'Credit')
+              if(data.invoice.status == 'Credit')
               {
-                var status = '<span class="badge bg-danger">'+data.status+'</span>'
+                var status = '<span class="badge bg-danger">'+data.invoice.status+'</span>'
               }
               else{
-                var status = '<span class="badge bg-success">'+data.status+'</span>'
+                var status = '<span class="badge bg-success">'+data.invoice.status+'</span>'
               }
               $('#status-'+id).html(status);
+              $('#debit').text('Rs.'+data.totalDebit);
+              $('#credit').text('Rs.'+data.totalCredit);
+
               toastr.remove();
               toastr.options =
                 {
@@ -355,7 +367,7 @@
         });
       $('.select2').select2({
         closeOnSelect: false
-      })
+      });
 
   });
 

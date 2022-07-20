@@ -12,6 +12,7 @@
     <tr>
       <th><input type="checkbox" name="Accept" id="chkCheckAll"></th>
       <th>ID</th>
+      <th>Brand</th>
       <th>Name</th>
       <th>Purchase Qty</th>
       <th>Purchase Rate</th>
@@ -24,6 +25,7 @@
     <tr id="product-{{$item->id}}">
       <td><input type="checkbox" name="ids" id="checkboxId{{$item->id}}" class="checkBoxClass" value="{{$item->id}}"></td>
       <td><b>{{$item->id}}</b></td>
+      <td>{{optional($item->brand)->name}}</td>
       <td>{{$item->name}}</td>
       <td>{{$item->purchase_qty}}</td>
       <td>Rs.{{$item->purchase_rate}}</td>

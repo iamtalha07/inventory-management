@@ -118,7 +118,8 @@
                     <th>Qty</th>
                     <th>Stock</th>
                     <th>Unit Price</th>
-                    <th>Disc%</th>
+                    <th>Disc by cash</th>
+                    <th>Disc by %</th>
                     <th>Amount</th>
                     <th>Action</th>
                 </tr>
@@ -136,13 +137,16 @@
                     <td><input type="text" name="qty[]" class="form-control qty"  required></td>
                     <td><input type="text" id="stockID" name="stock[]" class="form-control stock" readonly/></td> 
                     <td><input type="text" name="price[]" class="form-control price" required></td>
-                    <td><input type="text" name="dis[]" class="form-control dis" ></td>
-                    <td><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>
+                    <td><input type="number" name="dis[]" class="form-control dis" ></td>
+                    <td><input type="number" name="disByPer[]" class="form-control disPer" ></td>
+                    <td><input type="text" name="disAmount[]" value="0.00" class="form-control disAmount" readonly></td>
+                    <td style="display: none;"><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>
                     <td><button type="button" name="add" id="add" class="btn btn-success addRow"><i class="fas fa-plus"></i></button></td>  
                 </tr>
                 </tbody>
                 <tfoot>
                     <tr>
+                     <td></td>
                      <td></td>
                      <td></td>
                      <td></td>
@@ -187,11 +191,11 @@
                   <table class="table">
                     <tr id="discountCash">
                       <th>Discount by cash:</th>
-                      <td><input type="text" class="form-control" name="cash" id="cash"></td>
+                      <td><input type="text" class="form-control onlyDecimal" name="cash" id="cash"></td>
                     </tr>
                     <tr id="discountPer">
                       <th>Discount by percentage:</th>
-                      <td><input type="text" class="form-control" name="percentage" id="per"></td>
+                      <td><input type="text" class="form-control onlyDecimal" name="percentage" id="per"></td>
                     </tr>
                     <tr id="discountTotalSection">
                       <th>Total:</th>
@@ -384,8 +388,10 @@
             '<td><input type="text" name="qty[]" class="form-control qty"  required></td>\n' +
             '<td><input type="text" id="stockID" name="stock[]" class="form-control stock" readonly/></td>\n'+
             '<td><input type="text" name="price[]" class="form-control price"required ></td>\n' +
-            '<td><input type="text" name="dis[]" class="form-control dis" ></td>\n' +
-            '<td><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>\n' +
+            '<td><input type="number" name="dis[]" class="form-control dis" ></td>\n' +
+            '<td><input type="number" name="disByPer[]" class="form-control disPer" ></td>\n'+
+            '<td><input type="text" name="disAmount[]" value="0.00" class="form-control disAmount" readonly></td>\n' +
+            '<td style="display: none;"><input type="text" name="amount[]" value="0.00" class="form-control amount" readonly></td>\n'+
             '<td><button type="button" class="btn btn-danger remove-tr"><i class="fas fa-minus"></i></button></td>\n' +
             '</tr>';
             $('#productRow').append(addRow);
@@ -428,20 +434,43 @@
         });
     });
     
-    $('tbody').delegate('.qty,.price,.dis', 'keyup', function () {
+    $('tbody').delegate('.qty,.price,.disPer,.dis', 'keyup', function () {
 
         var tr = $(this).parent().parent();
         var qty = tr.find('.qty').val();
         var price = tr.find('.price').val();
+        var disPer = tr.find('.disPer').val();
         var dis = tr.find('.dis').val();
-        var amount = (qty * price)-(qty * price * dis)/100;
+        tr.find('.disPer').prop('readonly', false);
+        tr.find('.dis').prop('readonly', false);
+        var amount = 0;
+
+        if(dis && !disPer)
+        {
+          amount = (qty * price)-dis;
+          tr.find('.disPer').prop('readonly', true);
+          tr.find('.dis').prop('readonly', false);
+        }
+        else if(!dis && disPer) {
+          amount = (qty * price)-(qty * price * disPer)/100;
+          tr.find('.dis').prop('readonly', true);
+          tr.find('.disPer').prop('readonly', false);
+        }
+        else {
+          amount = qty * price;
+        }
+
+        var amountBeforeDiscount = qty * price;
         amount = amount.toFixed(2);
-        tr.find('.amount').val(amount);
+        amountBeforeDiscount = amountBeforeDiscount.toFixed(2);
+
+        tr.find('.disAmount').val(amount);
+        tr.find('.amount').val(amountBeforeDiscount);
         total();
     });
     function total(){
         var total = 0;
-        $('.amount').each(function (i,e) {
+        $('.disAmount').each(function (i,e) {
              var amount =$(this).val()-0;
             total += amount;
          })
