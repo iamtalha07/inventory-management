@@ -48,7 +48,7 @@
                       @enderror
                     </div>
               </div>
-    
+
                 <!-- /.col -->
                 <div class="col-md-6">
                     <div class="form-group">
@@ -114,7 +114,7 @@
                     <div class="form-group">
                         <label><span style="color: red;">* </span>User Role:</label>
                         <select name="role_as" class="form-control" id="role_as" required>
-                            <option value="" selected="true">Select Booker</option>
+                            <option value="" selected="true">Select Role</option>
                             <option value="admin">Admin</option>
                             <option value="employee">Employee</option>
                         </select>
@@ -132,7 +132,7 @@
             </div>
             </div>
         </div>
-       
+
     </div>
     </form>
 </div>
