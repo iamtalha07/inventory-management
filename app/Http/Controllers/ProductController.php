@@ -65,8 +65,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+        $brands = Brand::all();
         if($product){
-            return view('products.product_edit',['product'=>$product]);
+            return view('products.product_edit',['product'=>$product,'brands'=>$brands]);
         }
     }
 

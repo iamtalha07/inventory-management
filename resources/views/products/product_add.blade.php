@@ -81,7 +81,6 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-
                                     <label for="roles">Pack Size:</label>
                                     <input type="number" name="ctn_size" value="{{ old('ctn_size') }}"
                                         class="form-control">

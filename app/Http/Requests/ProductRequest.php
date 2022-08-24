@@ -30,8 +30,16 @@ class ProductRequest extends FormRequest
             'sale_rate'=> 'required|numeric|not_in:0',
             'ctn_size'=> 'numeric|not_in:0',
             'ctn_sale_rate'=> 'numeric|not_in:0',
-
         ];
+        if(request()->id)
+        {
+            $rule['name'] = ['required'];
+            $rule['purchase_qty'] = ['required','numeric','not_in:0'];
+            $rule['purchase_rate'] = ['required','numeric','not_in:0'];
+            $rule['sale_rate'] = ['required','numeric','not_in:0'];
+            $rule['ctn_size'] = ['required','not_in:0'];
+            $rule['ctn_sale_rate'] = ['required','not_in:0'];
+        }
 
         return $rule;
     }
