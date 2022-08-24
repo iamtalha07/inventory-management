@@ -81,6 +81,18 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+
+                                    <label for="roles">Pack Size:</label>
+                                    <input type="number" name="ctn_size" value="{{ old('ctn_size') }}"
+                                        class="form-control">
+                                    @error('ctn_size')
+                                        <p style="color:red">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="roles">Purchase Rate:</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -95,7 +107,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="roles">Sale Rate:</label>
                                     <div class="input-group">
@@ -106,6 +118,22 @@
                                             class="form-control">
                                     </div>
                                     @error('sale_rate')
+                                        <p style="color:red">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="roles">Ctn Sale Rate:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Rs.</span>
+                                        </div>
+                                        <input type="text" name="ctn_sale_rate" value="{{ old('ctn_sale_rate') }}"
+                                            class="form-control">
+                                    </div>
+                                    @error('ctn_sale_rate')
                                         <p style="color:red">{{ $message }}</p>
                                     @enderror
                                 </div>

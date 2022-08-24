@@ -11,6 +11,8 @@ class Stock extends Model
         'product_id',
         'sale_qty',
         'in_stock',
+        'ctn_sale_qty',
+        'ctn_in_stock'
     ];
 
     public function product()

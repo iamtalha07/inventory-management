@@ -28,6 +28,9 @@ class ProductRequest extends FormRequest
             'purchase_qty' => 'required|numeric|not_in:0',
             'purchase_rate' => 'required |numeric|not_in:0',
             'sale_rate'=> 'required|numeric|not_in:0',
+            'ctn_size'=> 'numeric|not_in:0',
+            'ctn_sale_rate'=> 'numeric|not_in:0',
+
         ];
 
         return $rule;
@@ -46,6 +49,9 @@ class ProductRequest extends FormRequest
             'sale_rate.required' => 'The sale rate field is required.',
             'sale_rate.numeric' => 'Please Enter Numeric Value',
             'sale_rate.not_in' => 'Sale rate can not be 0',
+            'ctn_size.numeric' => 'Please Enter Numeric Value',
+            'ctn_sale_rate.numeric' => 'Please Enter Numeric Value',
+
         ];
     }
 }

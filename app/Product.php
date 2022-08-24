@@ -18,6 +18,8 @@ class Product extends Model
         'purchase_qty',
         'purchase_rate',
         'sale_rate',
+        'ctn_size',
+        'ctn_sale_rate',
         'date',
         'description',
     ];

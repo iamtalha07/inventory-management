@@ -38,6 +38,11 @@ class ProductController extends Controller
     {
         $product = Product::create($request->all());
 
+        $ctnInStock = 0;
+        if($product->purchase_qty && $product->ctn_size) {
+            $ctnInStock = $product->purchase_qty/$product->ctn_size;
+        }
+        
         //Creating Log
         $productLog = new ProductLog;
         $productLog->product_id = $product->id;
@@ -49,6 +54,8 @@ class ProductController extends Controller
         $stock->product_id = $product->id;
         $stock->sale_qty = 0;
         $stock->in_stock = $request->purchase_qty;
+        $stock->ctn_sale_qty = 0;
+        $stock->ctn_in_stock = ceil($ctnInStock);
         $stock->save();
 
         Session::flash('status','Product added successfully!');
