@@ -93,7 +93,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="roles">Purchase Rate:</label>
                                     <div class="input-group">
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="roles">Sale Rate:</label>
                                     <div class="input-group">
@@ -125,7 +125,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="roles">Ctn Sale Rate:</label>
                                     <div class="input-group">
