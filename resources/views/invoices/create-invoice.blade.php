@@ -115,8 +115,10 @@
                 <thead>
                 <tr>
                     <th>Product</th>
+                    <th>Ctn Qty</th>
                     <th>Qty</th>
                     <th>Stock</th>
+                    <th>Ctn Price</th>
                     <th>Unit Price</th>
                     <th>Disc by cash</th>
                     <th>Disc by %</th>
@@ -134,9 +136,12 @@
                         @endforeach
                       </select>
                     </td>
-                    <td><input type="text" name="qty[]" class="form-control qty"  required></td>
-                    <td><input type="text" id="stockID" name="stock[]" class="form-control stock" readonly/></td> 
-                    <td><input type="text" name="price[]" class="form-control price" required></td>
+                    <td><input type="text" name="ctnQty[]" class="form-control ctnQty"></td>
+                    <td><input type="text" name="qty[]" class="form-control qty"></td>
+                    <td><input type="text" id="stockID" name="stock[]" class="form-control stock" readonly/></td>
+                    <td><input type="text" name="ctnPrice[]" class="form-control ctnPrice"></td>
+                    <td style="display: none;"><input type="text" name="packSize[]" class="form-control packSize"></td>
+                    <td><input type="text" name="price[]" class="form-control price"></td>
                     <td><input type="number" name="dis[]" class="form-control dis" ></td>
                     <td><input type="number" name="disByPer[]" class="form-control disPer" ></td>
                     <td><input type="text" name="disAmount[]" value="0.00" class="form-control disAmount" readonly></td>
@@ -146,6 +151,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                     <td></td>
+                     <td></td>
                      <td></td>
                      <td></td>
                      <td></td>
@@ -185,8 +192,6 @@
               </div>
               <!-- /.col -->
               <div class="col-6">
-                {{-- <p class="lead">Amount Due 2/22/2014</p> --}}
-
                 <div class="table-responsive">
                   <table class="table">
                     <tr id="discountCash">
@@ -377,6 +382,7 @@
                 addRow();
             });
 
+
         function addRow() {
         var addRow = '<tr>\n' +
             '<td><select name="product_id[]" class="form-control productname" required>\n' +
@@ -385,9 +391,12 @@
                         '<option value="{{$product->id}}">{{$product->name}}</option>\n' +
                     '@endforeach\n' +
                 '</select></td>\n' +
-            '<td><input type="text" name="qty[]" class="form-control qty"  required></td>\n' +
+            '<td><input type="text" name="ctnQty[]" class="form-control ctnQty"></td>\n' +
+            '<td><input type="text" name="qty[]" class="form-control qty"></td>\n' +
             '<td><input type="text" id="stockID" name="stock[]" class="form-control stock" readonly/></td>\n'+
-            '<td><input type="text" name="price[]" class="form-control price"required ></td>\n' +
+            '<td><input type="text" name="ctnPrice[]" class="form-control ctnPrice"></td>\n' +
+            '<td style="display: none;"><input type="text" name="packSize[]" class="form-control packSize"></td>\n' +
+            '<td><input type="text" name="price[]" class="form-control price"></td>\n' +
             '<td><input type="number" name="dis[]" class="form-control dis" ></td>\n' +
             '<td><input type="number" name="disByPer[]" class="form-control disPer" ></td>\n'+
             '<td><input type="text" name="disAmount[]" value="0.00" class="form-control disAmount" readonly></td>\n' +
@@ -413,16 +422,15 @@
           }
         }
 
-        $(document).on('click', '.remove-tr', function(){  
+    $(document).on('click', '.remove-tr', function(){  
           var tr =$(this).parent().parent();
           recalculatePrice(tr);
-        $(this).parents('tr').remove();
+          $(this).parents('tr').remove();
     });
 
     $('tbody').delegate('.productname', 'change', function () {
-            var tr =$(this).parent().parent();
+            var tr = $(this).parent().parent();
             var id = tr.find('.productname').val();
-            console.log(id)
             $.ajax({
             url: '/get-product-data/'+id,
             type: "GET",
@@ -430,20 +438,46 @@
             success:function(data) {
                 tr.find('.stock').val(data[1].in_stock);
                 tr.find('.price').val(data[0].sale_rate);
+                tr.find('.ctnPrice').val(data[0].ctn_sale_rate);
+                tr.find('.packSize').val(data[0].ctn_size);
             }
         });
     });
     
-    $('tbody').delegate('.qty,.price,.disPer,.dis', 'keyup', function () {
+    $('tbody').delegate('.ctnQty,.qty,.price,.ctnPrice,.disPer,.dis', 'keyup', function () {
 
         var tr = $(this).parent().parent();
-        var qty = tr.find('.qty').val();
-        var price = tr.find('.price').val();
+        // var qty = tr.find('.qty').val();
+        var unitQty = tr.find('.qty').val();
+        var ctnQty = tr.find('.ctnQty').val();
+        // var price = tr.find('.price').val();
+        var unitPrice = tr.find('.price').val();
+        var ctnPrice = tr.find('.ctnPrice').val();
         var disPer = tr.find('.disPer').val();
         var dis = tr.find('.dis').val();
+
         tr.find('.disPer').prop('readonly', false);
         tr.find('.dis').prop('readonly', false);
+        tr.find('.qty').prop('readonly', false);
+        tr.find('.ctnQty').prop('readonly', false);
+
         var amount = 0;
+        var qty = 0;
+        var price = 0;
+
+        if(ctnQty && !unitQty) {
+          tr.find('.qty').prop('readonly', true);
+          tr.find('.ctnQty').prop('readonly', false);
+          qty = ctnQty;
+          price = ctnPrice;
+        }
+        else if(!ctnQty && unitQty) {
+          tr.find('.qty').prop('readonly', false);
+          tr.find('.ctnQty').prop('readonly', true);
+          qty = unitQty;
+          price = unitPrice;
+        }
+      
 
         if(dis && !disPer)
         {

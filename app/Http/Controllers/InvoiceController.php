@@ -79,27 +79,43 @@ class InvoiceController extends Controller
             $productInvoice = new InvoiceProduct;
             $productInvoice->invoice_id = $invoice->id;
             $productInvoice->product_id = $request->product_id[$key];
-            $productInvoice->qty = $request->qty[$key];
+            $productInvoice->qty = $request->qty[$key] ? $request->qty[$key] : $request->ctnQty[$key];
             $productInvoice->disc_by_cash = $request->dis[$key];
             $productInvoice->disc_by_percentage = $request->disByPer[$key];
             $productInvoice->amount = $request->amount[$key];
             $productInvoice->disc_amount = $request->disAmount[$key];
+            $productInvoice->product_type = $request->qty[$key] ? 'single' : 'carton';
             $productData[] = $productInvoice;
 
             //Updating products stock
-            $updatedQuantity = $request->stock[$key] - $request->qty[$key];
             $productStock = Stock::where('product_id',$request->product_id[$key])->first();
+            
+            if($request->qty[$key]) {
+                $updatedQuantity = $request->stock[$key] - $request->qty[$key];
+                $updateSaleQty = $request->qty[$key];
+            }
+            else {
+                $purchasedCtnQuantity = $request->ctnQty[$key] * $request->packSize[$key];
+                $updatedQuantity = $request->stock[$key] - $purchasedCtnQuantity;
+                $updateSaleQty = $purchasedCtnQuantity;
+            }
+
             $productStock->in_stock = $updatedQuantity;
             $sale_qty = $productStock->sale_qty;
-            $sale_qty = $sale_qty + $request->qty[$key];
+            $sale_qty = $sale_qty + $updateSaleQty;
             $productStock->sale_qty = $sale_qty;
+
+            $ctn_sale_qty = $productStock->ctn_sale_qty + $request->ctnQty[$key];
+            $productStock->ctn_sale_qty = $ctn_sale_qty;
+            $updateCtnInStock = $productStock->in_stock/$request->packSize[$key];
+            $productStock->ctn_in_stock = floor($updateCtnInStock);
             $productStock->save();
 
             //Creating Log
             $productLog = new ProductLog;
             $productLog->product_id = $request->product_id[$key];
             $productLog->date = null;
-            $productLog->remarks = $request->qty[$key].' of this product has been sold. New Quantity: '.$updatedQuantity;
+            $productLog->remarks = $updateSaleQty.' of this product has been sold. New Quantity: '.$updatedQuantity;
             $productLog->save();
          }
         $invoice->saveProduct()->saveMany($productData);

@@ -55,7 +55,7 @@ class ProductController extends Controller
         $stock->sale_qty = 0;
         $stock->in_stock = $request->purchase_qty;
         $stock->ctn_sale_qty = 0;
-        $stock->ctn_in_stock = ceil($ctnInStock);
+        $stock->ctn_in_stock = floor($ctnInStock);
         $stock->save();
 
         Session::flash('status','Product added successfully!');
