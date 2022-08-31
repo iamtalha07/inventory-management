@@ -515,9 +515,19 @@
     }
 
 
-    $('tbody').delegate('.qty', 'focusout', function () {
+    $('tbody').delegate('.qty,.ctnQty', 'focusout', function () {
         var tr = $(this).parent().parent();
-        var qty = tr.find('.qty').val();
+        var unitQty = tr.find('.qty').val();
+        var ctnQty = tr.find('.ctnQty').val();
+        var ctnSize = tr.find('.packSize').val();
+        var qty = 0;
+
+        if(ctnQty && !unitQty) {
+          qty = ctnQty*ctnSize
+        } else {
+          qty = unitQty
+        }
+
         var stock = tr.find('.stock').val();
         var product = tr.find('.productname option:selected').text()
         if(parseFloat(qty) > parseFloat(stock))
@@ -528,6 +538,9 @@
           }
           recalculatePrice(tr);
           tr.find('.qty').val('');
+          tr.find('.ctnQty').val('');
+          tr.find('.qty').prop('readonly', false);
+          tr.find('.ctnQty').prop('readonly', false);
           tr.find('.amount').val('');
         }
         });
