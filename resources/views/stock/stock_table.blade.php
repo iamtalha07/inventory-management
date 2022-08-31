@@ -132,6 +132,7 @@
               if($.isEmptyObject(response.error)){
                 var id = response[0].id;
                 $("#inStock-"+id).html(response[0].in_stock);
+                $("#cntInStock-"+id).html(response[0].ctn_in_stock);
                 $("#purchaseQty-"+id).html(response[1].purchase_qty);
                 $('#modal-qty').modal('hide');
                 $("#addQtyForm")[0].reset();
@@ -159,36 +160,3 @@
             });
         }
 </script>
-
-{{-- Activating and disabling the delete button --}}
-{{-- <script>
- $(function() {
-
-  
-  $("input[type=checkbox]").on("change", function(){
-  if ($("input[type=checkbox]:checked").length > 0)
-  {
-      $("#deleteAllSelectedRecords").removeAttr('disabled','disabled');
-      $(".deletedClass").hide();
-  }
-  else
-  {
-      $("#deleteAllSelectedRecords").attr('disabled','disabled');
-  }
-});
-
-$("#chkCheckAll").click(function(){
-
-                 $(".checkBoxClass").prop('checked',$(this).prop('checked'));    
-             });
-});
-
-
-</script> --}}
-
-
-
-
-
-
-

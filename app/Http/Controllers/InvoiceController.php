@@ -79,7 +79,8 @@ class InvoiceController extends Controller
             $productInvoice = new InvoiceProduct;
             $productInvoice->invoice_id = $invoice->id;
             $productInvoice->product_id = $request->product_id[$key];
-            $productInvoice->qty = $request->qty[$key] ? $request->qty[$key] : $request->ctnQty[$key];
+            $productInvoice->qty = $request->qty[$key];
+            $productInvoice->ctn_qty = $request->ctnQty[$key];
             $productInvoice->disc_by_cash = $request->dis[$key];
             $productInvoice->disc_by_percentage = $request->disByPer[$key];
             $productInvoice->amount = $request->amount[$key];

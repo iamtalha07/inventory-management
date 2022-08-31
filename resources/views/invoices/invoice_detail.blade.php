@@ -69,7 +69,8 @@
                   <thead>
                   <tr>
                     <th>Product</th>
-                    <th>Qty</th>
+                    <th>Unit Qty</th>
+                    <th>Ctn Qty</th>
                     <th>Rate</th>
                     <th>Disc</th>
                     <th>Disc %</th>
@@ -82,8 +83,9 @@
                   <tbody>
                   <tr>
                     <td>{{$product->name}}</td>
-                    <td>{{$product->pivot->qty}}</td>
-                    <td>Rs.{{$product->sale_rate}}</td>
+                    <td>{{$product->pivot->qty ? $product->pivot->qty : '-'}}</td>
+                    <td>{{$product->pivot->ctn_qty ? $product->pivot->ctn_qty : '-'}}</td>
+                    <td>Rs.{{$product->pivot->product_type == 'single' ? $product->sale_rate : $product->ctn_sale_rate}}</td>
                     <td>{{$product->pivot->disc_by_cash ? 'Rs.' : '-'}}{{$product->pivot->disc_by_cash}}</td>
                     <td>{{$product->pivot->disc_by_percentage}}{{$product->pivot->disc_by_percentage ? '%':'-'}}</td>
                     <td>Rs.{{$product->pivot->amount}}</td>
