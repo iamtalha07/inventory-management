@@ -83,13 +83,14 @@
                     <table id="example2" class="table table-bordered table-hover">
                       <thead>
                         <tr>
-                          <th colspan="5">{{$start}} - {{$end}}</th>
+                          <th colspan="6">{{$start}} - {{$end}}</th>
                         </tr>
                       <tr>
                         <th>Product ID</th>
                         <th>Product Name</th>
                         <th>Unit Price</th>
                         <th>Quantity</th>
+                        <th>Ctn Quantity</th>
                         <th>Amount</th>
                       </tr>
                       </thead>
@@ -99,14 +100,15 @@
                         <td><b>{{$item->product_id}}</b></td>
                         <td>{{$item->name}}</td>
                         <td>Rs.{{$item->price}}</td>
-                        <td>{{$item->qty}}</td>
+                        <td>{{$item->qty ? $item->qty : '-'}}</td>
+                        <td>{{$item->ctn_qty ? $item->ctn_qty : '-'}}</td>
                         <td>Rs.{{$item->amount}}</td>
                       </tr>
                       @endforeach
                       </tbody>
                       <tfoot>
                         <tr>
-                        <td colspan="3"></td>
+                        <td colspan="4"></td>
                          <td><b>Total</b></td>
                          <td><b>Rs.{{$total}}</b></td>
                         </tr>

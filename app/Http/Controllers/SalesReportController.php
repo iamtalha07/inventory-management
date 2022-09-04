@@ -24,7 +24,7 @@ class SalesReportController extends Controller
         }
 
 
-        $data = Invoice::select('invoice_product.product_id as product_id','products.name as name','products.sale_rate as price',DB::raw('SUM(invoice_product.qty) as qty'),DB::raw('SUM(invoice_product.amount) as amount'))
+        $data = Invoice::select('invoice_product.product_id as product_id','products.name as name','products.sale_rate as price',DB::raw('SUM(invoice_product.qty) as qty'),DB::raw('SUM(invoice_product.ctn_qty) as ctn_qty'),DB::raw('SUM(invoice_product.amount) as amount'))
         ->groupBy('invoice_product.product_id','products.name','products.sale_rate')
         ->join('invoice_product','invoice.id','=','invoice_product.invoice_id')
         ->join('products',function($join){

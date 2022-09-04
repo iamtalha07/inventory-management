@@ -9,6 +9,7 @@
       <th>Purchase Qty</th>
       <th>Sale Qty</th>
       <th>In Stock</th>
+      <th>Ctn In Stock</th>
       <th>Action</th>
     </tr>
     </thead>
@@ -20,6 +21,7 @@
       <td id="purchaseQty-{{$item->id}}">{{$item->product->purchase_qty}}</td>
       <td>{{$item->sale_qty}}</td>
       <td id="inStock-{{$item->id}}">{{$item->in_stock}}</td>
+      <td id="cntInStock-{{$item->id}}">{{$item->ctn_in_stock}}</td>
       <td>
         <a title ="Manage quantity" href="javascript:void(0)" id="{{$item->id}}" class="addQtyClass"><i class="fas fa-plus"></i></a>&nbsp &nbsp
     </td>
@@ -130,6 +132,7 @@
               if($.isEmptyObject(response.error)){
                 var id = response[0].id;
                 $("#inStock-"+id).html(response[0].in_stock);
+                $("#cntInStock-"+id).html(response[0].ctn_in_stock);
                 $("#purchaseQty-"+id).html(response[1].purchase_qty);
                 $('#modal-qty').modal('hide');
                 $("#addQtyForm")[0].reset();
@@ -157,36 +160,3 @@
             });
         }
 </script>
-
-{{-- Activating and disabling the delete button --}}
-{{-- <script>
- $(function() {
-
-  
-  $("input[type=checkbox]").on("change", function(){
-  if ($("input[type=checkbox]:checked").length > 0)
-  {
-      $("#deleteAllSelectedRecords").removeAttr('disabled','disabled');
-      $(".deletedClass").hide();
-  }
-  else
-  {
-      $("#deleteAllSelectedRecords").attr('disabled','disabled');
-  }
-});
-
-$("#chkCheckAll").click(function(){
-
-                 $(".checkBoxClass").prop('checked',$(this).prop('checked'));    
-             });
-});
-
-
-</script> --}}
-
-
-
-
-
-
-

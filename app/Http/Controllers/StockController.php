@@ -46,6 +46,11 @@ class StockController extends Controller
             $id = $stock->id;
             $stock->in_stock += $request->qty;
 
+            if($product->ctn_size){
+                $updateCtnInStock = $stock->in_stock/$product->ctn_size;
+                $stock->ctn_in_stock = floor($updateCtnInStock);
+            }
+
             if($request->qtyOption == 'add-quantity')
             {
                 $product->purchase_qty = $product->purchase_qty+$request->qty;
