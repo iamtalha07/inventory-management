@@ -73,7 +73,7 @@
                     <th>Ctn Qty</th>
                     <th>Rate</th>
                     <th>Gross Amount</th>
-                    <th>Disc</th>
+                    <th>TO/Disc</th>
                     <th>Disc %</th>
                     <th>Net Amount</th>
 
@@ -120,7 +120,7 @@
                       <td>Rs.{{$invoice->total}}</td>
                     </tr>
                     <tr>
-                      <th>Invoice Discount:</th>
+                      <th>To/Discount:</th>
                       <td>Rs.{{$invoice->discount}}</td>
                     </tr>
                     @endif
