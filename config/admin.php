@@ -1,7 +1,7 @@
 <?php
 return  [
     'title' => [
-        'ahsan_traders' => 'Ahsan Traders',
+        'ahsan_traders' => 'Hamid Traders',
     ],
 ];
 ?>
