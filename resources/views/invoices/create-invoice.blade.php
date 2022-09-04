@@ -120,7 +120,7 @@
                     <th>Stock</th>
                     <th>Ctn Price</th>
                     <th>Unit Price</th>
-                    <th>Disc by cash</th>
+                    <th>TO/Disc</th>
                     <th>Disc by %</th>
                     <th>Amount</th>
                     <th>Action</th>
@@ -182,7 +182,7 @@
                     </div>
                     <div class="custom-control custom-radio">
                       <input class="custom-control-input radio" type="radio" id="Radio2" name="discountRadio" value="cashDiscount">
-                      <label for="Radio2" class="custom-control-label">Discount by cash</label>
+                      <label for="Radio2" class="custom-control-label">To/Discount</label>
                     </div>
                     <div class="custom-control custom-radio">
                       <input class="custom-control-input radio" type="radio" id="Radio3" name="discountRadio" value="perDiscount">
@@ -195,7 +195,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <tr id="discountCash">
-                      <th>Discount by cash:</th>
+                      <th>To/Discount:</th>
                       <td><input type="text" class="form-control onlyDecimal" name="cash" id="cash"></td>
                     </tr>
                     <tr id="discountPer">
