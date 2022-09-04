@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Brand;
 use App\Invoice;
 use App\Product;
@@ -30,12 +31,12 @@ class HomeController extends Controller
         $brands = Brand::all()->count();
         $invoice = Invoice::whereDate('created_at', date('Y-m-d'))->get()->count();
         $invoiceTotal = Invoice::whereDate('created_at', date('Y-m-d'))->get()->sum('total');
-        $invoiceTotal = number_format($invoiceTotal, 2);
+        $user = User::all()->count();
         return view('home',[
             'products'=>$products,
             'brands'=>$brands,
             'invoice'=>$invoice,
-            'invoiceTotal'=>$invoiceTotal
+            'user' => $user,
         ]);
     }
 }

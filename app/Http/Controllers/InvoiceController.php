@@ -121,8 +121,7 @@ class InvoiceController extends Controller
          }
         $invoice->saveProduct()->saveMany($productData);
 
-        Session::flash('status','Invoice created successfully');
-        return view('invoices.invoice_detail',['invoice'=>$invoice]);
+        return redirect()->route('invoice/detail',$invoice->id);
     }
 
     public function delete(Invoice $invoice)
@@ -143,7 +142,13 @@ class InvoiceController extends Controller
     public function detail($id)
     {
         $invoice = Invoice::find($id);
-        return view('invoices.invoice_detail',['invoice'=>$invoice]);
+        $discountAmount = 0;
+
+        foreach($invoice->invoiceProduct as $item) {
+            $discountAmount += $item->pivot->amount - $item->pivot->disc_amount;
+        }
+
+        return view('invoices.invoice_detail',['invoice'=>$invoice, 'discountAmount' => $discountAmount]);
     }
 
     public function InvoicePrint($id)

@@ -72,9 +72,9 @@
                     <th>Unit Qty</th>
                     <th>Ctn Qty</th>
                     <th>Rate</th>
+                    <th>Gross Amount</th>
                     <th>Disc</th>
                     <th>Disc %</th>
-                    <th>Gross Amount</th>
                     <th>Net Amount</th>
 
                   </tr>
@@ -86,9 +86,9 @@
                     <td>{{$product->pivot->qty ? $product->pivot->qty : '-'}}</td>
                     <td>{{$product->pivot->ctn_qty ? $product->pivot->ctn_qty : '-'}}</td>
                     <td>Rs.{{$product->pivot->product_type == 'single' ? $product->sale_rate : $product->ctn_sale_rate}}</td>
+                    <td>Rs.{{$product->pivot->amount}}</td>
                     <td>{{$product->pivot->disc_by_cash ? 'Rs.' : '-'}}{{$product->pivot->disc_by_cash}}</td>
                     <td>{{$product->pivot->disc_by_percentage}}{{$product->pivot->disc_by_percentage ? '%':'-'}}</td>
-                    <td>Rs.{{$product->pivot->amount}}</td>
                     <td>Rs.{{$product->pivot->disc_amount}}</td>
                   </tr>
                   </tbody>
@@ -108,13 +108,19 @@
               <div class="col-6">
                 <div class="table-responsive">
                   <table class="table">
+                    @if($discountAmount > 0)
+                    <tr>
+                      <th>Total Discount:</th>
+                      <td>Rs.{{$discountAmount}}</td>
+                    </tr>
+                    @endif
                     @if($invoice->discount)
                     <tr>
                       <th>Gross Total:</th>
                       <td>Rs.{{$invoice->total}}</td>
                     </tr>
                     <tr>
-                      <th>Discount:</th>
+                      <th>Invoice Discount:</th>
                       <td>Rs.{{$invoice->discount}}</td>
                     </tr>
                     @endif
