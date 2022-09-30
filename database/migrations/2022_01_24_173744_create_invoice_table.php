@@ -21,8 +21,9 @@ class CreateInvoiceTable extends Migration
             $table->string('area_name')->nullable();
             $table->string('status')->nullable();
             $table->double('total', 8, 2);
-            $table->double('discount')->nullable();
-            $table->double('discount_total', 8, 2)->nullable();
+            $table->double('less_trade_offer')->nullable();
+            $table->double('less_percentage_discount')->nullable();
+            $table->double('net_total', 8, 2)->nullable();
             $table->timestamps();
             $table->foreign('booker_id')->references('id')->on('bookers')->onDelete('cascade');
         });

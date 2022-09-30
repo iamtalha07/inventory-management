@@ -16,6 +16,7 @@ use App\PaymentHistory;
 use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Requests\PaymentRequest;
+use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
@@ -52,76 +53,67 @@ class InvoiceController extends Controller
 
     public function createInvoice(InvoiceRequest $request)
     {   
-        if($request->discountRadio == 'cashDiscount'){
-            $discountValue = $request->cash;
-        }
-        else if($request->discountRadio == 'perDiscount'){
-            $percentage = $request->percentage;
-            $total = $request->total;
-            $discountValue =  ($total * $percentage)/100;
-        }
-        else{
-            $discountValue = null;
-        }
 
-        $invoice = new Invoice;
-        $invoice->customer_name = $request->customer_name;
-        $invoice->booker_id =  $request->booker_id;
-        $invoice->salesman_name = $request->salesman_name;
-        $invoice->area_name = $request->area_name;
-        $invoice->status = $request->status;
-        $invoice->total = $request->total;
-        $invoice->discount = $discountValue;
-        $invoice->discount_total = $request->discountTotal;
-        $invoice->save();
+            $invoice = new Invoice;
+            $invoice->customer_name = $request->customer_name;
+            $invoice->booker_id =  $request->booker_id;
+            $invoice->salesman_name = $request->salesman_name;
+            $invoice->area_name = $request->area_name;
+            $invoice->status = $request->status;
+            $invoice->total = $request->total;
+            $invoice->less_trade_offer = $request->lessTradeOffer;
+            $invoice->less_percentage_discount = $request->lessDiscount;
+            $invoice->net_total = $request->discountTotal;
+            $invoice->save();
 
-        foreach ($request->product_id as $key => $product_id){
-            $productInvoice = new InvoiceProduct;
-            $productInvoice->invoice_id = $invoice->id;
-            $productInvoice->product_id = $request->product_id[$key];
-            $productInvoice->qty = $request->qty[$key];
-            $productInvoice->ctn_qty = $request->ctnQty[$key];
-            $productInvoice->disc_by_cash = $request->dis[$key];
-            $productInvoice->disc_by_percentage = $request->disByPer[$key];
-            $productInvoice->amount = $request->amount[$key];
-            $productInvoice->disc_amount = $request->disAmount[$key];
-            $productInvoice->product_type = $request->qty[$key] ? 'single' : 'carton';
-            $productData[] = $productInvoice;
+            foreach ($request->product_id as $key => $product_id){
+                $productInvoice = new InvoiceProduct;
+                $productInvoice->invoice_id = $invoice->id;
+                $productInvoice->product_id = $request->product_id[$key];
+                $productInvoice->qty = $request->qty[$key];
+                $productInvoice->ctn_qty = $request->ctnQty[$key];
+                $productInvoice->disc_by_cash = $request->dis[$key];
+                $productInvoice->disc_by_percentage = $request->disByPer[$key];
+                $productInvoice->amount = $request->amount[$key];
+                $productInvoice->disc_amount = $request->disAmount[$key];
+                $productInvoice->product_type = $request->qty[$key] ? 'single' : 'carton';
+                $productData[] = $productInvoice;
 
-            //Updating products stock
-            $productStock = Stock::where('product_id',$request->product_id[$key])->first();
-            
-            if($request->qty[$key]) {
-                $updatedQuantity = $request->stock[$key] - $request->qty[$key];
-                $updateSaleQty = $request->qty[$key];
+                //Updating products stock
+                $productStock = Stock::where('product_id',$request->product_id[$key])->first();
+                
+                if($request->qty[$key]) {
+                    $updatedQuantity = $request->stock[$key] - $request->qty[$key];
+                    $updateSaleQty = $request->qty[$key];
+                }
+                else {
+                    $purchasedCtnQuantity = $request->ctnQty[$key] * $request->packSize[$key];
+                    $updatedQuantity = $request->stock[$key] - $purchasedCtnQuantity;
+                    $updateSaleQty = $purchasedCtnQuantity;
+                }
+
+                $productStock->in_stock = $updatedQuantity;
+                $sale_qty = $productStock->sale_qty;
+                $sale_qty = $sale_qty + $updateSaleQty;
+                $productStock->sale_qty = $sale_qty;
+
+                $ctn_sale_qty = $productStock->ctn_sale_qty + $request->ctnQty[$key];
+                $productStock->ctn_sale_qty = $ctn_sale_qty;
+                $updateCtnInStock = $productStock->in_stock/$request->packSize[$key];
+                $productStock->ctn_in_stock = floor($updateCtnInStock);
+                $productStock->save();
+
+                //Creating Log
+                $productLog = new ProductLog;
+                $productLog->product_id = $request->product_id[$key];
+                $productLog->date = null;
+                $productLog->remarks = $updateSaleQty.' of this product has been sold. New Quantity: '.$updatedQuantity;
+                $productLog->save();
+
+                $invoice->saveProduct()->saveMany($productData);
+                return redirect()->route('invoice/detail',$invoice->id);
+
             }
-            else {
-                $purchasedCtnQuantity = $request->ctnQty[$key] * $request->packSize[$key];
-                $updatedQuantity = $request->stock[$key] - $purchasedCtnQuantity;
-                $updateSaleQty = $purchasedCtnQuantity;
-            }
-
-            $productStock->in_stock = $updatedQuantity;
-            $sale_qty = $productStock->sale_qty;
-            $sale_qty = $sale_qty + $updateSaleQty;
-            $productStock->sale_qty = $sale_qty;
-
-            $ctn_sale_qty = $productStock->ctn_sale_qty + $request->ctnQty[$key];
-            $productStock->ctn_sale_qty = $ctn_sale_qty;
-            $updateCtnInStock = $productStock->in_stock/$request->packSize[$key];
-            $productStock->ctn_in_stock = floor($updateCtnInStock);
-            $productStock->save();
-
-            //Creating Log
-            $productLog = new ProductLog;
-            $productLog->product_id = $request->product_id[$key];
-            $productLog->date = null;
-            $productLog->remarks = $updateSaleQty.' of this product has been sold. New Quantity: '.$updatedQuantity;
-            $productLog->save();
-         }
-        $invoice->saveProduct()->saveMany($productData);
-
-        return redirect()->route('invoice/detail',$invoice->id);
     }
 
     public function delete(Invoice $invoice)

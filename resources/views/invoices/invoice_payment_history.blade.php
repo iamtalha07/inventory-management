@@ -35,7 +35,7 @@
                 <div class="row">
                   <div class="col-12">
                     <h4>
-                      <i class="fas fa-info-circle"></i> Amount to be paid in PKR - {{$invoice->discount_total?$invoice->discount_total:$invoice->total}}
+                      <i class="fas fa-info-circle"></i> Amount to be paid in PKR - {{$invoice->net_total?$invoice->net_total:$invoice->total}}
                     </h4>
                   </div>
                 </div>
@@ -121,7 +121,7 @@
                             <td>{{ $data->date }}</td>
                             <td>{{ $data->paid_amount }}</td>
                             <td></td>
-                            <td>{{ $invoice->discount_total ? $invoice->discount_total : $invoice->total }}</td>
+                            <td>{{ $invoice->net_total ? $invoice->net_total : $invoice->total }}</td>
                             <td>{{ $data->remarks }}</td>
                             <td>
                             <form action="{{route('payment-history-delete', $data->id)}}" method="post" id="submit-form">
