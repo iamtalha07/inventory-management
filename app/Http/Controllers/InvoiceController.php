@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+
 use Session;
 use App\Stock;
 use Validator;
@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Requests\PaymentRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -53,7 +54,8 @@ class InvoiceController extends Controller
 
     public function createInvoice(InvoiceRequest $request)
     {   
-
+        DB::beginTransaction();
+        try{
             $invoice = new Invoice;
             $invoice->customer_name = $request->customer_name;
             $invoice->booker_id =  $request->booker_id;
@@ -112,7 +114,13 @@ class InvoiceController extends Controller
             }
 
             $invoice->saveProduct()->saveMany($productData);
-            return redirect()->route('invoice/detail',$invoice->id);
+            DB::commit();
+
+        } catch (\ModelException $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('invoice/detail',$invoice->id);
     }
 
     public function delete(Invoice $invoice)
