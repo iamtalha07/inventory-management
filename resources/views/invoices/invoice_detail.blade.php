@@ -108,22 +108,22 @@
               <div class="col-6">
                 <div class="table-responsive">
                   <table class="table">
-                    @if($discountAmount > 0)
+                    @if($invoiceData['discountAmount'] > 0)
                     <tr>
                       <th>Total Discount:</th>
-                      <td>Rs.{{$discountAmount}}</td>
+                      <td>Rs.{{$invoiceData['discountAmount']}}</td>
                     </tr>
                     @endif
-                    @if($invoice->discount)
+                   
                     <tr>
-                      <th>Gross Total:</th>
-                      <td>Rs.{{$invoice->total}}</td>
+                      <th>Less Trade Offer:</th>
+                      <td>Rs.{{$invoice->less_trade_offer ? $invoice->less_trade_offer : 0}}</td>
                     </tr>
                     <tr>
-                      <th>To/Discount:</th>
-                      <td>Rs.{{$invoice->discount}}</td>
+                    <th>Less % Discount:</th>
+                      <td>{{$invoice->less_percentage_discount ? $invoice->less_percentage_discount : 0}}%</td>
                     </tr>
-                    @endif
+                  
                     <tr>
                       <th>Total:</th>
                       <td>Rs.{{$invoice->net_total ? $invoice->net_total : $invoice->total}}</td>

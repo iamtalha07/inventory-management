@@ -146,12 +146,17 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::find($id);
         $discountAmount = 0;
+        $grossTotal = 0;
+        $additionalDetails = [];
 
         foreach ($invoice->invoiceProduct as $item) {
             $discountAmount += $item->pivot->amount - $item->pivot->disc_amount;
+            $grossTotal += $item->pivot->amount; 
         }
+        $additionalDetails['discountAmount'] = $discountAmount;
+        $additionalDetails['grossTotal'] = $grossTotal;
 
-        return view('invoices.invoice_detail', ['invoice' => $invoice, 'discountAmount' => $discountAmount]);
+        return view('invoices.invoice_detail', ['invoice' => $invoice, 'invoiceData' => $additionalDetails]);
     }
 
     public function InvoicePrint($id)

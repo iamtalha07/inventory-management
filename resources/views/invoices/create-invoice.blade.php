@@ -163,8 +163,8 @@
                      <td></td>
                     </tr>
                    </tfoot>
-                   <input type="text" name="total" class="total">
-                   <input type="text" name="discountTotal" id="discountTotal">
+                   <input type="hidden" name="total" class="total">
+                   <input type="hidden" name="discountTotal" id="discountTotal">
             </table> 
               <!-- /.col -->
             </div>
