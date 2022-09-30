@@ -109,11 +109,10 @@ class InvoiceController extends Controller
                 $productLog->date = null;
                 $productLog->remarks = $updateSaleQty.' of this product has been sold. New Quantity: '.$updatedQuantity;
                 $productLog->save();
-
-                $invoice->saveProduct()->saveMany($productData);
-                return redirect()->route('invoice/detail',$invoice->id);
-
             }
+
+            $invoice->saveProduct()->saveMany($productData);
+            return redirect()->route('invoice/detail',$invoice->id);
     }
 
     public function delete(Invoice $invoice)
