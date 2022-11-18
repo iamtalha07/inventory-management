@@ -66,11 +66,10 @@ class InvoiceController extends Controller
             $invoice->less_percentage_discount = $request->lessDiscount;
             $invoice->net_total = $request->discountTotal;
             $invoice->save();
-
             $productData = $this->saveInvoiceProduct($request, $invoice->id);
-
             $invoice->saveProduct()->saveMany($productData);
             DB::commit();
+            
         } catch (\ModelException $e) {
             DB::rollBack();
         }
