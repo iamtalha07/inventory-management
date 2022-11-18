@@ -120,7 +120,7 @@
                     <th>Stock</th>
                     <th>Ctn Price</th>
                     <th>Unit Price</th>
-                    <th>Disc by cash</th>
+                    <th>To/Disc</th>
                     <th>Disc by %</th>
                     <th>Amount</th>
                     <th>Action</th>
@@ -172,38 +172,22 @@
 
 
             <div class="row">
-              <!-- accepted payments column -->
               <div class="col-6">
-                <p class="lead">Discount Option:</p>
-                <div class="form-group">
-                  <div class="custom-control custom-radio">
-                      <input class="custom-control-input radio" type="radio" id="Radio1" name="discountRadio" value="noDiscount" checked>
-                      <label for="Radio1" class="custom-control-label">No Discount</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                      <input class="custom-control-input radio" type="radio" id="Radio2" name="discountRadio" value="cashDiscount">
-                      <label for="Radio2" class="custom-control-label">Discount by cash</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                      <input class="custom-control-input radio" type="radio" id="Radio3" name="discountRadio" value="perDiscount">
-                      <label for="Radio3" class="custom-control-label">Discount by percentage</label>
-                    </div>
-                </div>
               </div>
               <!-- /.col -->
               <div class="col-6">
                 <div class="table-responsive">
                   <table class="table">
                     <tr id="discountCash">
-                      <th>Discount by cash:</th>
-                      <td><input type="text" class="form-control onlyDecimal" name="cash" id="cash"></td>
+                      <th>Less Trade Offer:</th>
+                      <td><input type="text" class="form-control onlyDecimal" name="lessTradeOffer" id="lessTradeOffer"></td>
                     </tr>
                     <tr id="discountPer">
-                      <th>Discount by percentage:</th>
-                      <td><input type="text" class="form-control onlyDecimal" name="percentage" id="per"></td>
+                      <th>Less % Discount:</th>
+                      <td><input type="text" class="form-control onlyDecimal" name="lessDiscount" id="lessDiscount"></td>
                     </tr>
                     <tr id="discountTotalSection">
-                      <th>Total:</th>
+                      <th>Net Total:</th>
                       <td><span>Rs. </span> <span id="totalDiscount"></span></td>
                     </tr>
                   </table>
@@ -320,63 +304,51 @@
     $(document).ready(BookerbtnStatus);
 
     $(document).ready(function(){
+      
+      //Less trade offer and Less Percentage Discount
+      var isDiscountByCashSet = 0;
+      $('body').delegate('#lessTradeOffer,#lessDiscount', 'keyup', function () {
+          var discountByCash =   $("#lessTradeOffer").val();
+          var total =   $('#discountTotal').val();
+          var discountByPer =   $("#lessDiscount").val();
+          var grossamount =   $('.total').val();
+          var amount = 0;
+          
 
-      $('#discountCash').hide();
-      $('#discountPer').hide();
-      $('#discountTotalSection').hide();
-
-      //Discount Radio button actions
-      $('.radio').click(function(e) {
-            var val = $(this).val();
-            var total =   $(".total").val();
-                if(val=="cashDiscount")
-                {
-                    $('#discountCash').show();
-                    $('#discountPer').hide();
-                    $('#discountTotalSection').show();
-                    $("#totalDiscount").html(total);
-                    $("#discountTotal").val('');
-                    $('#per').val('');
-                }
-                else if(val=="perDiscount")
-                {
-                    $('#discountCash').hide();
-                    $('#discountPer').show();
-                    $('#discountTotalSection').show();
-                    $("#totalDiscount").html(total);
-                    $("#discountTotal").val('');
-                    $('#cash').val('');
-                }
-                else
-                {
-                    $('#discountCash').hide();
-                    $('#discountPer').hide();
-                    $('#discountTotalSection').hide();
-                    $('#cash').val('');
-                    $('#per').val('');
-                    $("#discountTotal").val('');
-                }
-        });
-
-        $("#discountCash").keyup(function(){
-          var discountByCash =   $("#cash").val();
-          var total =   $(".total").val();
-          var totalAfterDiscount = total - discountByCash;
-          totalAfterDiscount = totalAfterDiscount.toFixed(2);
-
-          $("#totalDiscount").html(totalAfterDiscount);
-          $("#discountTotal").val(totalAfterDiscount);
+          if(discountByCash && !discountByPer) {
+            amount = grossamount - discountByCash;
+            amount = amount.toFixed(2);
+            isDiscountByCashSet = 1;
+            $("#totalDiscount").html(amount);
+            $("#discountTotal").val(amount);
+          } 
+          else if(discountByPer && !discountByCash) {
+            amount = grossamount - (grossamount*discountByPer)/100;
+            amount = amount.toFixed(2);
+            $("#totalDiscount").html(amount);
+            $("#discountTotal").val(amount);
+          }
+          else if(discountByCash && discountByPer) {
+            if(isDiscountByCashSet) {
+              var cashDiscount = grossamount - discountByCash;
+              amount = cashDiscount - (cashDiscount*discountByPer)/100;
+              amount = amount.toFixed(2);
+              $("#totalDiscount").html(amount);
+              $("#discountTotal").val(amount);
+            } else {
+              var tempAmount = grossamount - (grossamount*discountByPer)/100;
+              amount = tempAmount - discountByCash;
+              amount = amount.toFixed(2);
+              $("#totalDiscount").html(amount);
+              $("#discountTotal").val(amount);
+            }
+          }
+          else {
+            isDiscountByCashSet = 0;
+            $("#totalDiscount").html(grossamount);
+            $("#discountTotal").val(grossamount);
+          }
       });
-
-      $("#discountPer").keyup(function(){
-          var discountByPer =   $("#per").val();
-          var total =   $(".total").val();
-          var totalAfterDiscount = total - (total*discountByPer)/100;
-          totalAfterDiscount = totalAfterDiscount.toFixed(2);
-          $("#totalDiscount").html(totalAfterDiscount);
-          $("#discountTotal").val(totalAfterDiscount);
-      });
-
 
         $('.addRow').on('click', function () {
                 addRow();
@@ -415,10 +387,10 @@
           var result = total - productAmount;
           if(isNaN(result)==false)
           {
-              console.log(result);
               result = result.toFixed(2);
               $('.total').html(result);
               $('.total').val(result);
+              $('#discountTotal').val(result);
           }
         }
 
@@ -447,10 +419,8 @@
     $('tbody').delegate('.ctnQty,.qty,.price,.ctnPrice,.disPer,.dis', 'keyup', function () {
 
         var tr = $(this).parent().parent();
-        // var qty = tr.find('.qty').val();
         var unitQty = tr.find('.qty').val();
         var ctnQty = tr.find('.ctnQty').val();
-        // var price = tr.find('.price').val();
         var unitPrice = tr.find('.price').val();
         var ctnPrice = tr.find('.ctnPrice').val();
         var disPer = tr.find('.disPer').val();
@@ -511,6 +481,7 @@
          total = total.toFixed(2);
         $('.total').html(total);
         $('.total').val(total);
+        $('#discountTotal').val(total);
         $('#totalDiscount').html(total);
     }
 

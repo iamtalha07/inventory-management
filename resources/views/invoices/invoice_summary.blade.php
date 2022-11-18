@@ -165,7 +165,7 @@
                             <td>{{$item->area_name}}</td>
                             <td>{{$item->discount ? $item->discount : '-'}}</td>
                             <td>Rs.{{$item->total}}</td>
-                            <td>Rs.{{$item->discount_total?$item->discount_total:$item->total}}</td>
+                            <td>Rs.{{$item->net_total?$item->net_total:$item->total}}</td>
                             <td id="status-{{$item->id}}"><span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span></td>
                             <td class="no-print">
                               <form action="{{route('invoice-delete', $item->id)}}" method="post" id="submit-form">
