@@ -70,8 +70,8 @@
                                     <thead>
                                         <tr>
                                             <th>Product</th>
-                                            <th>Unit Qty</th>
                                             <th>Ctn Qty</th>
+                                            <th>Pcs Qty</th>
                                             <th>Rate</th>
                                             <th>Gross Amount</th>
                                             <th>TO/Disc</th>
@@ -84,8 +84,8 @@
                                         <tbody>
                                             <tr>
                                                 <td>{{ $product->name }}</td>
-                                                <td>{{ $product->pivot->qty ? $product->pivot->qty : '-' }}</td>
-                                                <td>{{ $product->pivot->ctn_qty ? $product->pivot->ctn_qty : '-' }}</td>
+                                                <td>{{ $product->pivot->ctn_qty ? $product->pivot->ctn_qty  : '-' }}</td>
+                                                <td>{{ $product->pivot->qty ? $product->pivot->qty : $product->pivot->ctn_qty * $product->ctn_size }}</td>
                                                 <td>Rs.{{ $product->pivot->product_type == 'single' ? $product->sale_rate : $product->ctn_sale_rate }}
                                                 </td>
                                                 <td>Rs.{{ $product->pivot->amount }}</td>

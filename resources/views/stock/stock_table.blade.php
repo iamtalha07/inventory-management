@@ -10,6 +10,7 @@
       <th>Sale Qty</th>
       <th>In Stock</th>
       <th>Ctn In Stock</th>
+      <th>Stocks Worth</th>
       <th>Action</th>
     </tr>
     </thead>
@@ -22,6 +23,7 @@
       <td>{{$item->sale_qty}}</td>
       <td id="inStock-{{$item->id}}">{{$item->in_stock}}</td>
       <td id="cntInStock-{{$item->id}}">{{$item->ctn_in_stock}}</td>
+      <td>{{'Rs. ' . $item->in_stock * $item->product->purchase_rate}}</td>
       <td>
         <a title ="Manage quantity" href="javascript:void(0)" id="{{$item->id}}" class="addQtyClass"><i class="fas fa-plus"></i></a>&nbsp &nbsp
     </td>

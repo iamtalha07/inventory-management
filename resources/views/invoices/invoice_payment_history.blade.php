@@ -35,7 +35,7 @@
                 <div class="row">
                   <div class="col-12">
                     <h4>
-                      <i class="fas fa-info-circle"></i> Amount to be paid in PKR - {{$invoice->net_total?$invoice->net_total:$invoice->total}}
+                      <i class="fas fa-info-circle"></i> Amount to be paid in PKR - <span id="amountTitle">0</span>
                     </h4>
                   </div>
                 </div>
@@ -224,6 +224,8 @@
 @endif
 
     $(function () {
+      var amountToBePaid = <?php echo json_encode($invoice->net_total); ?>;
+      $('#amountTitle').html(amountToBePaid)
       $('.date-typing-restriction').keydown(function() {
       return false;
     });
@@ -276,14 +278,18 @@
         var currentTotalAmount=parseFloat(currentRow.find("td:eq(3)").text());
         var prevTotalAmount=parseFloat(prevRow.find("td:eq(3)").text());
 
+
         //IF PREV AMOUNT PAID IS EMPTY THEN MINUS CURRENT AMOUNT PAID FROM TOTAL AMOUNT, OTHERWISE MINUS CURRENT AMOUNT PAID FROM PREV REMAINING AMOUNT
         if(!prevAmountPaid) {
           var remainaingAmountForFirstRow = currentTotalAmount - currentAmountPaid;
-          currentRow.find("td:eq(2)").html(remainaingAmountForFirstRow);
+          currentRow.find("td:eq(2)").html(remainaingAmountForFirstRow.toFixed(2));
+          $('#amountTitle').html(remainaingAmountForFirstRow.toFixed(2))
         }
         else {
           var remainaingAmount = prevRemainingAmount - currentAmountPaid;
-          currentRow.find("td:eq(2)").html(remainaingAmount);
+          currentRow.find("td:eq(2)").html(remainaingAmount.toFixed(2));
+          $('#amountTitle').html(remainaingAmount.toFixed(2))
+
         }
    });
   }

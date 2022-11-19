@@ -147,7 +147,7 @@ class InvoiceController extends Controller
         $discountAmount = 0;
         $grossTotal = 0;
         $additionalDetails = [];
-
+        // dd($invoice->invoiceProduct[0]->ctn_size);
         foreach ($invoice->invoiceProduct as $item) {
             $discountAmount += $item->pivot->amount - $item->pivot->disc_amount;
             $grossTotal += $item->pivot->amount; 
