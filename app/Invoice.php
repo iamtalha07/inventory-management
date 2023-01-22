@@ -34,4 +34,14 @@ class Invoice extends Model
         return $this->belongsToMany(Product::class,'invoice_product')->withTrashed()->withPivot('qty','ctn_qty','disc_by_cash','disc_by_percentage','amount','disc_amount','product_type');
     }
 
+    public function getInvoiceProduct()
+    {
+        return $this->belongsToMany(Product::class,'invoice_product')->withTrashed()->withPivot('qty','ctn_qty','disc_by_cash','disc_by_percentage','amount','disc_amount','product_type');
+    }
+
+    // public function Stock()
+    // {
+    //     return $this->hasOne(Stock::class,'product_id','id');
+    // }
+
 }
