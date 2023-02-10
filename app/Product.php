@@ -5,6 +5,7 @@ namespace App;
 use App\Brand;
 use App\Stock;
 use App\Invoice;
+use App\Category;
 use App\ProductLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class Product extends Model
     use SoftDeletes;
     protected $fillable = [
         'brand_id',
+        'category_id',
         'name',
         'purchase_qty',
         'purchase_rate',
@@ -51,5 +53,10 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class,'brand_id')->withTrashed();
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id')->withTrashed();
     }
 }

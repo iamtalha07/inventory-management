@@ -6,6 +6,7 @@ use Session;
 use App\Brand;
 use App\Stock;
 use App\Product;
+use App\Category;
 use App\ProductLog;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
@@ -31,7 +32,8 @@ class ProductController extends Controller
     public function addProduct()
     {
         $brands = Brand::all();
-        return view('products.product_add',['brands'=>$brands]);
+        $categories = Category::all();
+        return view('products.product_add', ['brands' => $brands, 'categories' => $categories]);
     }
 
     public function store(ProductRequest $request)
@@ -66,8 +68,13 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $brands = Brand::all();
-        if($product){
-            return view('products.product_edit',['product'=>$product,'brands'=>$brands]);
+        $categories = Category::all();
+        if ($product) {
+            return view('products.product_edit', [
+                'product' => $product,
+                'brands' => $brands,
+                'categories' => $categories
+            ]);
         }
     }
 

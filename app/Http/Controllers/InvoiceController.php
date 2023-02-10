@@ -9,15 +9,16 @@ use Validator;
 use App\Booker;
 use App\Invoice;
 use App\Product;
+use App\Category;
 use Carbon\Carbon;
 use App\ProductLog;
 use App\InvoiceProduct;
 use App\PaymentHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\InvoiceRequest;
 use App\Http\Requests\PaymentRequest;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -40,7 +41,9 @@ class InvoiceController extends Controller
         $products = Product::all();
         $currentDate = date("d-m-Y");
         $bookers = Booker::all();
-        return view('invoices.create-invoice', ['products' => $products, 'bookers' => $bookers, 'currentDate' => $currentDate]);
+        $categories = Category::all();
+
+        return view('invoices.create-invoice', ['products' => $products, 'bookers' => $bookers, 'categories' => $categories, 'currentDate' => $currentDate]);
     }
 
     public function getProductData($id)
@@ -275,5 +278,10 @@ class InvoiceController extends Controller
 
         Session::flash('status', 'Record updated successfully');
         return redirect()->back();
+    }
+
+    function getCategoryProduct($id) {
+        $products = Product::where('category_id',$id)->get();
+        return response()->json($products);
     }
 }

@@ -58,6 +58,23 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="roles">Category:</label>
+                                    <div class="input-group">
+                                        <select name="category_id" class="form-control" id="category" required>
+                                            <option value="" selected="true">Select Category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}" {{$category->id == $product->category_id ? 'selected' : ''}}>{{ $category->name }}</option>
+                                            @endforeach
+                                          </select>
+                                    </div>
+                                    @error('category_id')
+                                        <p style="color:red">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="roles">Product Name:</label>
                                     <div class="input-group">
                                         <input type="text" name="name" value="{{ $product->name }}"

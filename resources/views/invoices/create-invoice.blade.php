@@ -31,7 +31,7 @@
             <div class="row">
               <div class="col-12">
                 <h4>
-                  <i class="fas fa-globe"></i> Ahsan Traders
+                  <i class="fas fa-globe"></i> Hamid Traders
                   <small class="float-right">Date: {{$currentDate}}</small>
                 </h4>
               </div>
@@ -89,7 +89,18 @@
                     @enderror
                   </div>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="customer_name">Category:</label>
+                    <select name="category_id" class="form-control" id="category" required>
+                      <option value="" selected="true">Select Category</option>
+                      @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{$category->name}}</option>
+                      @endforeach
+                    </select>
+                </div>
+              </div>
+              <div class="col-md-6">
                 <div class="form-group">
                     <label for="customer_name">Invoice Status:</label>
                     <select name="status" class="form-control" >
@@ -129,12 +140,7 @@
                 <tbody id="productRow">
                 <tr class="dynamicTable">  
                     <td style="width: 360px">
-                        <select name="product_id[]" class="form-control productname" >
-                          <option value="" selected="true" disabled="true">Select Product</option>
-                        @foreach($products as $product)
-                          <option name="product_id[]" value="{{ $product->id }}">{{ $product->name }}</option>
-                        @endforeach
-                      </select>
+                        <select name="product_id[]" id="product" class="form-control productname product" ></select>
                     </td>
                     <td><input type="text" name="ctnQty[]" class="form-control ctnQty"></td>
                     <td><input type="text" name="qty[]" class="form-control qty"></td>
@@ -304,7 +310,32 @@
     $(document).ready(BookerbtnStatus);
 
     $(document).ready(function(){
-      
+
+      $('#category').on('change', function() {
+               var categoryID = $(this).val();
+               if(categoryID) {
+                $.ajax({
+                       url: '/getCategoryProduct/'+categoryID,
+                       type: "GET",
+                       dataType: "json",
+                       success:function(data)
+                       {
+                         if(data){
+                            $('.product').empty();
+                            $('.product').append('<option hidden>Select Product</option>'); 
+                            $.each(data, function(key, category){
+                                $('select[name="product_id[]"]').append('<option value="'+ category.id +'">' + category.name+ '</option>');
+                            });
+                        }else{
+                            $('#course').empty();
+                        }
+                     }
+                   });
+               } else {
+                $('#course').empty();
+               }
+              });
+
       //Less trade offer and Less Percentage Discount
       var isDiscountByCashSet = 0;
       $('body').delegate('#lessTradeOffer,#lessDiscount', 'keyup', function () {
@@ -357,7 +388,7 @@
 
         function addRow() {
         var addRow = '<tr>\n' +
-            '<td><select name="product_id[]" class="form-control productname" required>\n' +
+            '<td><select name="product_id[]" class="form-control productname product" required>\n' +
              '<option value="" selected="true" disabled="true">Select Product</option>\n' +
                     '@foreach($products as $product)\n' +
                         '<option value="{{$product->id}}">{{$product->name}}</option>\n' +
