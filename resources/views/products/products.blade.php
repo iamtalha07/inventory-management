@@ -27,7 +27,22 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title titleclass">All</h3>
+                  {{-- CODE HERE --}}                 
+                   <div class="col-md-5">
+                        <div class="input-group">
+                            <select name="category_id" class="form-control" id="category" required>
+                                <option value="" selected="true">Select Category</option>
+                                {{-- @foreach($categories as $category)
+                                  <option value="{{ $category->id }}">{{$category->name}}</option>
+                                @endforeach --}}
+                              </select>
+                        </div>
+                        {{-- @error('category_id')
+                            <p style="color:red">{{ $message }}</p>
+                        @enderror --}}
+                      </div>
+                  {{-- CODE HERE --}}
+           
                   <div class="card-tools">
                     <div class="row">
                     <div class="input-group input-group-sm" style="width: 50px;">
