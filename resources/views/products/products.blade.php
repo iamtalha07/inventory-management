@@ -29,21 +29,35 @@
                 <div class="card-header">
                   {{-- CODE HERE --}}                 
                    <div class="col-md-5">
-                        <div class="input-group">
-                            <select name="category_id" class="form-control" id="category" required>
-                                <option value="" selected="true">Select Category</option>
-                                {{-- @foreach($categories as $category)
-                                  <option value="{{ $category->id }}">{{$category->name}}</option>
-                                @endforeach --}}
-                              </select>
-                        </div>
+                        
+                            <div class="row">
+                              <div class="input-group" style="width: 241px; align-content: left">
+                                <select name="category_id" class="form-control" id="category" required>
+                                  <option value="" selected="true">Select sasa</option>
+                                  {{-- @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{$category->name}}</option>
+                                  @endforeach --}}
+                                </select>
+                              </div>
+                            
+                            <div class="input-group input-group-sm" style="width: 50px;">
+                              <a href="{{route('product/add-new-product')}}" title="Add New Product" class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
+                            </div>&nbsp
+                            <div class="input-group input-group-sm" style="width: 50px;">
+                            <button disabled type="button" value="Delete" id="deleteAllSelectedRecords" class="btn btn-danger check" style="width: 100%;"><i class="fas fa-trash-alt"></i></button>
+                            </div> 
+                          
+                            </div>
+                                            
+                         
+                        
                         {{-- @error('category_id')
                             <p style="color:red">{{ $message }}</p>
                         @enderror --}}
-                      </div>
+                   </div>
                   {{-- CODE HERE --}}
            
-                  <div class="card-tools">
+                  {{-- <div class="card-tools">
                     <div class="row">
                     <div class="input-group input-group-sm" style="width: 50px;">
                       <a href="{{route('product/add-new-product')}}" title="Add New Product" class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
@@ -52,7 +66,7 @@
                     <button disabled type="button" value="Delete" id="deleteAllSelectedRecords" class="btn btn-danger check" style="width: 100%;"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     </div>
-                  </div>
+                  </div> --}}
                 </div>
                 @if($data->count() > 0)
                 <div id="table_data">
