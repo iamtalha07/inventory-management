@@ -27,7 +27,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  {{-- CODE HERE --}}  
+                 
                   <div class="input-group" style="width: 241px; float: left;">
                     <select name="category_id" class="form-control" id="category" required>
                       <option value="" selected="true">Select sasa</option>
@@ -46,7 +46,7 @@
                   <div class="input-group input-group-sm" style="width: 50px; float: right;">
                   <button disabled type="button" value="Delete" id="deleteAllSelectedRecords" class="btn btn-danger check" style="width: 100%;"><i class="fas fa-trash-alt"></i></button>
                   </div>                
-                  {{-- CODE HERE --}}
+                 
            
                   {{-- <div class="card-tools">
                     <div class="row">
