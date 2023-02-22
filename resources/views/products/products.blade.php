@@ -29,12 +29,11 @@
                 <div class="card-header">
                  
                   <div class="input-group" style="width: 241px; float: left;">
-                    <select name="category_id" class="form-control" id="category" required>
+                    <select name="category_id" class="form-control" id="category_filter" required>
                       <option value="" selected="true">All</option>
                       @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{$category->name}}</option>
                       @endforeach
-                      
                     </select>
                     @error('category_id')
                     <p style="color:red">{{ $message }}</p>
@@ -135,6 +134,16 @@
                  }
              });
         });
+// SEND REQUEST FROM VIEW TO CONTROLLER
+    $(document).ready(function () {
+    $('#category_filter').on('change', function () {
+      var accesslevel_id = $(this).val();
+      var url = '{{ route("products", ":id") }}';
+      url = url.replace(':id', accesslevel_id);
+      window.location.href = url;
+});
+
+// SEND REQUEST FROM VIEW TO CONTROLLER
 
         //Page will reload on pressing browser back button and retains the ajax data
         if(!!window.performance && window.performance.navigation.type == 2)
@@ -142,6 +151,7 @@
               window.location.reload();
         }
    });
+  });
     </script>
 
 <script>

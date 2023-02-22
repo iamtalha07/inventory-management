@@ -53,7 +53,7 @@ Route::prefix('category')->group(function () {
 });
 
 //Product Routes
-Route::get('products', 'ProductController@index')->name('products');
+Route::get('products/{category_id?}', 'ProductController@index')->name('products');
 Route::get('pagination/fetch_data', 'ProductController@fetch_data');
 Route::get('product/add-new-product', 'ProductController@addProduct')->name('product/add-new-product');
 Route::post('add-product','ProductController@store')->name('add-product');

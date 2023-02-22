@@ -14,18 +14,30 @@ use Symfony\Component\Console\Input\Input;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index($category_id = [])
     {
-        $data = Product::paginate(config('pagination.dashboard.items_per_page'));
+        dd($category_id);
+        $data = Product::paginate(2);
         $categories  = Category::all();
-        return view('products.products',compact('data', 'categories'));
+        if(!empty($category_id))
+        {
+          $this->filter_product($category_id);
+        }
+        return view('products.products', compact('data', 'categories'));
+    }
+
+    function filter_product($category_id)
+    {
+        $data = Product::where('category_id', $category_id)->get();
+        return view('products.products_table', compact('data'))->render();
     }
 
     function fetch_data(Request $request)
     {
         if($request->ajax())
         {
-            $data = Product::paginate(config('pagination.dashboard.items_per_page'));
+            // $data = Product::paginate(config('pagination.dashboard.items_per_page'));
+            $data = Product::paginate(2);
             return view('products.products_table', compact('data'))->render();
         }
     }
