@@ -17,7 +17,8 @@ class ProductController extends Controller
     public function index()
     {
         $data = Product::paginate(config('pagination.dashboard.items_per_page'));
-        return view('products.products',compact('data'));
+        $categories  = Category::all();
+        return view('products.products',compact('data', 'categories'));
     }
 
     function fetch_data(Request $request)

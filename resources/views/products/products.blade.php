@@ -30,10 +30,10 @@
                  
                   <div class="input-group" style="width: 241px; float: left;">
                     <select name="category_id" class="form-control" id="category" required>
-                      <option value="" selected="true">Select sasa</option>
-                      {{-- @foreach($categories as $category)
+                      <option value="" selected="true">All</option>
+                      @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{$category->name}}</option>
-                      @endforeach --}}
+                      @endforeach
                       
                     </select>
                     @error('category_id')
