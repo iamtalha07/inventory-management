@@ -16,28 +16,24 @@ class ProductController extends Controller
 {
     public function index($category_id = [])
     {
-        dd($category_id);
-        $data = Product::paginate(2);
         $categories  = Category::all();
-        if(!empty($category_id))
-        {
-          $this->filter_product($category_id);
+        $recordsPerPage = config('pagination.dashboard.items_per_page');
+        if($category_id) {
+           $selectedCategory = Category::find($category_id);
+           $data = Product::where('category_id', $category_id)->paginate($recordsPerPage);
+        } else {
+            $selectedCategory = '';
+            $data = Product::paginate($recordsPerPage);
         }
-        return view('products.products', compact('data', 'categories'));
-    }
-
-    function filter_product($category_id)
-    {
-        $data = Product::where('category_id', $category_id)->get();
-        return view('products.products_table', compact('data'))->render();
+        return view('products.products', compact('data', 'categories','selectedCategory'));
     }
 
     function fetch_data(Request $request)
     {
         if($request->ajax())
         {
-            // $data = Product::paginate(config('pagination.dashboard.items_per_page'));
-            $data = Product::paginate(2);
+            $recordsPerPage = config('pagination.dashboard.items_per_page');
+            $data = $request->category_id ? Product::where('category_id', $request->category_id)->paginate($recordsPerPage) : Product::paginate($recordsPerPage);
             return view('products.products_table', compact('data'))->render();
         }
     }

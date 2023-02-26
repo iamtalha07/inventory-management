@@ -65,8 +65,8 @@ Route::delete('product-delete/{product}', 'ProductController@delete')->name('pro
 Route::delete('/selected-records','ProductController@deleteSelected')->name('dashboard.deleteSelectedProduct');
 
 //Stock Routes
-Route::get('stock', 'StockController@index')->name('stock');
-Route::get('stock_pagination/fetch_data', 'StockController@fetch_log_data');
+Route::get('stock/{category_id?}', 'StockController@index')->name('stock');
+Route::get('stock_pagination/fetch_data', 'StockController@fetch_data');
 Route::get('/stock-add-quantity/{id}','StockController@addQuantity');
 Route::post('/add-qty/{stock}','StockController@addStockQuantity');
 

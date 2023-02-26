@@ -3,23 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Stock;
+use App\Category;
 use App\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
 {
-    public function index()
+    public function index($category_id = [])
     {
-        $data = Stock::paginate(config('pagination.dashboard.items_per_page'));
-        return view('stock.stock',compact('data'));
+        $categories  = Category::all();
+        $recordsPerPage = config('pagination.dashboard.items_per_page');
+
+        if($category_id) {
+            $selectedCategory = Category::find($category_id);
+            $data = Stock::with('product.category')
+            ->whereHas('product.category', function ($query) use ($category_id) {
+                $query->where('id', $category_id);
+            })
+            ->paginate($recordsPerPage);
+         } else {
+             $selectedCategory = '';
+             $data = Stock::with('product.category')->paginate(config('pagination.dashboard.items_per_page'));
+         }
+
+        return view('stock.stock',compact('data','categories','selectedCategory'));
     }
 
     function fetch_data(Request $request)
     {
         if($request->ajax())
         {
-            $data = Stock::paginate(config('pagination.dashboard.items_per_page'));
+            $recordsPerPage = config('pagination.dashboard.items_per_page');
+            $category_id = $request->category_id;
+
+            if( $request->category_id) {
+                $data = Stock::with('product.category')
+                ->whereHas('product.category', function ($query) use ($category_id) {
+                    $query->where('id', $category_id);
+                })
+                ->paginate($recordsPerPage);
+            } else {
+                $data = Stock::with('product.category')->paginate($recordsPerPage);
+            }
+            
             return view('stock.stock_table', compact('data'))->render();
         }
     }

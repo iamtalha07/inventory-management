@@ -59,4 +59,10 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class,'category_id')->withTrashed();
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
 }

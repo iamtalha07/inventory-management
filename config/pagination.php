@@ -1,7 +1,7 @@
 <?php
 return  [
     'dashboard' => [
-        'items_per_page' => 50,
+        'items_per_page' => 2,
     ],
 
     'product_dashboard' => [
