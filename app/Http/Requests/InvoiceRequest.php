@@ -28,6 +28,7 @@ class InvoiceRequest extends FormRequest
             'booker_id' => 'required|string',
             'salesman_name' => 'required |string',
             'product_id' => 'required|not_in:0',
+            'lessDiscount' => 'numeric|between:0,100'
         ];
         return $rule;
     }
@@ -39,6 +40,7 @@ class InvoiceRequest extends FormRequest
             'booker_name.required' => 'Booker name is required',
             'salesman_name.required' => 'Salesman name is required',
             'product_id.required' => 'Please select a product',
+            'lessDiscount.between' => 'Number Should be percentage between 0-100'
         ];
     }
 }

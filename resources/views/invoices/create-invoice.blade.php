@@ -206,8 +206,11 @@
                                             </tr>
                                             <tr id="discountPer">
                                                 <th>Less % Discount:</th>
-                                                <td><input type="text" class="form-control onlyDecimal"
-                                                        name="lessDiscount" id="lessDiscount"></td>
+                                                <td><input type="text" class="form-control onlyDecimal" name="lessDiscount" id="lessDiscount">
+                                                    @error('lessDiscount')
+                                                    <strong><p style="color:red"> {{$message}} </p></strong>
+                                                    @enderror
+                                                </td>
                                             </tr>
                                             <tr id="discountTotalSection">
                                                 <th>Net Total:</th>
