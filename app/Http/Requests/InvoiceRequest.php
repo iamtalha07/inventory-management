@@ -28,7 +28,7 @@ class InvoiceRequest extends FormRequest
             'booker_id' => 'required|string',
             'salesman_name' => 'required |string',
             'product_id' => 'required|not_in:0',
-            'lessDiscount' => 'numeric|between:0,100'
+            'lessDiscount' => 'numeric|between:0,100|nullable'
         ];
         return $rule;
     }
