@@ -102,7 +102,7 @@
               </div>
               <input type="hidden" name="start" id="date-range-start">
               <input type="hidden" name="end" id="date-range-end">
-              
+
               <div class="col-md-1">
                 <div class="form-group">
                     <label for="submit"></label>
@@ -116,9 +116,47 @@
 </div>
 </section>
 
+    {{-- invoice status modal start --}}
+    <div class="modal fade" id="status-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Invoice Status</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="invoiceStatusForm" autocomplete="off">
+                @csrf
+                <input type="text" name="invoice_id" id="invoideID">
+                <div class="modal-body">
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="debitId" value="Debit" name="invoiceStatusRadioBtn">
+                            <label for="debitId" class="custom-control-label">Debit</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input custom-control-input-danger" type="radio" id="creditId" value="Credit" name="invoiceStatusRadioBtn">
+                            <label for="creditId" class="custom-control-label">Credit</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input custom-control-input-warning" type="radio" id="returnedId" value="Returned" name="invoiceStatusRadioBtn">
+                            <label for="returnedId" class="custom-control-label">Returned</label>
+                        </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid"> 
+        <div class="container-fluid">
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -155,7 +193,7 @@
                           </tr>
                           </thead>
                           <tbody>
-                            @foreach($data as $item) 
+                            @foreach($data as $item)
                           <tr id="invoice-{{$item->id}}">
                             <td class="no-print"><input type="checkbox" name="ids" id="checkboxId{{$item->id}}" class="checkBoxClass" value="{{$item->id}}"></td>
                             <td><b>{{$item->id}}</b></td>
@@ -166,13 +204,17 @@
                             <td>{{$item->discount ? $item->discount : '-'}}</td>
                             <td>Rs.{{$item->total}}</td>
                             <td>Rs.{{$item->net_total?$item->net_total:$item->total}}</td>
-                            <td id="status-{{$item->id}}"><span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span></td>
+                            <td>
+                                <a href="#" status_id="{{$item->id}}" class="change-status">
+                                    <span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span>
+                                </a>
+                            </td>
                             <td class="no-print">
-                              <form action="{{route('invoice-delete', $item->id)}}" method="post" id="submit-form">
+                              <form actyion="{{route('invoice-delete', $item->id)}}" method="post" id="submit-form">
                                 @csrf
                                 @method('DELETE')
                               <a title ="Detail" href="{{route('invoice/detail',$item->id)}}"><i class="fa fa-eye"></i></a>&nbsp &nbsp
-                              <a title ="Change status" id="{{$item->id}}" class="changeStatus" href="javascript:void(0)"><i class="fas fa-exchange-alt"></i></a>&nbsp &nbsp
+                              {{-- <a title ="Change status" id="{{$item->id}}" class="changeStatus" href="javascript:void(0)"><i class="fas fa-exchange-alt"></i></a>&nbsp &nbsp --}}
                               <a title ="Payment history" href="{{route('invoice/payment-history',$item->id)}}" id="paymentHistory" class="paymentHistory" ><i class="fas fa-list"></i></a>&nbsp &nbsp
                               <button title="Delete" type="submit" class="delBtn"  style="color: #007bff;" onclick="return confirm('Are you sure?')"> <i class="fa fa-trash"></i></button>
                               </form>
@@ -223,7 +265,7 @@
 <!-- Select2 -->
 {{-- <script src="/plugins/select2/js/select2.full.min.js"></script> --}}
 
-<script type="text/javascript">   
+<script type="text/javascript">
 
  // Toaster
   @if(Session::has('status'))
@@ -241,13 +283,13 @@
       var end = {!! json_encode($end) !!};
       start = moment(start);
       end = moment(end);
-  
+
       function cb(start, end) {
           $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
           $('#date-range-start').val(start.format('YYYY-MM-DD'));
           $('#date-range-end').val(end.format('YYYY-MM-DD'));
         }
-      
+
       $('#reportrange').daterangepicker({
           startDate: start,
           endDate: end,
@@ -286,42 +328,6 @@
     $('input[type=search]').addClass("no-print");
     $('.dataTables_filter').addClass("no-print");
 
-    $(document).on('click','.changeStatus',function(){
-        var id = $(this).attr('id');
-        var startDate = $('#date-range-start').val();
-        var endDate = $('#date-range-end').val();
-
-        $.ajax({
-            url:"change-status/"+id,
-            data:{
-              startDate: startDate,
-              endDate: endDate
-            },
-            dataType:"json",
-            success:function(data)
-            {
-              if(data.invoice.status == 'Credit')
-              {
-                var status = '<span class="badge bg-danger">'+data.invoice.status+'</span>'
-              }
-              else{
-                var status = '<span class="badge bg-success">'+data.invoice.status+'</span>'
-              }
-              $('#status-'+id).html(status);
-              $('#debit').text('Rs.'+data.totalDebit);
-              $('#credit').text('Rs.'+data.totalCredit);
-
-              toastr.remove();
-              toastr.options =
-                {
-                  "closeButton" : true,
-                  "progressBar" : true
-                }
-  		          toastr.success("Status Updated Successfully");
-            }
-        })
-    });
-
     $("input[type=checkbox]").on("change", function(){
         if ($("input[type=checkbox]:checked").length > 0)
         {
@@ -335,7 +341,7 @@
     });
 
     $("#chkCheckAll").click(function(){
-      $(".checkBoxClass").prop('checked',$(this).prop('checked'));    
+      $(".checkBoxClass").prop('checked',$(this).prop('checked'));
   });
 
   $("#deleteAllSelectedRecords").click(function(e){
@@ -369,6 +375,47 @@
         closeOnSelect: false
       });
 
+      $(document).on('click','.change-status',function(e){
+        e.preventDefault();
+        var statusId = $(this).attr('status_id');
+
+        $.ajax({
+         url: '{{ route('invoice.get-status') }}',
+         type: 'GET',
+         data: {
+            id: statusId,
+         },
+         success:function(data)
+         {
+            var status = data.status;
+            $('#status-modal').modal('show');
+
+            if (status === 'Debit') {
+                $('#debitId').prop('checked', true);
+            } else if (status === 'Credit') {
+                $('#creditId').prop('checked', true);
+            } else if (status === 'Returned') {
+                $('#returnedId').prop('checked', true);
+            }
+            $("#invoideID").val(data.id);
+
+         }
+     });
+    });
+
+    $('#invoiceStatusForm').on('submit', function(e){
+        e.preventDefault();
+        // let formData = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: '{{ route('invoice.change-status') }}',
+            data:  $('#invoiceStatusForm').serialize(),
+            success: function (response) {
+              console.log(response)
+            },
+        });
+     });
+
   });
 
   function summaryPrint(printContent){
@@ -380,14 +427,6 @@
   }
 </script>
 
-{{-- <script>
-    function summaryPrint(printContent){
-    var backup = document.body.innerHTML;
-    var divcontent = document.getElementById(printContent).innerHTML;
-    document.body.innerHTML = divcontent;
-    window.print();
-    document.body.innerHTML = backup;
-  }
-</script> --}}
 
 @endsection
+
