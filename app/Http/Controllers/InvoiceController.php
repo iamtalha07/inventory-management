@@ -223,24 +223,20 @@ class InvoiceController extends Controller
         $invoiceId = $request->id;
         $invoice = Invoice::find($invoiceId);
         return $invoice;
-        // if ($invoice->status == 'Credit') {
-        //     $invoice->update(['status' => 'Debit']);
-        // } else {
-        //     $invoice->update(['status' => 'Credit']);
-        // }
-
-        // $invoiceData = Invoice::whereDate('created_at', '>=', $request->startDate)
-        //     ->whereDate('created_at', '<=', $request->endDate)->get();
-        // $totalDebit = $invoiceData->where('status', 'Debit')->sum('total');
-        // $totalCredit = $invoiceData->where('status', 'Credit')->sum('total');
-        // return response()->json(['invoice' => $invoice, 'totalDebit' => number_format($totalDebit,2), 'totalCredit' => number_format($totalCredit,2)]);
     }
 
     public function changeStatus(Request $request) {
-        $invoiceId = $request->invoice_id;
-        $invoice = Invoice::find($invoiceId);
+        
+        $invoice = Invoice::find($request->invoice_id);
         $invoice->update(['status' => $request->invoiceStatusRadioBtn]);
-        return response()->json($invoice);
+
+        $invoiceData = Invoice::whereDate('created_at', '>=', $request->startDate)
+            ->whereDate('created_at', '<=', $request->endDate)->get();
+
+        $totalDebit = $invoiceData->where('status', 'Debit')->sum('total');
+        $totalCredit = $invoiceData->where('status', 'Credit')->sum('total');
+
+        return response()->json(['invoice' => $invoice, 'totalDebit' => number_format($totalDebit,2), 'totalCredit' => number_format($totalCredit,2)]);
     }
 
     public function paymentHistory(Invoice $invoice)

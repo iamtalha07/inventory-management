@@ -204,7 +204,7 @@
                             <td>{{$item->discount ? $item->discount : '-'}}</td>
                             <td>Rs.{{$item->total}}</td>
                             <td>Rs.{{$item->net_total?$item->net_total:$item->total}}</td>
-                            <td>
+                            <td id="status-{{$item->id}}">
                                 <a href="#" status_id="{{$item->id}}" class="change-status">
                                     <span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span>
                                 </a>
@@ -238,8 +238,8 @@
                                 <td colspan="5">Rs.{{$totalDiscount}}</td>
                                </tr>
                                <tr>
-                                <th colspan="6">Net Total</th>
-                                <td colspan="5">Rs.{{$GrossTotal}}</td>
+                                <th colspan="6">Total</th>
+                                <td colspan="5" id="reportTotal">Rs.{{$GrossTotal}}</td>
                                </tr>
                             </tr>
                           </tfoot>
@@ -405,13 +405,49 @@
 
     $('#invoiceStatusForm').on('submit', function(e){
         e.preventDefault();
-        // let formData = new FormData(this);
+        let formData = new FormData(this);
+        let startDate = $('#date-range-start').val();
+        let endDate = $('#date-range-end').val();
+
+        formData.append('startDate', startDate);
+        formData.append('endDate', endDate);
+
         $.ajax({
             type: "POST",
             url: '{{ route('invoice.change-status') }}',
-            data:  $('#invoiceStatusForm').serialize(),
+            data:  formData,
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function (response) {
-              console.log(response)
+                let invoice = response.invoice;
+
+                let statusElement = document.createElement('a');
+                statusElement.href = '#';
+                statusElement.classList.add('change-status');
+                statusElement.setAttribute('status_id', invoice.id);
+
+                let spanElement = document.createElement('span');
+                spanElement.textContent = invoice.status;
+                statusElement.appendChild(spanElement);
+
+                if (invoice.status === 'Credit') {
+                    spanElement.classList.add('badge', 'bg-danger');
+                }
+                else if(invoice.status == 'Debit'){
+                    spanElement.classList.add('badge', 'bg-success');
+                }
+                else {
+                    spanElement.classList.add('badge', 'bg-warning');
+                }
+                let total = parseFloat(response.totalDebit) + parseFloat(response.totalCredit);
+
+                $('#status-'+ invoice.id).html(statusElement);
+                $('#debit').text('Rs.'+ response.totalDebit);
+                $('#credit').text('Rs.'+ response.totalCredit);
+                $('#reportTotal').text('Rs.'+ total.toFixed(2));
+
+                $('#status-modal').modal('hide')
             },
         });
      });
