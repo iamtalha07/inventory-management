@@ -226,8 +226,25 @@ class InvoiceController extends Controller
     }
 
     public function changeStatus(Request $request) {
-        
         $invoice = Invoice::find($request->invoice_id);
+
+        //If Invoice is returned it should manage the stock
+        if($request->invoiceStatusRadioBtn == "Returned") {
+            foreach($invoice->invoiceProduct as $ip) {
+                $product_id =  $ip->pivot->product_id;
+                $qty = $ip->pivot->qty;
+
+                $stock = Stock::find($product_id);
+
+                $stock->sale_qty = $stock->sale_qty - $qty;
+                $stock->in_stock = $stock->in_stock + $qty;
+
+                $updateCtnInStock = $stock->in_stock / $ip->ctn_size;
+                $stock->ctn_in_stock = floor($updateCtnInStock);
+                $stock->save();
+            }
+        }
+
         $invoice->update(['status' => $request->invoiceStatusRadioBtn]);
 
         $invoiceData = Invoice::whereDate('created_at', '>=', $request->startDate)
