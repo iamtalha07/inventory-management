@@ -205,7 +205,7 @@
                             <td>Rs.{{$item->total}}</td>
                             <td>Rs.{{$item->net_total?$item->net_total:$item->total}}</td>
                             <td id="status-{{$item->id}}">
-                                <a href="#" status_id="{{$item->id}}" class="change-status">
+                                <a href="#" status_id="{{$item->id}}" class="change-status"  @if($item->status == 'Returned') style="pointer-events: none;" @endif>
                                     <span class="{{ $item->status == 'Credit' ? 'badge bg-danger' : ($item->status == 'Debit' ? 'badge bg-success' : 'badge bg-warning') }}">{{$item->status}}</span>
                                 </a>
                             </td>
@@ -439,6 +439,7 @@
                 }
                 else {
                     spanElement.classList.add('badge', 'bg-warning');
+                    statusElement.style.pointerEvents = 'none'; // Add the style property
                 }
                 let total = parseFloat(response.totalDebit) + parseFloat(response.totalCredit);
 
