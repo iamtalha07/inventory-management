@@ -206,7 +206,7 @@
                             <td>Rs.{{$item->net_total?$item->net_total:$item->total}}</td>
                             <td id="status-{{$item->id}}">
                                 <a href="#" status_id="{{$item->id}}" class="change-status">
-                                    <span class="{{$item->status == 'Credit' ? 'badge bg-danger' : 'badge bg-success'}}">{{$item->status}}</span>
+                                    <span class="{{ $item->status == 'Credit' ? 'badge bg-danger' : ($item->status == 'Debit' ? 'badge bg-success' : 'badge bg-warning') }}">{{$item->status}}</span>
                                 </a>
                             </td>
                             <td class="no-print">
