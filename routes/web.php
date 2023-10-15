@@ -111,4 +111,13 @@ Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name(
 //Sales Report Route
 Route::get('sales-report','SalesReportController@index')->name('sales-report');
 
+//Sales Return Route
+Route::get('sales-return','SalesReturnController@index')->name('sales-return');
+Route::get('sales-return-search','SalesReturnController@searchInvoiceById')->name('sales-return-search');
+Route::post('/add-booker','SalesReturnController@returnSales')->name('sales-return.store');
+Route::get('sales-return-listing','SalesReturnController@salesReturnList')->name('sales-return-listing');
+
+
 });
+
+
