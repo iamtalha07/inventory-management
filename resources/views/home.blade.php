@@ -33,9 +33,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>{{$products}}</h3>
+                <h3>Rs. {{number_format($stock)}}</h3>
 
-                <p>Products</p>
+                <p>Stock Worth</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -48,9 +48,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{$invoice}}</h3>
+                <h3>Rs. {{number_format($totalSold)}}</h3>
 
-                <p>Invoice</p>
+                <p>Total Sale</p>
               </div>
               <div class="icon">
                 <i class="fas fa-file-invoice"></i>
@@ -63,9 +63,9 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{$brands}}</h3>
+                <h3>Rs. {{number_format($totalDebit)}}</h3>
 
-                <p>Brands</p>
+                <p>Total Debit</p>
               </div>
               <div class="icon">
                 <i class="fas fa-star"></i>
@@ -78,9 +78,9 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>{{$user}}</h3>
+                <h3>Rs. {{number_format($totalCredit)}}</h3>
 
-                <p>Users</p>
+                <p>Total Credit</p>
               </div>
               <div class="icon">
                 <i class="fas fa-user"></i>
