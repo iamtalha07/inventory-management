@@ -128,7 +128,7 @@
             </div>
             <form id="invoiceStatusForm" autocomplete="off">
                 @csrf
-                <input type="text" name="invoice_id" id="invoideID">
+                <input type="hidden" name="invoice_id" id="invoideID">
                 <div class="modal-body">
                         <div class="custom-control custom-radio">
                             <input class="custom-control-input" type="radio" id="debitId" value="Debit" name="invoiceStatusRadioBtn">
@@ -140,10 +140,10 @@
                             <label for="creditId" class="custom-control-label">Credit</label>
                         </div>
 
-                        <div class="custom-control custom-radio">
+                        {{-- <div class="custom-control custom-radio">
                             <input class="custom-control-input custom-control-input-warning" type="radio" id="returnedId" value="Returned" name="invoiceStatusRadioBtn">
                             <label for="returnedId" class="custom-control-label">Returned</label>
-                        </div>
+                        </div> --}}
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
