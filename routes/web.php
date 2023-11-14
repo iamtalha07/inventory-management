@@ -108,6 +108,7 @@ Route::post('/add-booker','BookerController@store');
 Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name('deleteSelectedRoles');
 
 //Sales Report Route
-Route::get('sales-report','SalesReportController@index')->name('sales-report');
+Route::get('sales-report','ReportController@dailySalesReport')->name('sales-report');
+Route::get('financial-report','ReportController@financialReport')->name('financial-report');
 
 });

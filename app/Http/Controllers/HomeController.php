@@ -36,14 +36,11 @@ class HomeController extends Controller
             $stockPrice = $stock->in_stock * $stock->product->sale_rate;
             $stockWorth += $stockPrice;
         }
+        $today = date('Y-m-d');
 
-        $soldProduct = InvoiceProduct::all()->sum('disc_amount');
-        $totalDebit = Invoice::where('status', 'Debit')->sum('net_total');
-        $totalCredit = Invoice::where('status', 'Credit')->sum('net_total');
-
-      
-
-
+        $soldProduct = InvoiceProduct::whereDate('created_at', $today)->sum('disc_amount');
+        $totalDebit = Invoice::where('status', 'Debit')->whereDate('created_at', $today)->sum('net_total');
+        $totalCredit = Invoice::where('status', 'Credit')->whereDate('created_at', $today)->sum('net_total');
 
         $products = Product::all()->count();
         $brands = Brand::all()->count();

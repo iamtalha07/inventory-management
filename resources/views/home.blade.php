@@ -50,7 +50,7 @@
               <div class="inner">
                 <h3>Rs. {{number_format($totalSold)}}</h3>
 
-                <p>Total Sale</p>
+                <p>Today's Sale</p>
               </div>
               <div class="icon">
                 <i class="fas fa-file-invoice"></i>
@@ -65,7 +65,7 @@
               <div class="inner">
                 <h3>Rs. {{number_format($totalDebit)}}</h3>
 
-                <p>Total Debit</p>
+                <p>Today's Total Debit</p>
               </div>
               <div class="icon">
                 <i class="fas fa-star"></i>
@@ -80,7 +80,7 @@
               <div class="inner">
                 <h3>Rs. {{number_format($totalCredit)}}</h3>
 
-                <p>Total Credit</p>
+                <p>Today's Total Credit</p>
               </div>
               <div class="icon">
                 <i class="fas fa-user"></i>
