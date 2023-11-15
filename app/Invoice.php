@@ -4,6 +4,7 @@ namespace App;
 
 use App\Booker;
 use App\Product;
+use App\SalesReturn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +33,11 @@ class Invoice extends Model
     public function invoiceProduct()
     {
         return $this->belongsToMany(Product::class,'invoice_product')->withTrashed()->withPivot('qty','ctn_qty','disc_by_cash','disc_by_percentage','amount','disc_amount','product_type');
+    }
+
+    public function invoiceReturnProduct()
+    {
+        return $this->hasMany(SalesReturn::class,'invoice_id','id');
     }
 
 }

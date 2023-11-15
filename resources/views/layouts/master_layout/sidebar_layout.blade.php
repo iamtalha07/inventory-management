@@ -180,6 +180,29 @@
                     </ul>
                   </li>
                   <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-folder-open"></i>
+                        <p>
+                            Sales Return
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('sales-return') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Initiate Sales Return</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('sales-return-listing') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Sales Return</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                  <li class="nav-item">
                       <a href="#" class="nav-link">
                           <i class="fas fa-user"></i>
                           <p>

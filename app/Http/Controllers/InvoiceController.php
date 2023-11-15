@@ -72,7 +72,7 @@ class InvoiceController extends Controller
             $productData = $this->saveInvoiceProduct($request, $invoice->id);
             $invoice->saveProduct()->saveMany($productData);
             DB::commit();
-            
+
         } catch (\ModelException $e) {
             DB::rollBack();
         }
@@ -153,7 +153,7 @@ class InvoiceController extends Controller
         // dd($invoice->invoiceProduct[0]->ctn_size);
         foreach ($invoice->invoiceProduct as $item) {
             $discountAmount += $item->pivot->amount - $item->pivot->disc_amount;
-            $grossTotal += $item->pivot->amount; 
+            $grossTotal += $item->pivot->amount;
         }
         $additionalDetails['discountAmount'] = $discountAmount;
         $additionalDetails['grossTotal'] = $grossTotal;
@@ -218,18 +218,42 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function changeStatus(Invoice $invoice, Request $request)
+    public function getInvoiceStatus(Request $request)
     {
-        if ($invoice->status == 'Credit') {
-            $invoice->update(['status' => 'Debit']);
-        } else {
-            $invoice->update(['status' => 'Credit']);
+        $invoiceId = $request->id;
+        $invoice = Invoice::find($invoiceId);
+        return $invoice;
+    }
+
+    public function changeStatus(Request $request) {
+
+        $invoice = Invoice::find($request->invoice_id);
+
+        //If Invoice is returned it should manage the stock
+        if($request->invoiceStatusRadioBtn == "Returned") {
+            foreach($invoice->invoiceProduct as $ip) {
+                $product_id =  $ip->pivot->product_id;
+                $pcsQty = $ip->pivot->qty;
+                $ctnPcsQty = $ip->pivot->ctn_qty * $ip->ctn_size;
+                $qty = $ip->pivot->product_type == 'single' ? $pcsQty : $ctnPcsQty;
+
+                $stock = Stock::find($product_id);
+                $stock->sale_qty = $stock->sale_qty - $qty;
+                $stock->in_stock = $stock->in_stock + $qty;
+                $updateCtnInStock = $stock->in_stock / $ip->ctn_size;
+                $stock->ctn_in_stock = floor($updateCtnInStock);
+                $stock->save();
+            }
         }
+
+        $invoice->update(['status' => $request->invoiceStatusRadioBtn]);
 
         $invoiceData = Invoice::whereDate('created_at', '>=', $request->startDate)
             ->whereDate('created_at', '<=', $request->endDate)->get();
+
         $totalDebit = $invoiceData->where('status', 'Debit')->sum('total');
         $totalCredit = $invoiceData->where('status', 'Credit')->sum('total');
+
         return response()->json(['invoice' => $invoice, 'totalDebit' => number_format($totalDebit,2), 'totalCredit' => number_format($totalCredit,2)]);
     }
 

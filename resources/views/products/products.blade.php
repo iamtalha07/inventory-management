@@ -22,7 +22,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid"> 
+        <div class="container-fluid">
           <div class="row">
             <div class="col-12">
               <div class="card">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </section>
-      
+
     <script>
     // Toaster
     @if(Session::has('status'))
@@ -67,13 +67,13 @@
 
 
     $(document).ready(function(){
-    
+
     $(document).on('click', '.pagination a', function(event){
-     event.preventDefault(); 
+     event.preventDefault();
      var page = $(this).attr('href').split('page=')[1];
      fetch_data(page);
     });
-   
+
     function fetch_data(page)
     {
      var pagetitle = $('.titleclass').text();
@@ -89,7 +89,7 @@
       }
      });
     }
-    
+
     $("#deleteAllSelectedRecords").click(function(e){
              e.preventDefault();
              var allids = [];
@@ -125,32 +125,8 @@
     </script>
 
 <script>
-  $(function(e){     
-        //  $("#deleteAllSelectedRecords").click(function(e){
-        //      e.preventDefault();
-        //      var allids = [];
-        //      $("input:checkbox[name=ids]:checked").each(function(){
-        //          allids.push($(this).val());
-        //      });
+  $(function(e){
 
-        //      $.ajax({
-        //          url:"{{route('dashboard.deleteSelectedProduct')}}",
-        //          type:'DELETE',
-        //          data:{
-        //              ids:allids,
-        //              _token:$("input[name=_token]").val()
-        //          },
-        //          success:function(data)
-        //          {
-        //              $.each(allids,function(key,val){
-        //                  $("#product-"+val ).addClass( "deletedClass" );
-        //                  $('#product-'+val).remove();
-        //              });
-        //              $("#deleteAllSelectedRecords").attr('disabled','disabled');
-        //              toastr.success("Product deleted successfully");
-        //          }
-        //      });
-        //  });
 
          //Page will reload on pressing browser back button and retains the ajax data
          if(!!window.performance && window.performance.navigation.type == 2)

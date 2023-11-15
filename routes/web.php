@@ -78,7 +78,8 @@ Route::get('/get-product-data/{id}','InvoiceController@getProductData');
 Route::post('create-invoice','InvoiceController@createInvoice')->name('create-invoice');
 Route::get('invoice/detail/{id}','InvoiceController@detail')->name('invoice/detail');
 Route::get('invoice/summary','InvoiceController@summaryList')->name('invoice/summary');
-Route::get('invoice/change-status/{invoice}','InvoiceController@changeStatus')->name('invoice/change-status');
+Route::post('invoice/change-status','InvoiceController@changeStatus')->name('invoice.change-status');
+Route::get('invoice/get-status','InvoiceController@getInvoiceStatus')->name('invoice.get-status');
 Route::get('invoice/invoice-search','InvoiceController@searchInvoice')->name('invoice/invoice-search');
 Route::get('invoice-print/{id}','InvoiceController@InvoicePrint')->name('invoice-print');
 Route::delete('invoice-delete/{invoice}', 'InvoiceController@delete')->name('invoice-delete');
@@ -111,4 +112,16 @@ Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name(
 Route::get('sales-report','ReportController@dailySalesReport')->name('sales-report');
 Route::get('financial-report','ReportController@financialReport')->name('financial-report');
 
+
+//Sales Return Route
+Route::get('sales-return','SalesReturnController@index')->name('sales-return');
+Route::get('sales-return-search','SalesReturnController@searchInvoiceById')->name('sales-return-search');
+Route::post('/add-booker','SalesReturnController@returnSales')->name('sales-return.store');
+Route::get('sales-return-listing','SalesReturnController@salesReturnList')->name('sales-return-listing');
+Route::get('pagination-sales-return/fetch_data', 'SalesReturnController@fetch_data');
+
+
+
 });
+
+

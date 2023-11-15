@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody tbody id="leadsTable">
-      @foreach($data as $item) 
+      @foreach($data as $item)
     <tr>
       <td ><b>{{$item->id}}</b></td>
       <td>{{$item->product->name}}</td>
@@ -65,11 +65,7 @@
           <!-- radio -->
           <div class="form-group">
             <div class="custom-control custom-radio">
-              <input class="custom-control-input" type="radio" id="qtyRadio1" name="qtyOption" value="returned-quantity" checked>
-              <label for="qtyRadio1" class="custom-control-label">Returned Quantity</label>
-            </div>
-            <div class="custom-control custom-radio">
-              <input class="custom-control-input" type="radio" id="qtyRadio2" name="qtyOption" value="add-quantity">
+              <input class="custom-control-input" type="radio" id="qtyRadio2" name="qtyOption" value="add-quantity" checked>
               <label for="qtyRadio2" class="custom-control-label">Add Quantity</label>
             </div>
         </div>
@@ -141,7 +137,7 @@
                 $('.error-text').text("");
               }
               else
-              { 
+              {
                   $('.error-text').text('');
                   printErrorMsgEdit(response.error);
               }
