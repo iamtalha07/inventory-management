@@ -54,8 +54,20 @@ class InvoiceController extends Controller
         return $result;
     }
 
+    function updateSessionValue($key, $requestValue) {
+        if (session()->has($key) && session($key) != $requestValue) {
+            session()->put($key, $requestValue);
+        } else {
+            session()->put($key, $requestValue);
+        }
+    }
+
     public function createInvoice(InvoiceRequest $request)
     {
+
+        $this->updateSessionValue('booker_id', $request->booker_id);
+        $this->updateSessionValue('salesman_name', $request->salesman_name);
+
         DB::beginTransaction();
         try {
             $invoice = new Invoice;

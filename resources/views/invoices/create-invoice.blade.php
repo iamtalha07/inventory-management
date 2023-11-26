@@ -57,7 +57,7 @@
                                             <select name="booker_id" class="form-control" id="sel_booker">
                                                 <option value="" selected="true">Select Booker</option>
                                                 @foreach ($bookers as $booker)
-                                                    <option value="{{ $booker->id }}">{{ $booker->booker_name }}</option>
+                                                    <option value="{{ $booker->id }}" {{ session('booker_id') == $booker->id ? 'selected' : '' }}>{{ $booker->booker_name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('booker_name')
@@ -77,7 +77,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="salesman_name">Salesman Name:</label>
-                                        <input type="text" name="salesman_name" value="{{ old('salesman_name') }}"
+                                        <input type="text" name="salesman_name" value="{{ session('salesman_name', old('salesman_name')) }}"
                                             class="form-control">
                                         @error('salesman_name')
                                             <p style="color:red">{{ $message }}</p>

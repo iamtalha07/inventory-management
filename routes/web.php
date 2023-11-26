@@ -116,7 +116,7 @@ Route::get('financial-report','ReportController@financialReport')->name('financi
 //Sales Return Route
 Route::get('sales-return','SalesReturnController@index')->name('sales-return');
 Route::get('sales-return-search','SalesReturnController@searchInvoiceById')->name('sales-return-search');
-Route::post('/add-booker','SalesReturnController@returnSales')->name('sales-return.store');
+Route::post('/sales-return','SalesReturnController@returnSales')->name('sales-return.store');
 Route::get('sales-return-listing','SalesReturnController@salesReturnList')->name('sales-return-listing');
 Route::get('pagination-sales-return/fetch_data', 'SalesReturnController@fetch_data');
 
