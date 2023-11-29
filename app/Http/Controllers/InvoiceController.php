@@ -64,10 +64,9 @@ class InvoiceController extends Controller
 
     public function createInvoice(InvoiceRequest $request)
     {
-
         $this->updateSessionValue('booker_id', $request->booker_id);
         $this->updateSessionValue('salesman_name', $request->salesman_name);
-
+        $this->updateSessionValue('area_name', $request->area_name);
         DB::beginTransaction();
         try {
             $invoice = new Invoice;

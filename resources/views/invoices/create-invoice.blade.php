@@ -87,7 +87,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="area_name">Area Name:</label>
-                                        <input type="text" name="area_name" value="{{ old('area_name') }}"
+                                        <input type="text" name="area_name" value="{{ session('area_name', old('area_name')) }}"
                                             class="form-control">
                                         @error('area_name')
                                             <p style="color:red">{{ $message }}</p>
