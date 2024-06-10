@@ -18,12 +18,14 @@ class CreateAccountFinanceTable extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->string('bill_no');
-            $table->string('product_name');
+            $table->string('product_name')->nullable();
+            $table->date('bill_date')->nullable();
             $table->double('total_amount', 10, 2);
             $table->double('amount_paid', 10, 2);
             $table->double('amount_remaining', 10, 2);
             $table->string('payable_by')->nullable();
             $table->string('payable_to')->nullable();
+            $table->string('remarks')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
