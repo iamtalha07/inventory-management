@@ -108,12 +108,21 @@ Route::put('update-profile/{user}','UserController@updateUserProfile');
 Route::post('/add-booker','BookerController@store');
 Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name('deleteSelectedRoles');
 
+Route::get('/view-all-report', 'FinanceController@index')->name('view-all-reports');
+
 //Sales Report Route
 Route::get('sales-report','ReportController@dailySalesReport')->name('sales-report');
 Route::get('financial-report','ReportController@financialReport')->name('financial-report');
 
 //Finance Report Routes
-Route::get('/view-company-finance', 'FinanceController@index')->name('view-finances');
+Route::get('/view-company-finance', 'FinanceController@viewFina')->name('view-finances');
+Route::get('/add-finance', 'FinanceController@addFinanceView')->name('add-finance');
+Route::post('/add-new-ledger', 'FinanceController@saveLedger')->name('save-ledger');
+
+Route::get('/edit-ledger/{account}', 'FinanceController@editLedger')->name('edit-ledger');
+Route::post('/update-ledger/{account}', 'FinanceController@updateLedger')->name('update-transaction-ledger');
+
+Route::delete('/delete-ledger/{account}', 'FinanceController@delete')->name('ledger-record-delete');
 
 
 //Sales Return Route
