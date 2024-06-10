@@ -1,4 +1,4 @@
-<h5 class="mb-2">Reports Navigation |<small><i>Navigate to other reports from here</i></small></h5>
+{{-- <h5 class="mb-2">Reports Navigation |<small><i>Navigate to other reports from here</i></small></h5> --}}
 <div class="row">
   <div class="col-md-3 col-sm-6 col-12">
     <a href="{{route('view-finances')}}"style="color: inherit;">

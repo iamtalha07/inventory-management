@@ -113,7 +113,7 @@
             <h3 class="card-title">Quick Navigation</h3>
           </div>
           <div class="card-body">
-            <a href="{{route('view-finances')}}" class="btn btn-app">
+            <a href="{{route('view-all-reports')}}" class="btn btn-app">
               <span class="badge bg-teal">new feature</span>
               <i class="fas fa-inbox"></i> Account Reports
             </a>

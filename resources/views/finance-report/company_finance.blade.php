@@ -23,16 +23,45 @@
   <div class="container-fluid">
       <x-finance_component.finance-navigation />
       {{-- CODE HERE --}}
-    
+      <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-6">
+
+        </div>
+        <!-- /.col -->
+        <div class="col-6">
+            <div class="table-responsive">
+                <table class="table">
+              
+                        <tr>
+                            <th>Total Receivable:</th>
+                            <td>Rs. Data here</td>
+                        </tr>
+                        <tr>
+                            <th>Outstanding Balance:</th>
+                            <td>Rs. Data here</td>
+                        </tr>
+                        <tr>
+                            <th>Outstanding Balance:</th>
+                            <td>Rs. Data here</td>
+                        </tr>
+                   
+                
+                </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+      {{-- record here --}}
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title titleclass">Account Finance Reporting Section</h3>
+                            <h3 class="card-title titleclass">Ledger Transaction Section</h3>
                             <div class="card-tools">
                                 <div class="row">
                                     <div class="input-group input-group-sm" style="width: 50px;">
-                                        <a href="{{ route('categories.add') }}" title="Add New Category"
+                                        <a href="{{ route('add-finance') }}" title="Add New Record"
                                             class="btn btn-block btn-success"><i class="fas fa-plus"></i></a>
                                     </div>&nbsp
                                 </div>
@@ -70,12 +99,12 @@
                                                     <td>{{ $account->payable_by }}</td>
                                                     <td>{{ $account->payable_to }}</td>
                                                     <td>
-                                                        <form action="{{ route('category-delete', $account->id) }}"
+                                                        <form action="{{ route('ledger-record-delete', $account->id) }}"
                                                             method="post" id="submit-form">
                                                             @csrf
                                                             @method('DELETE')
                                                             <a title="Edit"
-                                                                href="{{ route('edit.category', $account->id) }}"><i
+                                                                href="{{ route('edit-ledger', $account->id) }}"><i
                                                                     class="fa fa-edit"></i></a>&nbsp
                                                             &nbsp
                                                             <button title="Delete" type="submit" class="delBtn"
@@ -101,5 +130,23 @@
    
     </div>
 </section>
-
+@push('scripts')
+<script>
+    // Toaster
+    @if (Session::has('success'))
+    toastr.options = {
+            "closeButton": true,
+            "progressBar": true
+        }
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if (Session::has('error'))
+    toastr.options = {
+            "closeButton": true,
+            "progressBar": true
+        }
+        toastr.error("{{ session('error') }}");
+    @endif
+</script>
+@endpush
 @endsection

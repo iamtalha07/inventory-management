@@ -1,9 +1,9 @@
 @extends('layouts.master_layout.master_layout')
 @section('title', 'Brands')
 @section('content')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
         integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -92,17 +92,20 @@
     </section>
 
     {{-- Toaster --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+        @push('scripts')
     <script>
         // Toaster
         @if (Session::has('status'))
-            toastr.options = {
+        toastr.options = {
                 "closeButton": true,
                 "progressBar": true
             }
             toastr.success("{{ session('status') }}");
-        @endif
-    </script>
+            @endif
+            </script>
+        @endpush
+  
 @endsection
