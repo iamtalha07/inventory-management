@@ -114,11 +114,12 @@
           </div>
           <div class="card-body">
             <a href="{{route('view-all-reports')}}" class="btn btn-app">
-              <span class="badge bg-teal">new feature</span>
+              <span class="badge bg-teal">View reports!</span>
               <i class="fas fa-inbox"></i> Account Reports
             </a>
-            <a class="btn btn-app">
-              <span class="badge bg-purple">upcoming feature</span>
+        
+              <a href="{{ route('user') }}" class="btn btn-app">
+              <span class="badge bg-teal">View users</span>
               <i class="fas fa-users"></i> Users
             </a>
             <a class="btn btn-app">
@@ -140,5 +141,38 @@
     </section>
     <!-- /.content -->
 
+    @push('scripts')
+{{-- <script>
+    // Toaster
+    @if (Session::has('warning'))
+    toastr.options = {
+            "closeButton": true,
+            "progressBar": false,
+            "title": 'Toast Title',
+        }
+        toastr.warning("{{ session('warning') }}", "<strong>Unsettled Balance!</strong>");
+
+        
+    @endif
+
+</script> --}}
+@if (Session::has('warning'))
+    <script>
+        $(document).ready(function() {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": false,
+                "title": 'Toast Title',
+                "escapeHtml": false, // Allow HTML in the message
+                "onclick": function() {
+                    window.location.href = "{{ route('view-finances') }}";
+                }
+            };
+
+            toastr.warning('You have Outstanding Balance! Click to view your balances.', 'Unsettled Balance!');
+        });
+    </script>
+@endif
+@endpush
 
 @endsection
