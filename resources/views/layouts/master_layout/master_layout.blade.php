@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('title')</title>
   <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -43,6 +44,11 @@
       border: none;
       background: none;
       margin-left: -7px;
+  }
+
+  .my-icon {
+    font-size: 20px;
+    margin-right: 2px;
   }
   </style>
 
