@@ -24,15 +24,14 @@ class LedgerRequest extends FormRequest
     public function rules()
     {
         return [
-            'brand_id' => 'required',
-            'bill_no' => 'required',
-            'products' => 'required',
-            'bill_date' => 'required',
-            'total_amount' => 'required|numeric',
-            'amount_paid' => 'required|numeric',
-            'amount_remaining' => 'required|numeric',
-            'payable_by' => 'required',
-            'payable_to' => 'required',
+            'brand_id'      => 'required',
+            'category_id'   => 'required',
+            'bill_no'       => 'required',
+            'bill_date'     => 'required',
+            'billed_amount' => 'required|numeric',
+            'amount_paid'   => 'required|numeric',
+            'balance'       => 'required|numeric',
+            'payment_date'  =>  'required',
         ];
     }
 
@@ -47,16 +46,15 @@ class LedgerRequest extends FormRequest
     public function attributes()
     {
         return [
-            'brand_id'          => 'Brand ID',
+            'brand_id'          => 'Brand',
+            'category_id'       => 'Category',
             'bill_no'           => 'Bill Number',
-            'products'          => 'Products',
+            'description'       => 'Description',
             'bill_date'         => 'Bill Date',
-            'total_amount'      => 'Total Amount',
+            'billed_amount'     => 'Billed Amount',
             'amount_paid'       => 'Amount Paid',
-            'amount_remaining'  => 'Amount Remaining',
-            'payable_by'        => 'Payable By',
-            'payable_to'        => 'Payable To',
-            'remarks'           => 'Remarks',
+            'balance'           => 'Balance',
+            'payment_date'      => 'Payment Date',
         ];
     }
 }
