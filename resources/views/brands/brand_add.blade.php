@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="roles"><span style="color: red;">* </span>Brand Name:</label>
                                     <div class="input-group">
