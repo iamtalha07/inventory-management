@@ -82,7 +82,7 @@
                             </div>
                         @else
                             <div class="card-body">
-                                <p>No records found</p>
+                                <p style="text-align: center">No records found</p>
                             </div>
                         @endif
                     </div>
