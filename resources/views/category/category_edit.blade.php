@@ -37,8 +37,21 @@
 
                     <div class="card-body">
                         <div class="row">
-
-                            <div class="col-md-12">
+                            <div class="col-md-3">
+                                <!-- select -->
+                                <div class="form-group">
+                                  <label>Select Brand</label>
+                                  <select class="custom-select">
+                                    {{-- @foreach ($brands as $brand) --}}
+                                    <option value="{{ $category->brand_id }}">{{ $category->brand->name }}</option>
+                                    @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                    {{-- @endforeach --}}
+                                  </select>
+                                </div>
+                              </div>
+                            <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="roles"><span style="color: red;">* </span>Category Name:</label>
                                     <div class="input-group">
