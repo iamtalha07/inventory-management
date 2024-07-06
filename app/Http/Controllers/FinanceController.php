@@ -30,7 +30,9 @@ public function index() {
 
 public function filteredInvoicing(Request $request)
 {
-    $values       = array();
+
+    $values       = [];
+    $account     = [];
     $brands       = Brand::all();
     $brand_id     = $request->brand;
     $bill_records = BillRecords::where('brand_id', $brand_id)->get();
@@ -45,14 +47,36 @@ public function filteredInvoicing(Request $request)
         'outstanding_balance'   =>  $total_billed - $total_paid,
     ];
 
-    $balanceExists = BrandBalance::where('balance', '>', 0)->where('brand_id', $brand_id)->exists();
-    return view('finance-report.company_finance', compact('bill_records', 'brands', 'values', 'balanceExists', 'brand_id'));
+    $brand_balance_exists  = BrandBalance::where('brand_id', $brand_id)->exists();
+
+    if($brand_balance_exists) {
+
+        $brand_bal = BrandBalance::where('brand_id', $brand_id)->get();
+
+        $total_balance = $brand_bal->sum('balance');
+        $balanceExists = $total_balance !== null && $total_balance > 0;
+        if($total_balance > 0) {
+            
+            $account['payable'] =  $total_balance;
+        }
+        else {
+            $amount_hyphen = explode('-', $total_balance);
+            $account['receivable'] = $amount_hyphen[1];
+        }
+    } else {
+        $balanceExists = false;
+    }
+
+    return view('finance-report.company_finance', compact('bill_records', 'account', 'brands', 'values', 'balanceExists', 'brand_id'));
 
 }
 
 public function viewPage() {
     $bill_records = $this->billRecords->all();
     $brands = Brand::all();
+
+    $start = date('Y-m-d');
+    $end = date('Y-m-d');
 
     $total_billed          = $bill_records->sum('billed_amount');
     $total_paid            = $bill_records->sum('amount_paid');
@@ -64,9 +88,10 @@ public function viewPage() {
         'outstanding_balance'   =>  $overall_balance,
     ];
 
-    $balanceExists = BrandBalance::where('balance', '>', 0)->exists();
+    $total_balance = BrandBalance::sum('balance');
+    $balanceExists = $total_balance !== null && $total_balance > 0;
 
-    return view('finance-report.company_finance', compact('bill_records', 'brands', 'values', 'balanceExists'));
+    return view('finance-report.company_finance', compact('bill_records','start', 'end', 'brands', 'values', 'balanceExists'));
 }
 
 public function getCategoriesByBrand($id)
