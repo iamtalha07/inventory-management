@@ -64,7 +64,9 @@ public function viewPage() {
         'outstanding_balance'   =>  $overall_balance,
     ];
 
-    $balanceExists = BrandBalance::where('balance', '>', 0)->exists();
+    $total_balance = BrandBalance::sum('balance');
+    $balanceExists = $total_balance !== null && $total_balance > 0;
+    dd($balanceExists);
 
     return view('finance-report.company_finance', compact('bill_records', 'brands', 'values', 'balanceExists'));
 }
