@@ -55,17 +55,8 @@
         <h1>Company Invoices</h1>
         <div class="row mt-1">
             <div class="col-md-12" >
-                {{-- @if(isset($brand_id)) --}}
-                <span style="font-size: 17px;">{{isset($brand_id) ? 'Company Status' : 'Overall Status'}}:</span>
-                {{-- @else
-                <span style="font-size: 17px;">Company Status:</span>
-                @endif --}}
-                {{-- @if($balanceExists == true) --}}
-                {{-- <a class="btn btn-{{ $balanceExists == true ? 'warning' : 'success' }} btn-sm ml-3" style="color: white; cursor: default;">{{ $balanceExists == true ? 'Dues Remaining' : 'Dues Paid' }}</a> --}}
-                <a class="btn btn-{{ $balanceExists == true ? 'warning' : 'success' }} btn-sm ml-3" style="color: white; cursor: default;">{{ $balanceExists == true ? 'Dues Remaining' : 'Dues Paid' }}</a>
-                {{-- @else
-                <a class="btn btn-success btn-sm ml-3" style="color: white; cursor: default;">Dues Paid</a>
-                @endif --}}
+                <span style="font-size: 17px;">{{isset($brand_id) ? 'Company Invoice Status' : 'Overall Invoice Status'}}:</span>
+                  <a class="btn btn-{{ $balanceExists == true ? 'warning' : 'success' }} btn-sm ml-3" style="color: white; cursor: default;">{{ $balanceExists == true ? 'Dues Outstanding' : 'Dues Resolved' }}</a>
             </div>
         </div>
         </div>
@@ -107,7 +98,8 @@
                                     <div class="form-group">
                                         <label style="font-size: 16px;">Company/Brand:</label>
                                             <div class="input-group">
-                                                <select name="brand" class="form-control form-control-sm">
+                                                {{-- <select name="brand" class="form-control form-control-sm"> --}}
+                                                <select name="brand" class="form-control form-control">
                                                     <option value="" selected="true" disabled="true">Select Brand</option>
                                                     @foreach ($brands as $brand)
                                                     <option value="{{ $brand->id }}" {{ isset($brand_id) && $brand->id == $brand_id ? 'selected' : '' }}>{{ $brand->name }}</option>
@@ -116,7 +108,7 @@
                                             </div>
                                       </div>
                                   </div>
-
+                                  {{-- Search Button --}}
                                   <div class="col-md-1">
                                     <div class="form-group">
                                         <label for="submit"></label>
@@ -131,14 +123,7 @@
                         <div class="col-md-6">
                             <div class="card-body">
                                 <div class="row mb-1">
-                                    {{-- <div class="col-md-12" >
-                                        <span style="font-size: 15px;">Overall Status:</span>
-                                        @if($balanceExists == true)
-                                        <a class="btn btn-warning btn-sm ml-3" style="color: white; cursor: default;">Dues Remaining</a>
-                                        @else
-                                        <a class="btn btn-success btn-sm ml-3" style="color: white; cursor: default;">Dues Paid</a>
-                                        @endif
-                                    </div> --}}
+
                                 </div>
                            
                                 <div class="row">
@@ -150,21 +135,11 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="col-md-4">
-                                        <h4 class="text-center bg-info"><strong>Total Invoicing Value</strong></h4>
-                                        <div class="color-palette-set">
-                                            <div class="bg-info color-palette"><span></span></div>
-                                            <div class="bg-info disabled color-palette">
-                                                <strong><span id="counter" class="amount-stat">Rs. 0</span></strong>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
                                     <div class="col-md-4">
-                                        <h4 class="text-center bg-teal"><strong>Total Amount Paid</strong></h4>
+                                        <h4 class="text-center bg-olive"><strong>Total Amount Paid</strong></h4>
                                         <div class="color-palette-set">
-                                        <div class="bg-teal color-palette"><span></span></div>
-                                        <div class="bg-teal disabled color-palette"><span class="amount-stat"><strong>Rs. {{ number_format($values['total_paid']) }}</strong></span></div>
+                                        <div class="bg-olive color-palette"><span></span></div>
+                                        <div class="bg-olive disabled color-palette"><span class="amount-stat"><strong>Rs. {{ number_format($values['total_paid']) }}</strong></span></div>
                                         </div>
                                     </div>
 
@@ -177,6 +152,25 @@
                                     </div>
                         
                                 </div>
+                                {{-- Amount Payable & Receivable --}}
+                                @if(isset($account) == true)
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="text-center"><strong>Amount Payable</strong></h4>
+                                        <div class="color-palette-set">
+                                            <div class="bg-danger color-palette"><span></span></div>
+                                            <div class="bg-danger disabled color-palette" style="height: 50px;"><span class="amount-stat" style="padding-top: 0.5rem;"><strong>Rs. {{ number_format(isset($account['payable']) ? $account['payable'] : 0) }}</strong></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="text-center"><strong>Amount Receivable</strong></h4>
+                                        <div class="color-palette-set">
+                                            <div class="bg-olive color-palette"><span></span></div>
+                                            <div class="bg-olive disabled color-palette" style="height: 50px;"><span class="amount-stat" style="padding-top: 0.5rem;"><strong>Rs. {{ number_format(isset($account['receivable']) ? $account['receivable'] : 0) }}</strong></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -190,29 +184,6 @@
 
 <section class="content">
   <div class="container-fluid">
-      {{-- <x-finance_component.finance-navigation /> --}}
-      {{-- CODE HERE --}}
-      {{-- <div class="row"> --}}
-
-        <!-- /.col -->
-        {{-- <div class="col-6">
-            <div class="table-responsive">
-                <table class="table">
-              
-                        <tr>
-                            <th>Total Receivable:</th>
-                            <td>Rs. Data here</td>
-                        </tr>
-                        <tr>
-                            <th>Outstanding Balance:</th>
-                            <td>Rs. Data here</td>
-                        </tr>
-                </table>
-            </div>
-        </div> --}}
-        <!-- /.col -->
-    {{-- </div> --}}
-      {{-- record here --}}
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -304,31 +275,6 @@
         toastr.error("{{ session('error') }}");
     @endif
 
-// Counter - Amount DUE
-// let upto = 0;
-//     let totalBilled = {{ $values['total_billed'] }};
-//     let intervalTime = 50; // Adjust for faster animation (in milliseconds)
-//     let increment = Math.ceil(totalBilled / (1000 / intervalTime)); 
-
-//     let counts = setInterval(updated, intervalTime); 
-
-//     function updated() {
-//         let countElement = document.getElementById("counter");
-//         if (countElement && upto <= totalBilled) {
-//             countElement.innerHTML = 'Rs. ' + upto.toLocaleString(); 
-//             upto += increment; // Increment upto value quickly
-//             if (upto > totalBilled) {
-//                 clearInterval(counts); 
-//                 countElement.innerHTML = 'Rs. ' + totalBilled.toLocaleString(); 
-//             }
-//         }
-//     }
-
-// Counter - Amount DUE
-
-// Counter - Amount Remaining
-
-// Counter
 </script>
 @endpush
 @endsection
