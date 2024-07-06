@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Brand;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
@@ -17,7 +18,8 @@ class CategoryController extends Controller
 
     function create()
     {
-        return view('category.category_add');
+        $brands = Brand::all();
+        return view('category.category_add', ['brands' => $brands]);
     }
 
     function store(CategoryRequest $request)
@@ -28,7 +30,8 @@ class CategoryController extends Controller
     }
 
     function edit(Category $category) {
-        return view('category.category_edit',['category'=>$category]);
+        $brands = Brand::all();
+        return view('category.category_edit',['category' => $category, 'brands' => $brands]);
     }
 
     public function update(CategoryRequest $request, Category $category){

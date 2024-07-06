@@ -48,6 +48,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Category Name</th>
+                                                <th>Brand</th>
                                                 <th>Description</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -57,7 +58,8 @@
                                             @foreach ($categories as $category)
                                                 <tr>
                                                     <td><b>{{ $category->id }}</b></td>
-                                                    <td>{{ $category->name }}</td>
+                                                    <td> <strong>{{ $category->name }}</strong></td>
+                                                    <td>{{ $category->brand->name }}</td>
                                                     <td>{{ $category->description }}</td>
                                                     <td>
                                                         <form action="{{ route('category-delete', $category->id) }}"
@@ -82,7 +84,7 @@
                             </div>
                         @else
                             <div class="card-body">
-                                <p>No records found</p>
+                                <p style="text-align: center">No records found</p>
                             </div>
                         @endif
                     </div>

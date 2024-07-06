@@ -90,40 +90,89 @@
           </div>
           <!-- ./col -->
         </div>
-
-        <div id="row">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="max-height: 100%">
-            <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100 h-50" src="/images/admin_images/img1.jpg" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="/images/admin_images/img2.jpg" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="/images/admin_images/img3.jpg" alt="Third slide">
+        {{-- <h5 class="mb-2">Info Box With Custom Shadows <small><i>Using Bootstrap's Shadow Utility</i></small></h5>
+        <div class="row">
+          <div class="col-md-3 col-sm-6 col-12">
+            <a href="{{route('view-finances')}}" style="text-decoration: none; color: inherit;">
+            <div class="info-box shadow-lg">
+              <span class="info-box-icon bg-danger"><i class="far fa-money-bill-alt"></i></span>
+              <div class="info-box-content">
+        
+                <span class="info-box-number">Manage Finance</span>
               </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
           </div>
-        </div>
+          <!-- /.col -->
+        </div> --}}
 
+        <!-- Application buttons -->
+        <div class="row">
+        <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Quick Navigation</h3>
+          </div>
+          <div class="card-body">
+            <a href="{{route('view-all-reports')}}" class="btn btn-app">
+              <span class="badge bg-teal">View reports!</span>
+              <i class="fas fa-inbox"></i> Account Reports
+            </a>
+        
+              <a href="{{ route('user') }}" class="btn btn-app">
+              <span class="badge bg-teal">View users</span>
+              <i class="fas fa-users"></i> Users
+            </a>
+            <a class="btn btn-app">
+              <span class="badge bg-purple">upcoming feature</span>
+              <i class="fas fa-barcode"></i> Products
+            </a>
+            <a class="btn btn-app">
+              <span class="badge bg-purple">upcoming feature</span>
+              <i class="fas fa-inbox"></i> Orders
+            </a>
+      
+        
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
       </div><!-- /.container-fluid -->
 
     </section>
     <!-- /.content -->
 
+    @push('scripts')
+{{-- <script>
+    // Toaster
+    @if (Session::has('warning'))
+    toastr.options = {
+            "closeButton": true,
+            "progressBar": false,
+            "title": 'Toast Title',
+        }
+        toastr.warning("{{ session('warning') }}", "<strong>Unsettled Balance!</strong>");
+
+        
+    @endif
+
+</script> --}}
+@if (Session::has('warning'))
+    <script>
+        $(document).ready(function() {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": false,
+                "title": 'Toast Title',
+                "escapeHtml": false, // Allow HTML in the message
+                "onclick": function() {
+                    window.location.href = "{{ route('view-finances') }}";
+                }
+            };
+
+            toastr.warning('You have Outstanding Balance! Click to view your balances.', 'Unsettled Balance!');
+        });
+    </script>
+@endif
+@endpush
 
 @endsection

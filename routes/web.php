@@ -2,8 +2,10 @@
 
 
 use App\Stock;
+
 use App\Invoice;
 use App\Products;
+use App\BrandBalance;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -108,9 +110,25 @@ Route::put('update-profile/{user}','UserController@updateUserProfile');
 Route::post('/add-booker','BookerController@store');
 Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name('deleteSelectedRoles');
 
+Route::get('/view-all-report', 'FinanceController@index')->name('view-all-reports');
+
 //Sales Report Route
 Route::get('sales-report','ReportController@dailySalesReport')->name('sales-report');
 Route::get('financial-report','ReportController@financialReport')->name('financial-report');
+
+//Financial Invoicing Routes
+Route::get('/view-company-finance', 'FinanceController@viewPage')->name('view-finances');
+Route::get('/add-finance', 'FinanceController@addFinanceView')->name('add-finance');
+Route::post('/add-new-ledger', 'FinanceController@saveLedger')->name('save-ledger');
+Route::get('/edit-ledger/{account}', 'FinanceController@editLedger')->name('edit-ledger');
+Route::post('/update-ledger/{account}', 'FinanceController@updateLedger')->name('update-transaction-ledger');
+Route::delete('/delete-ledger/{account}', 'FinanceController@destroy')->name('ledger-record-delete');
+Route::delete('/destroy-ledger/{account}', 'FinanceController@delete')->name('ledger-record-destroy');
+
+Route::get('/get-bill-record/{id}', 'FinanceController@getBillDetails')->name('get-bill-detail');
+Route::get('/get-category-brand/{category}', 'FinanceController@getCategoriesByBrand')->name('categories.by.brand');
+
+Route::get('/get-invoicing-filtered', 'FinanceController@filteredInvoicing')->name('filtered-invoicing');
 
 
 //Sales Return Route

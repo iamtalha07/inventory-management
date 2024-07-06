@@ -34,6 +34,29 @@
                       </a>
                   </li>
                   <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <p>
+                            Users
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('user') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('user.add') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New User</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                  <li class="nav-item">
                       <a href="#" class="nav-link">
                           <i class="fas fa-tags"></i>
                           <p>
@@ -154,23 +177,37 @@
                           </li>
                       </ul>
                   </li>
+              
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-folder-open"></i>
-                          <p>
-                              Sales Report
-                              <i class="fas fa-angle-left right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="{{ route('sales-report') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>View Sales Report</p>
-                              </a>
-                          </li>
-                      </ul>
-                      <ul class="nav nav-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-folder-open"></i>
+                        <p>Sales Report
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                       {{--  <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-folder-open"></i>
+                                <p>Account Ledger
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>View Account Ledger</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li> --}}
+                        <li class="nav-item">
+                            <a href="{{ route('sales-report') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Sales Report</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('financial-report') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -178,7 +215,7 @@
                             </a>
                         </li>
                     </ul>
-                  </li>
+                </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-folder-open"></i>
@@ -202,29 +239,30 @@
                         </li>
                     </ul>
                 </li>
+                  
+                  <li class="nav-header" style="text-align: center">Finance Management</li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-user"></i>
-                          <p>
-                              Users
-                              <i class="fas fa-angle-left right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="{{ route('user') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>View Users</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="{{ route('user.add') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Add New User</p>
-                              </a>
-                          </li>
-                      </ul>
-                  </li>
+                           <a href="#" class="nav-link">
+                               <i class="fas fa-folder-open"></i>
+                               <p>Account ledger
+                                   <i class="fas fa-angle-left right"></i>
+                               </p>
+                           </a>
+                           <ul class="nav nav-treeview">
+                               <li class="nav-item">
+                                   <a href="{{ route('view-finances')}}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>View Account Ledger</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="{{ route('add-finance')}}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>Add Account Ledger</p>
+                                   </a>
+                               </li>
+                           </ul>
+                       </li>
               </ul>
           </nav>
           <!-- /.sidebar-menu -->
