@@ -45,7 +45,9 @@ public function filteredInvoicing(Request $request)
         'outstanding_balance'   =>  $total_billed - $total_paid,
     ];
 
-    $balanceExists = BrandBalance::where('balance', '>', 0)->where('brand_id', $brand_id)->exists();
+    $total_balance = BrandBalance::where('brand_id', $brand_id)->sum('balance');
+    $balanceExists = $total_balance !== null && $total_balance > 0;
+
     return view('finance-report.company_finance', compact('bill_records', 'brands', 'values', 'balanceExists', 'brand_id'));
 
 }
@@ -66,7 +68,6 @@ public function viewPage() {
 
     $total_balance = BrandBalance::sum('balance');
     $balanceExists = $total_balance !== null && $total_balance > 0;
-    dd($balanceExists);
 
     return view('finance-report.company_finance', compact('bill_records', 'brands', 'values', 'balanceExists'));
 }
