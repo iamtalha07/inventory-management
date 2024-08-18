@@ -100,6 +100,8 @@ class InvoiceController extends Controller
             $productInvoice->product_id = $products->product_id[$key];
             $productInvoice->qty = $products->qty[$key];
             $productInvoice->ctn_qty = $products->ctnQty[$key];
+            $productInvoice->unit_price = $products->price[$key];
+            $productInvoice->ctn_price = $products->ctnPrice[$key];
             $productInvoice->disc_by_cash = $products->dis[$key];
             $productInvoice->disc_by_percentage = $products->disByPer[$key];
             $productInvoice->amount = $products->amount[$key];

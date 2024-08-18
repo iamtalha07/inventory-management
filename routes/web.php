@@ -112,9 +112,10 @@ Route::delete('/selected-bookers','BookerController@deleteCheckedBooker')->name(
 
 Route::get('/view-all-report', 'FinanceController@index')->name('view-all-reports');
 
-//Sales Report Route
+//Report Route
 Route::get('sales-report','ReportController@dailySalesReport')->name('sales-report');
 Route::get('financial-report','ReportController@financialReport')->name('financial-report');
+Route::get('report/profit','ReportController@profitReport')->name('profit.report');
 
 //Financial Invoicing Routes
 Route::get('/view-company-finance', 'FinanceController@viewPage')->name('view-finances');

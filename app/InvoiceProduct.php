@@ -16,16 +16,13 @@ class InvoiceProduct extends Model
         'product_id',
         'qty',
         'disc',
-        'amount'
+        'amount',
+        'unit_price',
+        'ctn_price',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
-
-    // public function product()
-    // {
-    //     return $this->belongsToMany(Products::class);
-    // }
 }

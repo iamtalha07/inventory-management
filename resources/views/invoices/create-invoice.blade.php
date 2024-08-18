@@ -156,8 +156,9 @@
                                                     class="form-control stock" readonly /></td>
                                             <td><input type="text" name="ctnPrice[]" class="form-control ctnPrice">
                                             </td>
-                                            <td style="display: none;"><input type="text" name="packSize[]"
-                                                    class="form-control packSize"></td>
+                                            <td style="display: none;">
+                                                <input type="text" name="packSize[]" class="form-control packSize">
+                                            </td>
                                             <td><input type="text" name="price[]" class="form-control price"></td>
                                             <td><input type="number" name="dis[]" class="form-control dis"></td>
                                             <td><input type="number" name="disByPer[]" class="form-control disPer"></td>

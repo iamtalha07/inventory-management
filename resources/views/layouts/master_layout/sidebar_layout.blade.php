@@ -177,31 +177,15 @@
                           </li>
                       </ul>
                   </li>
-              
+
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-folder-open"></i>
-                        <p>Sales Report
+                        <p>Reports
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                       {{--  <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-folder-open"></i>
-                                <p>Account Ledger
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>View Account Ledger</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ route('sales-report') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -212,6 +196,12 @@
                             <a href="{{ route('financial-report') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Financial Report</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('profit.report') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Profit Report</p>
                             </a>
                         </li>
                     </ul>
@@ -239,7 +229,7 @@
                         </li>
                     </ul>
                 </li>
-                  
+
                   <li class="nav-header" style="text-align: center">Finance Management</li>
                   <li class="nav-item">
                            <a href="#" class="nav-link">

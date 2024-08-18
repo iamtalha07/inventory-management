@@ -8,6 +8,7 @@ use App\Booker;
 use App\Invoice;
 use App\InvoiceProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ReportController extends Controller
 {
@@ -33,7 +34,7 @@ class ReportController extends Controller
         })
         ->whereDate('invoice.created_at','>=',$start)
         ->whereDate('invoice.created_at','<=',$end)
-        // ->where('booker_id',2)
+
         ->get();
 
         $total = 0;
@@ -84,6 +85,97 @@ class ReportController extends Controller
             'stockWorth' => $stockWorth,
             'start' => $start,
             'end' => $end
+        ]);
+    }
+
+    // function profitReport(Request $request)
+    // {
+    //     $start = date('Y-m-d');  // First day of the current month
+    //     $end = date('Y-m-d');    // Last day of the current month
+
+    //     if($request->filled('start')){
+    //         $start = $request->start;
+    //     }
+
+    //     if($request->filled('end')){
+    //         $end = $request->end;
+    //     }
+
+    //     $invoices = Invoice::with(['invoiceProduct'])
+    //     ->whereBetween('created_at', [$start, $end])
+    //     ->orderBy('created_at', 'desc')
+    //     ->get();
+
+    //     foreach ($invoices as $invoice) {
+    //         foreach ($invoice->invoiceProduct as $invoiceProduct) {
+
+    //             $purchaseCost = $invoiceProduct->purchase_rate * $invoiceProduct->pivot->qty;
+    //             $profit = $invoiceProduct->pivot->amount - $purchaseCost;
+    //             $invoiceProduct->profit = $profit;
+    //         }
+    //     }
+
+    //     return view('report.profit_report', [
+    //         'invoices' => $invoices
+    //     ]);
+    // }
+
+    function profitReport(Request $request)
+    {
+        $start = Carbon::now()->startOfMonth();
+        $end = Carbon::now()->endOfMonth();
+
+        if ($request->filled('start')) {
+            $start = Carbon::parse($request->start)->startOfDay();
+        }
+
+        if ($request->filled('end')) {
+            $end = Carbon::parse($request->end)->endOfDay();
+        }
+
+        $invoices = Invoice::with(['invoiceProduct'])
+            ->whereBetween('created_at', [$start, $end])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        foreach ($invoices as $invoice) {
+            foreach ($invoice->invoiceProduct as $invoiceProduct) {
+                // return $invoiceProduct;
+                if($invoiceProduct->pivot->product_type == 'carton')
+                {
+                    $unitQuantity = $invoiceProduct->pivot->ctn_qty * $invoiceProduct->ctn_size;
+                    $amount = $invoiceProduct->pivot->amount ?? $invoiceProduct->pivot->disc_amount;
+                    $unitPrice = $amount / $unitQuantity;
+                    $quantity = $unitQuantity;
+
+                    $purchaseCost = $invoiceProduct->purchase_rate * $quantity;
+                    $profit = $invoiceProduct->pivot->amount - $purchaseCost;
+                    $invoiceProduct->profit = $profit;
+                    $invoiceProduct->ctn_per_piece_price = $unitPrice;
+                }
+
+                // $purchaseCost = $invoiceProduct->purchase_rate * $quantity;
+                // $profit = $invoiceProduct->pivot->amount - $purchaseCost;
+                // $invoiceProduct->profit = $profit;
+
+                // $purchaseCost = $invoiceProduct->purchase_rate * $invoiceProduct->pivot->qty;
+                // $profit = $invoiceProduct->pivot->amount - $purchaseCost;
+                // $invoiceProduct->profit = $profit;
+            }
+        }
+
+        // Calculate total profit across all invoices and products
+        // $totalProfit = $invoices->flatMap(function ($invoice) {
+        //     return $invoice->invoiceProduct->map(function ($product) {
+        //         return $product->pivot->amount - ($product->purchase_rate * $product->pivot->qty);
+        //     });
+        // })->sum();
+
+        return view('report.profit_report', [
+            'invoices' => $invoices,
+            'start' => $start->format('Y-m-d'),
+            'end' => $end->format('Y-m-d'),
+            // 'totalProfit' => $totalProfit, // Pass total profit to the view
         ]);
     }
 }
