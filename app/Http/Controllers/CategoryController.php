@@ -12,7 +12,10 @@ class CategoryController extends Controller
 {
     function index()
     {
-        $categories = Category::all();
+        // $categories = Category::all();
+        $categories = Category::whereHas('brand', function ($query) {
+            $query->whereNull('deleted_at');
+        })->get();
         return view('category.category', ['categories' => $categories]);
     }
 
