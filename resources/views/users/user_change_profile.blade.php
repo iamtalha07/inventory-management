@@ -159,9 +159,11 @@
             
         {{-- </div> --}}
     <div class="card card-info">
-        <div class="card-header">
-          <h3 class="card-title">Change Application Name</h3>
+        <div class="card-header" style="display: flex; align-items: center;">
+            <i class="fas fa-chart-pie" style="margin-right: 0.5rem;"></i>
+            <h3 class="card-title" style="margin: 0;">Change Application Name</h3>
         </div>
+            
         <!-- /.card-header -->
         <!-- form start -->
         <form method="POST" action="{{ route('change-app-name') }}">
@@ -184,7 +186,9 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-              <button type="submit" name="submit" class="btn btn-info float-right">Save Name</button>
+            <button type="submit" name="submit" class="btn btn-info float-right">
+                <i class="fas fa-save mr-1"></i> Save Name
+            </button>
           </div>
           <!-- /.card-footer -->
         </form>
@@ -193,21 +197,6 @@
       </div>
     </section>
 
-    {{-- @push('scripts') --}}
-    {{-- @if (Session::has('success'))
-    <script>
-        $(document).ready(function() {
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": false,
-                "title": 'Toast Title',
-                "escapeHtml": false, // Allow HTML in the message
-            };
-
-            toastr.success('You have Outstanding Balance! Click to view your balances.', 'Unsettled Balance!');
-        });
-    </script>
-@endif --}}
 @push('scripts')
     @if (Session::has('success'))
         <script>
