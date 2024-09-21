@@ -1,10 +1,12 @@
+
+
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{{ url('home') }}" class="brand-link">
-          <img src="/images/admin_images/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          <img src="/images/admin_images/AW-Traders.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
               style="opacity: .8">
-          <span class="brand-text font-weight-light">{{ config('admin.title.ahsan_traders') }}</span>
+          <span class="brand-text font-weight-light" style="font-size: 18px">{{ $applicationDetail->application_name }}</span>
       </a>
 
       <!-- Sidebar -->
@@ -15,7 +17,7 @@
                   {{-- <img src="/images/admin_images/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> --}}
               </div>
               <div class="info">
-                  <a href="{{ url('change-profile') }}" class="d-block">{{ ucfirst(Auth::user()->name) }}</a>
+                  <a href="{{ url('change-profile') }}" class="d-block">Logged In:  <strong>{{ ucfirst(Auth::user()->name) }}</strong></a>
               </div>
           </div>
 

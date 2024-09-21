@@ -79,7 +79,7 @@
             <div id="table_data">
 
                 <div class="card-body" id="report-print">
-                  <h2>Ahsan Traders (DSR)</h2>
+                  <h2>{{ $applicationDetail->application_name }} (DSR)</h2>
                     <table id="example2" class="table table-bordered table-hover">
 
                         <tr>

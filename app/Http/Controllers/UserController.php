@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Session;
 use App\User;
+use App\ApplicationDetail;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +74,25 @@ class UserController extends Controller
         return redirect('user');
     }
 
-
+    public function updateAppName(Request $request)
+    {
+        $user = Auth::user();
+        $data['application_name']   =  $request->app_name;
+      
+        if (Hash::check($request->password, $user->password)) {
+            // Proceed with updating the application name
+            ApplicationDetail::create([
+                'modified_by'      => $user->name,
+                'application_name' => $request->app_name
+            ]);
+    
+            Session::flash('success','Application name updated successfully');
+            return redirect()->back();
+        } else {
+            Session::flash('error','Invalid credentials');
+            return redirect()->back();
+        }
+    }
 
     
 }

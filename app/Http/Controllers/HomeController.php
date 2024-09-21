@@ -33,7 +33,7 @@ class HomeController extends Controller
         $stockWorth = 0;
         foreach ($stocks as $stock) {
 
-            $stockPrice = $stock->in_stock * $stock->product->sale_rate;
+            $stockPrice = $stock->in_stock * $stock->product->purchase_rate;
             $stockWorth += $stockPrice;
         }
         $today = date('Y-m-d');

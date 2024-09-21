@@ -21,6 +21,9 @@
 
     <section class="content">
         <div class="container-fluid">
+            <div class="col-md-12">
+
+            {{-- </div> --}}
             <form method="POST" action="{{ url('update-profile', ['id' => $user->id]) }}">
                 @csrf
                 @method('put')
@@ -146,6 +149,94 @@
                 </div>
             </form>
         </div>
+        </div>
     </section>
+    
+    <section class="content">
+    
+    <div class="container-fluid">
+        <div class="col-md-6">
+            
+        {{-- </div> --}}
+    <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">Change Application Name</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form method="POST" action="{{ route('change-app-name') }}">
+            @csrf
+            @method('POST')
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="AppName" class="col-md-3 col-form-label">Enter New Name</label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" name="app_name" id="AppName" placeholder="Enter Name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="confirm_password" class="col-md-3 col-form-label">Confirm Password</label>
+              <div class="col-md-9">
+                <input type="password" class="form-control" id="confirm_password" name="password" placeholder="Enter Password">
+              </div>
+            </div>
+           
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+              <button type="submit" name="submit" class="btn btn-info float-right">Save Name</button>
+          </div>
+          <!-- /.card-footer -->
+        </form>
+      </div>
+      </div>
+      </div>
+    </section>
+
+    {{-- @push('scripts') --}}
+    {{-- @if (Session::has('success'))
+    <script>
+        $(document).ready(function() {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": false,
+                "title": 'Toast Title',
+                "escapeHtml": false, // Allow HTML in the message
+            };
+
+            toastr.success('You have Outstanding Balance! Click to view your balances.', 'Unsettled Balance!');
+        });
+    </script>
+@endif --}}
+@push('scripts')
+    @if (Session::has('success'))
+        <script>
+            $(document).ready(function() {
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": false,
+                    "title": 'Success',
+                    "escapeHtml": false, // Allow HTML in the message
+                };
+
+                toastr.success('{{ Session::get('success') }}', 'Success');
+            });
+        </script>
+    @elseif (Session::has('error'))
+        <script>
+            $(document).ready(function() {
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": false,
+                    "title": 'Error',
+                    "escapeHtml": false, // Allow HTML in the message
+                };
+
+                toastr.error('{{ Session::get('error') }}', 'Error');
+            });
+        </script>
+    @endif
+@endpush
+
 
 @endsection

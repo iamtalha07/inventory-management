@@ -104,6 +104,7 @@ Route::put('edit-user/{user}','UserController@update');
 Route::delete('user-delete/{user}', 'UserController@delete')->name('user-delete');
 Route::get('change-profile', 'UserController@changeProfileForm');
 Route::put('update-profile/{user}','UserController@updateUserProfile');
+Route::post('/update-app-name', 'UserController@updateAppName')->name('change-app-name');
 
 
 //Booker Routes

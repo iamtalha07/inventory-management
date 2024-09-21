@@ -6,10 +6,10 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Purchase Qty</th>
-      <th>Sale Qty</th>
-      <th>In Stock</th>
-      <th>Ctn In Stock</th>
+      <th>Purchase Qty (Pieces)</th>
+      <th>Sale Qty (Pieces)</th>
+      <th>In Stock (Pieces)</th>
+      <th>Carton In Stock</th>
       <th>Stocks Worth</th>
       <th>Action</th>
     </tr>
@@ -17,12 +17,13 @@
     <tbody tbody id="leadsTable">
       @foreach($data as $item)
     <tr>
+      {{-- {{ dd($item->in_stock)}} --}}
       <td ><b>{{$item->id}}</b></td>
       <td>{{$item->product->name}}</td>
       <td id="purchaseQty-{{$item->id}}">{{$item->product->purchase_qty}}</td>
       <td>{{$item->sale_qty}}</td>
       <td id="inStock-{{$item->id}}">{{$item->in_stock}}</td>
-      <td id="cntInStock-{{$item->id}}">{{$item->ctn_in_stock}}</td>
+      <td id="cntInStock-{{$item->id}}">{{ floor($item->in_stock / $item->product->ctn_size) }}</td>
       <td>{{'Rs. ' . $item->in_stock * $item->product->purchase_rate}}</td>
       <td>
         <a title ="Manage quantity" href="javascript:void(0)" id="{{$item->id}}" class="addQtyClass"><i class="fas fa-plus"></i></a>&nbsp &nbsp

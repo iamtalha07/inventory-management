@@ -1,7 +1,11 @@
 @extends('layouts.master_layout.master_layout')
 @section('title', 'Create Invoice')
 @section('content')
-
+<style>
+    .brand-image {
+        box-shadow: none !important;
+    }
+    </style>
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -30,10 +34,12 @@
                             <!-- title row -->
                             <div class="row">
                                 <div class="col-12">
+                                    {{-- Application Name here --}}
                                     <h4>
-                                        <i class="fas fa-globe"></i> Ahsan Traders
+                                        <img src="/images/admin_images/AW-Traders.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                                            style="opacity: .8" height="60px"> {{ $applicationDetail->application_name }}
                                         <small class="float-right">Date: {{ $currentDate }}</small>
-                                    </h4>
+                                    </h4>   
                                 </div>
                                 <!-- /.col -->
                             </div>
